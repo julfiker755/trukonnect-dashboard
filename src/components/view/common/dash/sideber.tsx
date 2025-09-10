@@ -4,6 +4,7 @@ import { Button } from "@/components/ui";
 import { reviewerlinks } from "./navdata";
 import FavIcon from "@/icon/favIcon";
 import NavItem from "./navitem";
+import Avatars from "@/components/reuseable/avater";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -19,35 +20,49 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-20 bg-black/40 opacity-50"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => {
+            document.body.classList.remove("overflow-hidden");
+            setSidebarOpen(false);
+          }}
         />
       )}
       {/* Sidebar */}
       <aside
-        className={`absolute left-0 top-0 z-20 bg-[#424242]/10 backdrop-blur-[70px] flex h-screen  transition-transform transform duration-300 ease-linear flex-col overflow-y-hidden  text-white w-[240px] lg:static lg:translate-x-0 ${
+        className={`absolute left-0 lg:my-5 lg:ml-5 top-0 z-20 shadow h-screen lg:h-fit bg-[#424242]/20  !rounded-md p-4  backdrop-blur-[70px] flex  transition-transform transform duration-300 ease-linear flex-col   text-white w-[250px] lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex flex-col h-screen relative">
-          <div className="flex items-center justify-center m-2 rounded-md py-1">
-            <FavIcon className="w-fit h-[50px]" name="logo" />
+        <div>
+          <div className="flex items-center justify-center h-[100px] rounded-md">
+            <ul className="flex justify-center space-x-2 items-center">
+              <li>
+                <FavIcon className="size-18" name="logo" />
+              </li>
+              <li className="font-semibold text-2xl">Trukonnect</li>
+            </ul>
           </div>
-          <div className="h-[calc(100vh-80px)] flex flex-col justify-between overflow-y-scroll scrollbar-hide">
+          <div className="h-[calc(100vh-180px)] flex flex-col justify-between overflow-y-scroll scrollbar-hide">
             <nav>
               <NavItem item={links} />
             </nav>
-            <div className="w-full my-3 flex justify-center">
+            <div className="w-full my-2 flex justify-center">
               <Button
                 variant="primary"
-                className="bg-figma-primary text-white w-full rounded-sm"
+                className="bg-figma-primary px-2 text-white w-full h-12 rounded-sm"
               >
                 <div className="flex w-full items-center justify-between">
-                  <span>
-                    
-                    Log Out</span>
+                  <span className="flex items-center gap-x-1">
+                    <Avatars
+                      className="bg-white text-black rounded-md 2xl:size-10"
+                      src=""
+                      fallback="N"
+                      alt="@shadcn"
+                    />
+                    <span className="font-medium text-base ml-1">Log Out</span>
+                  </span>
                   <span>
                     {" "}
-                    <FavIcon name="signOut" />
+                    <FavIcon className="size-6" name="signOut" />
                   </span>
                 </div>
               </Button>

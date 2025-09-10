@@ -44,7 +44,7 @@ export default function NavItem({ item }: NavItemProps) {
   };
 
   return (
-    <ul className="space-y-2 mr-5">
+    <ul className="space-y-2">
       {item.map(({ to, label, icon, submenu }, parentIndex) => (
         <li key={parentIndex} className="group">
           {to ? (
@@ -53,7 +53,7 @@ export default function NavItem({ item }: NavItemProps) {
               onMouseLeave={() => setHoverIdx(null)}
               className={`flex px-3 ${
                 pathname === to && "!bg-figma-primary text-white"
-              } hover:bg-figma-primary rounded-r-md hover:!text-white  border-l-5 border-transparent  py-2 items-center font-medium text-base gap-x-2 text-figma-gray`}
+              } hover:bg-figma-primary rounded-md hover:!text-white  border-l-5 border-transparent  py-2 items-center font-medium text-base gap-x-2 text-figma-gray`}
               href={to}
             >
               {/* hoverColor="#000000" activeColor={ pathname === to && "#000000" as string}  */}
