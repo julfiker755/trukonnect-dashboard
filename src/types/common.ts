@@ -1,3 +1,8 @@
+export interface childrenProps {
+  children: React.ReactNode;
+}
+
+
 export type IdParams = {
   params: Promise<{ id: string }>;
 };
@@ -5,10 +10,6 @@ export type IdParams = {
 export type SlugParams = {
   params: Promise<{ slug: string }>;
 };
-
-export interface childrenProps {
-  children: React.ReactNode;
-}
 
 export interface TabBoxProps {
   isTab: string;
