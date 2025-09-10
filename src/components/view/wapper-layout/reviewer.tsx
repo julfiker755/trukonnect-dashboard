@@ -6,6 +6,7 @@ import {
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 import Sidebar from "../common/dash/sideber";
 import Image from "next/image";
@@ -20,10 +21,17 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 export function ReviewerWrapper({ children }: childrenProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // cleanup: always remove body overflow on unmount
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, []);
+
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="flex relative">
-        {/* Full-screen background image */}
+      <div className="min-h-screen flex relative">
+        {/* Full-screen background image  className="min-h-screen flex relative"*/}
         <div className="fixed inset-0">
           <Image
             src="/bg1.svg"
@@ -33,10 +41,14 @@ export function ReviewerWrapper({ children }: childrenProps) {
           />
         </div>
 
-        {/* Sidebar and content */}
+        {/* Sidebar and content width=250px ml-5 =20px -- 250+20=270px */}
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <div className="relative z-10 flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          <div className="px-6">{children}</div>
+
+        <div
+          className="relative lg:ml-[calc(var(--width-sideber)+var(--sideber-margin))] 
+        z-10 flex flex-1 flex-col"
+        >
+          <div className="px-4 2xl:px-5">{children}</div>
         </div>
       </div>
     </SidebarContext.Provider>

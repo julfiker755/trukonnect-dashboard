@@ -19,7 +19,7 @@ export default function Navber({ props, isShow = true }: navberProps) {
   };
 
   return (
-    <div className="flex space-x-3 lg:space-x-0  items-center justify-between py-6">
+    <div className="flex space-x-3 sticky top-0 lg:space-x-0  z-20 items-center justify-between py-6">
       <h1
         onClick={() => handleSidebar()}
         className="cursor-pointer block lg:hidden"

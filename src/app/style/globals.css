@@ -95,6 +95,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: #00060c;
   --foreground: #ffffff;
+  --width-sideber:250px;
+  --sideber-margin: 20px;
 }
 
 .dark {
@@ -136,6 +138,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
   }
 }

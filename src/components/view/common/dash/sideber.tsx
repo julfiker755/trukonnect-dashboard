@@ -28,20 +28,23 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       )}
       {/* Sidebar */}
       <aside
-        className={`absolute left-0 lg:my-5 lg:ml-5 top-0 z-20 shadow h-screen lg:h-fit bg-[#424242]/20  !rounded-md p-4  backdrop-blur-[70px] flex  transition-transform transform duration-300 ease-linear flex-col   text-white w-[250px] lg:static lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`absolute left-0 lg:mt-5 lg:pb-2 lg:ml-(--sideber-margin) top-0 z-20 shadow 
+          h-screen lg:h-fit bg-[#424242]/20  lg:!rounded-md p-4  backdrop-blur-[70px]
+           flex  transition-transform transform duration-300 ease-linear flex-col  
+           text-white w-(--width-sideber) lg:fixed lg:translate-x-0 ${
+             sidebarOpen ? "translate-x-0" : "-translate-x-full"
+           }`}
       >
         <div>
-          <div className="flex items-center justify-center h-[100px] rounded-md">
+          <div className="flex justify-center h-[60px]">
             <ul className="flex justify-center space-x-2 items-center">
               <li>
-                <FavIcon className="size-18" name="logo" />
+                <FavIcon className="w-[72px] h-[60px]" name="logo" />
               </li>
               <li className="font-semibold text-2xl">Trukonnect</li>
             </ul>
           </div>
-          <div className="h-[calc(100vh-180px)] flex flex-col justify-between overflow-y-scroll scrollbar-hide">
+          <div className="h-[calc(100vh-140px)] mt-6 flex flex-col justify-between overflow-y-scroll scrollbar-hide">
             <nav>
               <NavItem item={links} />
             </nav>
