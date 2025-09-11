@@ -2,25 +2,17 @@
 import useSuccessModal from "@/components/context/sucess-box";
 import { dummyJson } from "@/components/dummy-json";
 import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import { ImgBox } from "@/components/reuseable/Img-box";
+import { CloseIcon } from "@/components/reuseable/btn";
 import Modal2 from "@/components/reuseable/modal2";
 import { Pagination } from "@/components/reuseable/pagination";
 import { CustomTable } from "@/components/reuseable/table";
 import { TableNoItem } from "@/components/reuseable/table-no-item";
 import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import {
-  Badge,
-  Button,
-  Checkbox,
-  TableCell,
-  TableRow,
-  Textarea,
-} from "@/components/ui";
+import { Badge, Button, TableCell, TableRow, Textarea } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import FavIcon from "@/icon/favIcon";
-import { capitalize, PlaceholderImg } from "@/lib";
+import { capitalize } from "@/lib";
 import React, { useState } from "react";
 
 const item = [
@@ -99,10 +91,8 @@ const item = [
 ];
 
 export default function Support() {
-  const [isReject, setIsReject] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [isPage, setIsPage] = useState(1);
-  const { openSucc } = useSuccessModal();
   const headers = [
     "User",
     "Role",
@@ -190,7 +180,7 @@ export default function Support() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h1 className="font-semibold text-xl">Described Issue</h1>
-            <CloseIcon className="static" ctrlClose={setIsPreview} />
+            <CloseIcon className="static" onClose={() => setIsPreview(false)} />
           </div>
           <p className="text-figma-gray">
             Like the latest Star Bucks ad post on Instagram. Earn 2 tokens

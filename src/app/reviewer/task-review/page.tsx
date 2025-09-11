@@ -1,28 +1,23 @@
 "use client";
+import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
 import useSuccessModal from "@/components/context/sucess-box";
 import { dummyJson } from "@/components/dummy-json";
 import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
 import Modal2 from "@/components/reuseable/modal2";
 import { Pagination } from "@/components/reuseable/pagination";
 import { CustomTable } from "@/components/reuseable/table";
 import { TableNoItem } from "@/components/reuseable/table-no-item";
 import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import {
-  Button,
-  TableCell,
-  TableRow,
-  Textarea,
-} from "@/components/ui";
+import { Button, TableCell, TableRow, Textarea } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
+import { useModalState } from "@/hooks/useModalState";
 import React, { useState } from "react";
 import calendar from "@/assets/calendar.svg";
 import { getSocial } from "@/icon/utils";
 import FavIcon from "@/icon/favIcon";
-import {Files } from "lucide-react";
+import { Files } from "lucide-react";
 import Image from "next/image";
-
 
 const item = [
   { creator: "Abir", taskType: "Instagram Follows", quantity: 150 },
@@ -39,13 +34,15 @@ const item = [
 ];
 
 export default function TaskReview() {
-  const [isReject, setIsReject] = useState(false);
-  const [isReport, setIsReport] = useState(false);
-  const [isPreview, setIsPreview] = useState(false);
+  const [state, updateState] = useModalState({
+    isReject: false,
+    isReport: false,
+    isPreview: false,
+  });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
-  const headers = ["Creator", "Task Type", "Quantity", "Action"];
 
+  const headers = ["Creator", "Task Type", "Quantity", "Action"];
 
   const isLoading = false;
   return (
@@ -91,10 +88,9 @@ export default function TaskReview() {
                 {/* Action Buttons */}
                 <TableCell>
                   <h1
-                    onClick={() => setIsPreview(!isPreview)}
+                    onClick={() => updateState("isPreview", true)}
                     className="flex justify-center cursor-pointer"
                   >
-                    {" "}
                     <FavIcon name="eye" />
                   </h1>
                 </TableCell>
@@ -113,13 +109,19 @@ export default function TaskReview() {
           {...dummyJson.meta}
         ></Pagination>
       </div>
-      {/* ===== account varification prieview======= */}
-      <Modal2 open={isPreview} setIsOpen={setIsPreview}>
+      {/* ===== account verification preview======= */}
+      <Modal2
+        open={state.isPreview}
+        setIsOpen={(v) => updateState("isPreview", v)}
+      >
         <div className="space-y-5">
           <div className="flex justify-between items-center">
             <h1 className="font-semibold text-xl">Instagram Likes</h1>
             <h1>
-              <CloseIcon className="static" ctrlClose={setIsPreview} />
+              <CloseIcon
+                className="static"
+                onClose={() => updateState("isPreview", false)}
+              />
             </h1>
           </div>
           <p className="text-figma-gray">
@@ -152,7 +154,6 @@ export default function TaskReview() {
                 {getSocial("instagram")}
                 <span className="ml-2">Instagram</span>
               </span>
-             
             </li>
             <li className="flex justify-between items-center">
               <span>Creation Date</span>
@@ -169,12 +170,11 @@ export default function TaskReview() {
               </span>
             </li>
           </ul>
-          {/* performer takle checkbox show hobe */}
 
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => setIsReport(true)}
+                onClick={() => updateState("isReport", true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -182,7 +182,7 @@ export default function TaskReview() {
                 Report User to Admin
               </Button>
               <Button
-                onClick={() => setIsReject(true)}
+                onClick={() => updateState("isReject", true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -192,7 +192,7 @@ export default function TaskReview() {
             </div>
             <Button
               onClick={async () => {
-                setIsPreview(false);
+                updateState("isPreview", false);
                 await openSucc();
               }}
               size="lg"
@@ -204,29 +204,39 @@ export default function TaskReview() {
           </div>
         </div>
       </Modal2>
+
       {/* ===== Cause of report======= */}
-      <Modal2 open={isReport} setIsOpen={setIsReport} className="sm:max-w-sm">
+      <Modal2
+        open={state.isReport}
+        setIsOpen={(v) => updateState("isReport", v)}
+        className="sm:max-w-sm"
+      >
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of report</h1>
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn ctrlClose={setIsReport} />
+          <CloseBtn onClose={() => updateState("isReport", false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
         </div>
       </Modal2>
-      {/* =====Cause of rejection======= */}
-      <Modal2 open={isReject} setIsOpen={setIsReject} className="sm:max-w-sm">
+
+      {/* ===== Cause of rejection======= */}
+      <Modal2
+        open={state.isReject}
+        setIsOpen={(v) => updateState("isReject", v)}
+        className="sm:max-w-sm"
+      >
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn ctrlClose={setIsReject} />
+          <CloseBtn onClose={() => updateState("isReject", false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
@@ -235,5 +245,3 @@ export default function TaskReview() {
     </div>
   );
 }
-
-

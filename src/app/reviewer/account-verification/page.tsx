@@ -19,6 +19,7 @@ import {
 } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
+import { useModalState } from "@/hooks/useModalState";
 import FavIcon from "@/icon/favIcon";
 import { capitalize, PlaceholderImg } from "@/lib";
 import React, { useState } from "react";
@@ -99,8 +100,10 @@ const item = [
 ];
 
 export default function AccountVarificaton() {
-  const [isReject, setIsReject] = useState(false);
-  const [isPreview, setIsPreview] = useState(false);
+  const [state, updateState] = useModalState({
+    isReject: false,
+    isPreview: false,
+  });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
   const headers = [
@@ -114,7 +117,7 @@ export default function AccountVarificaton() {
   ];
   console.log(isPage);
 
-  const isLoading =false;
+  const isLoading = false;
   return (
     <div>
       <Navber
@@ -131,10 +134,7 @@ export default function AccountVarificaton() {
       <div>
         <CustomTable headers={headers}>
           {isLoading ? (
-            <TableSkeleton
-              colSpan={headers?.length}
-              tdStyle="!pl-0"
-            />
+            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
           ) : item.length > 0 ? (
             item.map((item: any, index: any) => (
               <TableRow key={index}>
@@ -166,7 +166,7 @@ export default function AccountVarificaton() {
                 {/* Action Buttons */}
                 <TableCell>
                   <h1
-                    onClick={() => setIsPreview(!isPreview)}
+                    onClick={() => updateState("isPreview", true)}
                     className="flex justify-center cursor-pointer"
                   >
                     {" "}
@@ -189,14 +189,17 @@ export default function AccountVarificaton() {
         ></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
-      <Modal2 open={isPreview} setIsOpen={setIsPreview}>
+      <Modal2
+        open={state.isPreview}
+        setIsOpen={(v) => updateState("isPreview", v)}
+      >
         <div>
           <ImgBox
             src={PlaceholderImg()}
             className="w-full h-[250px]"
             alt="imgbox1"
           >
-            <CloseIcon ctrlClose={setIsPreview} />
+            <CloseIcon onClose={() => updateState("isPreview", false)} />
           </ImgBox>
           <ul className="*:text-lg my-3">
             <li>
@@ -215,19 +218,19 @@ export default function AccountVarificaton() {
             <span className="text-figma-gray">Approve for withdrawal</span>
           </div>
           <div className="space-y-3 pt-4">
-            <CloseBtn ctrlClose={setIsPreview} />
+            <CloseBtn onClose={() => updateState("isPreview", false)} />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => setIsReject(true)}
+                onClick={() => updateState("isReject", true)}
                 size="lg"
                 variant="secondary"
-               className="w-full text-figma-red"
+                className="w-full text-figma-red"
               >
                 Reject
               </Button>
               <Button
                 onClick={async () => {
-                  setIsPreview(false);
+                  updateState("isPreview", false);
                   await openSucc();
                 }}
                 size="lg"
@@ -241,14 +244,18 @@ export default function AccountVarificaton() {
         </div>
       </Modal2>
       {/* ===== account varification reject======= */}
-      <Modal2 open={isReject} setIsOpen={setIsReject} className="sm:max-w-sm">
+      <Modal2
+        open={state.isReject}
+        setIsOpen={(v) => updateState("isReject", v)}
+        className="sm:max-w-sm"
+      >
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn ctrlClose={setIsReject} />
+          <CloseBtn onClose={() => updateState("isReject", false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>

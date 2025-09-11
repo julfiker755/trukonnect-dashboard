@@ -114,7 +114,7 @@ export const SuccessModalProvider = ({
             >
               {modalState.description}
             </h2>
-            <CloseBtn ctrlClose={close} />
+            <CloseBtn onClose={close} />
           </div>
         </DialogContent>
       </Dialog>

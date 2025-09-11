@@ -139,7 +139,7 @@ export default function Profile() {
           <li className="opacity-0">0</li>
           <li className="text-xl font-medium">Edit profile</li>
           <li>
-            <CloseIcon className="static" ctrlClose={setIsUpdate} />
+            <CloseIcon className="static" onClose={() => setIsUpdate(false)} />
           </li>
         </ul>
         <Form from={from} onSubmit={handleSubmit}>
@@ -173,7 +173,7 @@ export default function Profile() {
               className="h-10"
             />
             <div className="space-y-2">
-              <CloseBtn ctrlClose={setIsUpdate} />
+              <CloseBtn onClose={() => setIsUpdate(false)} />
               <Button className="w-full" variant="primary">
                 Save Changes
               </Button>

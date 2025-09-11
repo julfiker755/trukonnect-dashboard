@@ -5,15 +5,15 @@ import React from "react";
 
 interface CloseBtnProps {
   className?: string;
-  ctrlClose: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => any;
 }
 
 // CloseIcon
-export function CloseIcon({ className, ctrlClose }: CloseBtnProps) {
+export function CloseIcon({ className, onClose }: CloseBtnProps) {
   return (
     <button
       className={cn("absolute top-2 right-2", className)}
-      onClick={() => ctrlClose(false)}
+      onClick={onClose}
       type="button"
     >
       <XIcon className="size-6 cursor-pointer text-figma-red" />
@@ -22,10 +22,10 @@ export function CloseIcon({ className, ctrlClose }: CloseBtnProps) {
 }
 
 // CloseBtn
-export function CloseBtn({ className, ctrlClose }: CloseBtnProps) {
+export function CloseBtn({ className, onClose }: CloseBtnProps) {
   return (
     <Button
-      onClick={() => ctrlClose(false)}
+      onClick={onClose}
       variant="secondary"
       type="button"
       className={cn(`w-full h-10`, className)}

@@ -20,6 +20,7 @@ import { getSocial } from "@/icon/utils";
 import photo2 from "@/assets/unuse/photo.jpg";
 import { ImgBox } from "@/components/reuseable/Img-box";
 import { PlaceholderImg } from "@/lib";
+import { useModalState } from "@/hooks/useModalState";
 
 const item = [
   { performer: "Abir", taskType: "Instagram Follows" },
@@ -36,10 +37,12 @@ const item = [
 ];
 
 export default function PerformanceReview() {
-  const [isReject, setIsReject] = useState(false);
-  const [isReport, setIsReport] = useState(false);
-  const [isPreview, setIsPreview] = useState(false);
-  const [isSocail, setIsSocail] = useState(false);
+  const [state, updateState] = useModalState({
+    isPreview: false,
+    isReject: false,
+    isReport: false,
+    isSocail: false,
+  });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
   const headers = ["Performers", "Task Type", "Action"];
@@ -85,7 +88,7 @@ export default function PerformanceReview() {
                 <TableCell>{item.taskType}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => setIsPreview(!isPreview)}
+                    onClick={() => updateState("isPreview", true)}
                     className="flex justify-center cursor-pointer"
                   >
                     {" "}
@@ -108,7 +111,10 @@ export default function PerformanceReview() {
         ></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
-      <Modal2 open={isPreview} setIsOpen={setIsPreview}>
+      <Modal2
+        open={state.isPreview}
+        setIsOpen={(v) => updateState("isPreview", v)}
+      >
         <div className="space-y-5">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
@@ -125,7 +131,10 @@ export default function PerformanceReview() {
             </div>
             {/* <h1 className="font-semibold text-xl">Instagram Likes</h1> */}
             <h1>
-              <CloseIcon className="static" ctrlClose={setIsPreview} />
+              <CloseIcon
+                className="static"
+                onClose={() => updateState("isPreview", false)}
+              />
             </h1>
           </div>
           <p className="text-figma-gray">
@@ -140,7 +149,7 @@ export default function PerformanceReview() {
           <Button
             className="w-full"
             variant="primary"
-            onClick={() => setIsSocail(true)}
+            onClick={() => updateState("isSocail", true)}
           >
             User Social
           </Button>
@@ -208,7 +217,7 @@ export default function PerformanceReview() {
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => setIsReport(true)}
+                onClick={() => updateState("isReport", true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -216,7 +225,7 @@ export default function PerformanceReview() {
                 Report User to Admin
               </Button>
               <Button
-                onClick={() => setIsReject(true)}
+                onClick={() => updateState("isReject", true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -226,7 +235,7 @@ export default function PerformanceReview() {
             </div>
             <Button
               onClick={async () => {
-                setIsPreview(false);
+                updateState("isPreview", false);
                 await openSucc();
               }}
               size="lg"
@@ -239,7 +248,11 @@ export default function PerformanceReview() {
         </div>
       </Modal2>
       {/* ========User social======== */}
-      <Modal2 open={isSocail} setIsOpen={setIsSocail} className="sm:max-w-sm">
+      <Modal2
+        open={state.isSocail}
+        setIsOpen={(v) => updateState("isSocail", v)}
+        className="sm:max-w-sm"
+      >
         <div>
           <ImgBox
             src={PlaceholderImg()}
@@ -258,32 +271,43 @@ export default function PerformanceReview() {
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}
-          <CloseBtn className="bg-figma-primary" ctrlClose={setIsSocail} />
+          <CloseBtn
+            className="bg-figma-primary"
+            onClose={() => updateState("isSocail", false)}
+          />
         </div>
       </Modal2>
       {/* ===== Cause of report======= */}
-      <Modal2 open={isReport} setIsOpen={setIsReport} className="sm:max-w-sm">
+      <Modal2
+        open={state.isReport}
+        setIsOpen={(v) => updateState("isReport", v)}
+        className="sm:max-w-sm"
+      >
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of report</h1>
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn ctrlClose={setIsReport} />
+          <CloseBtn onClose={() => updateState("isReport", false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
         </div>
       </Modal2>
       {/* =====Cause of rejection======= */}
-      <Modal2 open={isReject} setIsOpen={setIsReject} className="sm:max-w-sm">
+      <Modal2
+        open={state.isReject}
+        setIsOpen={(v) => updateState("isReject", v)}
+        className="sm:max-w-sm"
+      >
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn ctrlClose={setIsReject} />
+          <CloseBtn onClose={() => updateState("isReject", false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
