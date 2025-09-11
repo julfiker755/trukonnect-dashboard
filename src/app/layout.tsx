@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/style/globals.css";
 
 import localFont from "next/font/local";
+import Provider from "@/provider";
 
 const myFont = localFont({
   src: "/fonts/halyard-display.ttf",
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${myFont.className} antialiased`}>{children}</body>
+      <body className={`${myFont.className} antialiased`}>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   );
 }

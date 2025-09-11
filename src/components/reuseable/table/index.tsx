@@ -47,7 +47,7 @@ export const CustomTable = ({
               </TableRow>
             </TableHeader>
           )}
-          <TableBody className="[&>tr>td>svg]:last:mx-auto">
+          <TableBody>
             {children}
           </TableBody>
         </TableArea>

@@ -45,7 +45,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <div
-          className="relative lg:ml-[calc(var(--width-sideber)+var(--sideber-margin))] 
+          className="relative
         z-10 flex flex-1 flex-col"
         >
           <div className="px-4 2xl:px-5">{children}</div>

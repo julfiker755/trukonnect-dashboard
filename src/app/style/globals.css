@@ -55,6 +55,7 @@
   --color-figma-primary: #fd7701;
   --color-figma-gray: #a4a4a4;
   --color-figma-blacks: rgba(77, 77, 77, 0.2);
+  --color-figma-red:#EB4335;
 }
 
 @font-face {
@@ -95,7 +96,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: #00060c;
   --foreground: #ffffff;
-  --width-sideber:250px;
+  --width-sideber: 250px;
   --sideber-margin: 20px;
 }
 
@@ -140,4 +141,11 @@
   body {
     @apply bg-background text-foreground overflow-x-hidden;
   }
+}
+
+.modal-shadow1 {
+  box-shadow: 0 4px 4px 0 rgba(224, 231, 255, 0.25),
+    0 -4px 4px 0 rgba(224, 231, 255, 0.25),
+    4px 0 4px 0 rgba(224, 231, 255, 0.25),
+    -4px 0 4px 0 rgba(224, 231, 255, 0.25);
 }

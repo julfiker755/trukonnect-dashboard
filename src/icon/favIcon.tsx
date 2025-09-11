@@ -6,7 +6,7 @@ import { favIcon } from "./list";
 
 const icons = { ...favIcon } as const;
 
-type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons;
 
 interface IconProps {
     name: IconName;

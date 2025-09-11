@@ -28,10 +28,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       )}
       {/* Sidebar */}
       <aside
-        className={`absolute left-0 lg:mt-5 lg:pb-2 lg:ml-(--sideber-margin) top-0 z-20 shadow 
+        className={`absolute left-0  top-0 z-20 shadow 
           h-screen lg:h-fit bg-[#424242]/20  lg:!rounded-md p-4  backdrop-blur-[70px]
            flex  transition-transform transform duration-300 ease-linear flex-col  
-           text-white w-(--width-sideber) lg:fixed lg:translate-x-0 ${
+           text-white w-(--width-sideber) lg:sticky lg:top-[20px] lg:pb-2 lg:ml-(--sideber-margin)  lg:translate-x-0 ${
              sidebarOpen ? "translate-x-0" : "-translate-x-full"
            }`}
       >

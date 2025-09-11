@@ -4,6 +4,7 @@ import FavIcon from "@/icon/favIcon";
 import { Menu } from "lucide-react";
 import React, { useEffect } from "react";
 import { useSidebarReviewer } from "../../wapper-layout/reviewer";
+import Link from "next/link";
 
 interface navberProps {
   props: any;
@@ -30,12 +31,14 @@ export default function Navber({ props, isShow = true }: navberProps) {
       {isShow && (
         <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
           <FavIcon name="bell" />
-          <Avatars
-            src="/user.png"
-            fallback="P"
-            className="2xl:size-10"
-            alt="img"
-          />
+          <Link  href={"/reviewer/profile"}>
+            <Avatars
+              src="/user.png"
+              fallback="P"
+              className="2xl:size-10 cursor-pointer"
+              alt="img"
+            />
+          </Link>
         </div>
       )}
     </div>

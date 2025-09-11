@@ -20,7 +20,7 @@ interface formInputProps {
   placeholder?: string;
   className?: string;
   matching?: boolean;
-  [key: string]: any
+  [key: string]: any;
 }
 
 export function FromInput({
@@ -30,7 +30,6 @@ export function FromInput({
   label,
   placeholder,
   stylelabel,
-  matching = false,
   className,
   ...rest
 }: formInputProps) {
@@ -52,30 +51,26 @@ export function FromInput({
         fieldState: ControllerFieldState;
       }) => (
         <div>
-          {matching && (
-            <Label
-              htmlFor={inputId}
-              className={cn(
-                "text-blacks text-base font-medium  px-3 mb-1",
-                stylelabel
-              )}
-            >
-              {label}
-            </Label>
-          )}
+          <Label
+            htmlFor={inputId}
+            className={cn(
+              "text-blacks text-base font-medium  mb-1",
+              stylelabel
+            )}
+          >
+            {label}
+          </Label>
           <div className="relative">
             <Input
               id={inputId}
               className={cn(
-                `h-12 w-full rounded-full  pl-4 pr-3  text-blacks ${
-                  !matching && "placeholder:text-blacks"
-                } text-sm`,
+                `h-13 w-full border-none bg-[#5E5E5E]/20 pl-4 rounded-sm pr-3  text-blacks`,
                 className
               )}
               {...field}
               {...rest}
               type={inputType}
-              placeholder={matching ? placeholder : label}
+              placeholder={placeholder}
             />
             {eye && (
               <div

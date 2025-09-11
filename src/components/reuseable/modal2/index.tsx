@@ -14,36 +14,31 @@ interface ModalProps {
   setIsOpen: (open: boolean) => void;
   children: React.ReactNode;
   className?: string;
-  title: string;
   titleStyle?: string;
   mainStyle?: string;
 }
 
-export default function Modal({
+export default function Modal2({
   open,
   setIsOpen,
   children,
   className,
-  title,
-  titleStyle,
   mainStyle,
 }: ModalProps) {
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogTrigger asChild />
       <DialogContent
-        // showCloseButton={false}
+        showCloseButton={false}
         onPointerDownOutside={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
         className={cn(
-          "sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none",
+          `sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none`,
           className
         )}
       >
-        <DialogHeader className="bg-black text-white p-4">
-          <DialogTitle className={cn("text-white font-medium", titleStyle)}>
-            {title}
-          </DialogTitle>
+        <DialogHeader className="hidden">
+          <DialogTitle></DialogTitle>
         </DialogHeader>
         <DialogDescription className="hidden"></DialogDescription>
         <div className={cn("p-4", mainStyle)}>{children}</div>
