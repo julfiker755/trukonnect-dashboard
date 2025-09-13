@@ -6,7 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
 import React from "react";
 
-export default function NewPassword(){
+export default function NewPassword() {
   const from = useForm({
     // resolver: zodResolver(authSchema),
     defaultValues: {
@@ -24,10 +24,10 @@ export default function NewPassword(){
         <div className="mb-6 space-y-2">
           <FavIcon className="w-[80px] h-[66px] mx-auto" name="logo" />
           <h1 className="text-2xl font-bold text-center">
-          Create New Password
+            Create New Password
           </h1>
           <h1 className="text-figma-gray text-center">
-          You have to create a new password after reset password
+            You have to create a new password after reset password
           </h1>
         </div>
         <Form className="space-y-4 py-7" from={from} onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ export default function NewPassword(){
               <FavIcon name="password" className="size-5" color="#777777" />
             }
           />
- 
+
           <Button variant="primary" className="w-full">
             {" "}
             Submit

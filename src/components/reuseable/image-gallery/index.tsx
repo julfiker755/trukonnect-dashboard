@@ -133,19 +133,26 @@ export function ImageGallery({
           className="sm:max-w-screen p-0 gap-0 bg-background overflow-y-auto max-h-screen rounded-none h-full scrollbar-hide border-none"
         >
           {/* close button */}
-          <ul className="fixed flex items-center space-x-3 top-3 right-3">
-            <li>
-              {" "}
-              <Download className="text-gray-400 size-5" />
-            </li>
-            <li
-              onClick={() => setIsGalleryOpen(false)}
-              className="cursor-pointer"
-            >
-              {" "}
-              <X className="text-gray-400" />
-            </li>
-          </ul>
+          <div className="fixed  left-3 top-3 right-3">
+            <div className="flex items-center justify-between">
+              <div>
+                {currentIndex + 1} of {images.length}
+              </div>
+              <div className="flex items-center space-x-2">
+                <div>
+                  {" "}
+                  <Download className="text-gray-400 size-5" />
+                </div>
+                <div
+                  onClick={() => setIsGalleryOpen(false)}
+                  className="cursor-pointer"
+                >
+                  {" "}
+                  <X className="text-gray-400" />
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className={cn("w-full max-w-4xl mx-auto", className)}>
             {/* Main Image Display */}
@@ -159,8 +166,8 @@ export function ImageGallery({
                 <Image
                   width={1000}
                   height={1000}
-                  src={currentImage.src || "/placeholder.svg"}
-                  alt={currentImage.alt}
+                  src={currentImage || "/placeholder.svg"}
+                  alt={"all ok"}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -274,7 +281,7 @@ export function ImageGallery({
 
             {/* Thumbnail Strip */}
             {showThumbnails && images.length > 1 && (
-              <div className="mt-4 flex space-x-2 overflow-x-auto pb-2">
+              <div className="mt-4 flex space-x-2 fixed bottom-0 left-0 right-0 overflow-x-auto pb-2">
                 {images.map((image, index) => (
                   <button
                     key={image.id}
@@ -299,11 +306,6 @@ export function ImageGallery({
                 ))}
               </div>
             )}
-
-            {/* Image Counter */}
-            <div className="mt-2 text-center text-sm text-muted-foreground">
-              {currentIndex + 1} of {images.length}
-            </div>
           </div>
         </DialogContent>
       </Dialog>
