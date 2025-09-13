@@ -17,10 +17,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import calendar from "@/assets/calendar.svg";
 import { getSocial } from "@/icon/utils";
-import photo2 from "@/assets/unuse/photo.jpg";
 import { ImgBox } from "@/components/reuseable/Img-box";
 import { PlaceholderImg } from "@/lib";
 import { useModalState } from "@/hooks/useModalState";
+import { ImageGallery } from "@/components/reuseable/image-gallery";
 
 const item = [
   { performer: "Abir", taskType: "Instagram Follows" },
@@ -48,6 +48,7 @@ export default function PerformanceReview() {
   const headers = ["Performers", "Task Type", "Action"];
 
   const isLoading = false;
+  const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
   return (
     <div>
       <Navber
@@ -189,27 +190,31 @@ export default function PerformanceReview() {
                 <Files className="text-[#575757]/40 cursor-pointer ml-3 size-5" />
               </span>
             </li>
-            <li className="flex justify-between">
-              <ImgBox
-                src={photo2}
-                alt="photo2"
-                className="w-[70px] h-[100px] mx-auto"
-              />
-              <ImgBox
-                src={photo2}
-                alt="photo2"
-                className="w-[70px] h-[100px] mx-auto"
-              />
-              <ImgBox
-                src={photo2}
-                alt="photo2"
-                className="w-[70px] h-[100px] mx-auto"
-              />
-              <ImgBox
-                src={photo2}
-                alt="photo2"
-                className="w-[70px] h-[100px] mx-auto"
-              />
+            <li>
+              <ImageGallery images={images}>
+                <div className="grid grid-cols-4">
+                  <ImgBox
+                    src={"/photo.jpg"}
+                    alt="photo2"
+                    className="w-[70px] h-[100px] mx-auto"
+                  />
+                  <ImgBox
+                    src={"/photo.jpg"}
+                    alt="photo2"
+                    className="w-[70px] h-[100px] mx-auto"
+                  />
+                  <ImgBox
+                    src={"/photo.jpg"}
+                    alt="photo2"
+                    className="w-[70px] h-[100px] mx-auto"
+                  />
+                  <ImgBox
+                    src={"/photo.jpg"}
+                    alt="photo2"
+                    className="w-[70px] h-[100px] mx-auto"
+                  />
+                </div>
+              </ImageGallery>
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}
