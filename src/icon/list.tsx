@@ -602,7 +602,7 @@ export const favIcon = {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#6523E7" />
-          <stop offset="0.5" stopColor="#023CE3" stop-opacity="0.8" />
+          <stop offset="0.5" stopColor="#023CE3" stopOpacity="0.8" />
           <stop offset="1" stopColor="#6523E7" />
         </linearGradient>
       </defs>

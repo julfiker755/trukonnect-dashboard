@@ -8,6 +8,7 @@ import {
   DialogHeader,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import clsx from "clsx"; // For better dynamic class management
 
 interface ModalProps {
   open: boolean;
@@ -32,8 +33,8 @@ export default function Modal2({
         showCloseButton={false}
         onPointerDownOutside={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
-        className={cn(
-          `sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none`,
+        className={clsx(
+          `sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-y-auto  max-h-[95vh] h-fit scrollbar-hide border-none`,
           className
         )}
       >
@@ -41,7 +42,7 @@ export default function Modal2({
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <DialogDescription className="hidden"></DialogDescription>
-        <div className={cn("p-4", mainStyle)}>{children}</div>
+        <div className={clsx("p-4", mainStyle)}>{children}</div>
       </DialogContent>
     </Dialog>
   );
