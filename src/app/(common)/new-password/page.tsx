@@ -2,24 +2,20 @@
 import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
-import Link from "next/link";
 import React from "react";
 
-export default function HomePage() {
-  const router = useRouter();
+export default function NewPassword(){
   const from = useForm({
     // resolver: zodResolver(authSchema),
     defaultValues: {
-      email: "",
       password: "",
+      retype_password: "",
     },
   });
 
   const handleSubmit = async (values: FieldValues) => {
-    router.push("/reviewer");
     console.log(values);
   };
   return (
@@ -27,20 +23,14 @@ export default function HomePage() {
       <div className="md:m-0 w-11/12 lg:w-0 lg:min-w-lg p-4 rounded-2xl bg-[#A7A7A7]/10 backdrop-blur-2xl">
         <div className="mb-6 space-y-2">
           <FavIcon className="w-[80px] h-[66px] mx-auto" name="logo" />
-          <h1 className="text-2xl font-bold text-center">Log In</h1>
+          <h1 className="text-2xl font-bold text-center">
+          Create New Password
+          </h1>
           <h1 className="text-figma-gray text-center">
-            Please provide valid information to access your account
+          You have to create a new password after reset password
           </h1>
         </div>
         <Form className="space-y-4 py-7" from={from} onSubmit={handleSubmit}>
-          <FromInput
-            className="h-10"
-            name="email"
-            label="Email"
-            placeholder="Enter your email"
-            icon={<FavIcon name="mail" className="size-4" color="#777777" />}
-          />
-
           <FromInput
             className="h-10"
             name="password"
@@ -51,17 +41,20 @@ export default function HomePage() {
               <FavIcon name="password" className="size-5" color="#777777" />
             }
           />
-
-          <Link
-            className="text-figma-primary float-right underline"
-            href="/forgot-password"
-          >
-            {" "}
-            <h1 className="text-sm">Forgot password ?</h1>
-          </Link>
+          <FromInput
+            className="h-10"
+            name="retype_password"
+            label="Retype Password"
+            placeholder="Retype Password"
+            eye={true}
+            icon={
+              <FavIcon name="password" className="size-5" color="#777777" />
+            }
+          />
+ 
           <Button variant="primary" className="w-full">
             {" "}
-            Sign in
+            Submit
           </Button>
         </Form>
       </div>

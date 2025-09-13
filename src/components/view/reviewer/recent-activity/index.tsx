@@ -2,8 +2,12 @@ import Avatars from "@/components/reuseable/avater";
 import { ScrollArea } from "@/components/ui";
 import React from "react";
 
+interface Task {
+  user: string;
+  action: string;
+}
 
-const tasks = [
+const tasks: Task[] = [
   { user: "Daniel", action: "submitted a task for proof." },
   { user: "Marks", action: "added a task." },
   { user: "Daniel", action: "submitted a task for proof." },
@@ -26,25 +30,24 @@ const tasks = [
   { user: "Daniel", action: "submitted a task for proof." },
 ];
 
-
-
-export default function RecentActivity() {
+const RecentActivity: React.FC = () => {
   return (
     <div className="bg-[#575757]/10 rounded-xl h-full p-5">
       <h1 className="font-medium text-2xl">Recent Activity</h1>
-     <div className="mt-5">
-          <ScrollArea styleber="bg-[#575757]/60 rounded-md" className="h-[350px]">
-         <div className="space-y-4">
-         {tasks.map((item,index) => (
-            <div key={index} className="flex items-center space-x-2">
-               <Avatars src="" fallback={item.user} alt={item.user} />
-               <p className="text-figma-gray">{item.action}</p>
-            </div>
-         ))}
+      <div className="mt-5">
+        <ScrollArea styleber="bg-[#575757]/60 rounded-md" className="h-[350px]">
+          <div className="space-y-4">
+            {tasks.map((item, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <Avatars src="" fallback={item.user} alt={item.user} />
+                <p className="text-figma-gray">{item.action}</p>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
-      </ScrollArea>
-     </div>
-     
     </div>
   );
-}
+};
+
+export default RecentActivity;

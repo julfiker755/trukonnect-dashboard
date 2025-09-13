@@ -10,6 +10,7 @@ import {
 } from "react";
 import Sidebar from "../common/dash/sideber";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface SidebarContextType {
   sidebarOpen: boolean;
@@ -20,6 +21,7 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export function ReviewerWrapper({ children }: childrenProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
 
   // cleanup: always remove body overflow on unmount
   useEffect(() => {
@@ -34,7 +36,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
         {/* Full-screen background image  className="min-h-screen flex relative"*/}
         <div className="fixed inset-0">
           <Image
-            src="/bg1.svg"
+            src={pathname.includes("/admin") ? "/bg2.svg" : "/bg1.svg"}
             alt="title"
             fill
             className="object-cover z-0 md:rounded-md"

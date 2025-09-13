@@ -20,6 +20,7 @@ interface formInputProps {
   placeholder?: string;
   className?: string;
   matching?: boolean;
+  icon:any,
   [key: string]: any;
 }
 
@@ -31,6 +32,7 @@ export function FromInput({
   placeholder,
   stylelabel,
   className,
+  icon,
   ...rest
 }: formInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -64,7 +66,9 @@ export function FromInput({
             <Input
               id={inputId}
               className={cn(
-                `h-13 w-full border-none bg-[#5E5E5E]/20 pl-4 rounded-sm pr-3  text-blacks`,
+                `h-13 w-full border-none bg-[#5E5E5E]/20 rounded-sm ${
+                  icon ? "pl-10" : "pl-4"
+                } ${eye ? "pr-10" : "pr-3"} text-blacks`,
                 className
               )}
               {...field}
@@ -72,10 +76,16 @@ export function FromInput({
               type={inputType}
               placeholder={placeholder}
             />
-            {eye && (
+
+            {icon && (
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                {icon}
+              </div>
+            )}
+              {eye && (
               <div
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="absolute cursor-pointer  top-1/2 [transform:translateY(-50%)] right-3"
+                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
               >
                 {isPasswordVisible ? (
                   <EyeOff className="text-muted-foreground" size={20} />
@@ -84,6 +94,7 @@ export function FromInput({
                 )}
               </div>
             )}
+            
           </div>
           {error?.message && (
             <h3 className="text-sm pt-[1px] text-end text-[#f73f4e] flex gap-1 items-center justify-end">
