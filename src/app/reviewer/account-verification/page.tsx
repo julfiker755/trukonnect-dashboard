@@ -23,6 +23,7 @@ import { useModalState } from "@/hooks/useModalState";
 import FavIcon from "@/icon/favIcon";
 import { capitalize, PlaceholderImg } from "@/lib";
 import React, { useState } from "react";
+import ReactCountryFlag from "react-country-flag";
 
 const item = [
   {
@@ -32,6 +33,7 @@ const item = [
     account: "Facebook",
     region: "Ghana",
     contact: "+233 5487542",
+    countryFlag: "GH",
   },
   {
     user: "Maksud",
@@ -40,6 +42,7 @@ const item = [
     account: "Instagram",
     region: "Italy",
     contact: "+234 5485684",
+    countryFlag: "IT",
   },
   {
     user: "Arjun",
@@ -48,6 +51,7 @@ const item = [
     account: "Tik Tok",
     region: "Ghana",
     contact: "+233 5487542",
+    countryFlag: "GH",
   },
   {
     user: "Sita",
@@ -56,6 +60,7 @@ const item = [
     account: "Twitter",
     region: "Nigeria",
     contact: "+234 5485684",
+    countryFlag: "NG",
   },
   {
     user: "Kiran",
@@ -64,6 +69,7 @@ const item = [
     account: "Youtube",
     region: "Ghana",
     contact: "+233 5487542",
+    countryFlag: "GH",
   },
   {
     user: "Ravi",
@@ -72,6 +78,7 @@ const item = [
     account: "Facebook",
     region: "Ghana",
     contact: "+233 5487542",
+    countryFlag: "GH",
   },
   {
     user: "Anita",
@@ -80,6 +87,7 @@ const item = [
     account: "Instagram",
     region: "Italy",
     contact: "+234 5485684",
+    countryFlag: "IT",
   },
   {
     user: "Deepak",
@@ -88,6 +96,7 @@ const item = [
     account: "Twitter",
     region: "Ghana",
     contact: "+233 5487542",
+    countryFlag: "GH",
   },
   {
     user: "Deepak",
@@ -96,6 +105,7 @@ const item = [
     account: "Tik Tok",
     region: "Nigeria",
     contact: "+234 5485684",
+    countryFlag: "NG",
   },
 ];
 
@@ -160,7 +170,17 @@ export default function AccountVarificaton() {
                 {/* Account */}
                 <TableCell>{item.account}</TableCell>
                 {/* Region */}
-                <TableCell>{item.region}</TableCell>
+                <TableCell>
+                  <ReactCountryFlag
+                    countryCode={item.countryFlag}
+                    svg
+                    style={{
+                      width: "2em",
+                      height: "1em",
+                    }}
+                    title={item.region}
+                  />
+                </TableCell>
                 {/* Contact */}
                 <TableCell>{item.contact}</TableCell>
                 {/* Action Buttons */}

@@ -18,6 +18,7 @@ import { getSocial } from "@/icon/utils";
 import FavIcon from "@/icon/favIcon";
 import { Files } from "lucide-react";
 import Image from "next/image";
+import ReactCountryFlag from "react-country-flag";
 
 const item = [
   { creator: "Abir", taskType: "Instagram Follows", quantity: 150 },
@@ -140,7 +141,18 @@ export default function TaskReview() {
             </li>
             <li className="flex justify-between items-center">
               <span>Selected Audience</span>
-              <span>Ghana</span>
+              <span>
+                <ReactCountryFlag
+                  countryCode={"GH"}
+                  svg
+                  style={{
+                    width: "2em",
+                    height: "1em",
+                  }}
+                  title={"item.region"}
+                />
+                Ghana
+              </span>
             </li>
             <li className="flex justify-between items-center">
               <span>Per user earned Tokens</span>

@@ -1,13 +1,9 @@
 "use client";
 import assets from "@/assets";
-import { Button } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
-import AnalyticChart from "@/components/view/reviewer/chart/analytic-chart";
 import RevenueChart from "@/components/view/reviewer/chart/reevenue-chart";
-import RecentActivity from "@/components/view/reviewer/recent-activity";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const overviewItem = [

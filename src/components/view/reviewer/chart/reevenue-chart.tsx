@@ -7,8 +7,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui";
+import RadioToggle from "@/components/reuseable/radio-toggle";
 
 // Weekly and Monthly Data
 const weeklyData = [
@@ -76,32 +75,14 @@ export default function RevenueChart() {
         </div>
 
         {/* Period Toggle */}
-        <RadioGroup
+        <RadioToggle
           value={period}
           onValueChange={(value) => setPeriod(value as "weekly" | "monthly")}
-          className="flex items-center space-x-4"
-        >
-          <div className="flex items-center gap-3">
-            <RadioGroupItem
-              value="weekly"
-              id="weekly"
-              className="data-[state=checked]:border-figma-primary cursor-pointer data-[state=checked]:bg-figma-primary data-[state=checked]:text-figma-primary"
-            />
-            <Label htmlFor="weekly" className="text-sm text-slate-300">
-              Weekly
-            </Label>
-          </div>
-          <div className="flex items-center gap-3">
-            <RadioGroupItem
-              value="monthly"
-              id="monthly"
-              className="data-[state=checked]:border-figma-primary cursor-pointer data-[state=checked]:bg-figma-primary data-[state=checked]:text-figma-primary"
-            />
-            <Label htmlFor="monthly" className="text-sm text-slate-300">
-              Monthly
-            </Label>
-          </div>
-        </RadioGroup>
+          options={[
+            { label: "Weekly", value: "weekly" },
+            { label: "Monthly", value: "monthly" },
+          ]}
+        />
       </div>
 
       {/* Chart */}
@@ -144,7 +125,13 @@ export default function RevenueChart() {
               tick={{ fill: "#94a3b8", fontSize: 12 }}
               tickFormatter={(value) => `${value / 1000}k`}
               domain={[0, maxValue]}
-              ticks={[0, maxValue * 0.4, maxValue * 0.6, maxValue * 0.8, maxValue]}
+              ticks={[
+                0,
+                maxValue * 0.4,
+                maxValue * 0.6,
+                maxValue * 0.8,
+                maxValue,
+              ]}
             />
 
             <Tooltip

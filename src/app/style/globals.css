@@ -55,8 +55,9 @@
   --color-figma-primary: #fd7701;
   --color-figma-gray: #a4a4a4;
   --color-figma-blacks: rgba(77, 77, 77, 0.2);
-  --color-figma-red:#EB4335;
-  --color-figma-chart:rgba(87, 87, 87, 0.20);
+  --color-figma-red: #eb4335;
+  --color-figma-chart: rgba(87, 87, 87, 0.2);
+  --color-figma-green: #7eff76;
 }
 
 @font-face {
@@ -149,4 +150,11 @@
     0 -4px 4px 0 rgba(224, 231, 255, 0.25),
     4px 0 4px 0 rgba(224, 231, 255, 0.25),
     -4px 0 4px 0 rgba(224, 231, 255, 0.25);
+}
+
+.btn-shadow {
+  box-shadow: 0 2px 4px 0 rgba(255, 228, 204, 0.25),
+    0 -2px 4px 0 rgba(255, 228, 204, 0.25),
+    2px 0 4px 0 rgba(255, 228, 204, 0.25),
+    -2px 0 4px 0 rgba(255, 228, 204, 0.25);
 }
