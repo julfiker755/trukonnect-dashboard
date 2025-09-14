@@ -20,7 +20,7 @@ export default function NewPassword() {
   };
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center relative z-10">
-      <div className="md:m-0 w-11/12 lg:w-0 lg:min-w-lg p-4 rounded-2xl bg-[#A7A7A7]/10 backdrop-blur-2xl">
+      <div className="md:m-0 w-11/12 lg:w-0 lg:min-w-lg p-5 rounded-2xl bg-[#A7A7A7]/10 backdrop-blur-2xl">
         <div className="mb-6 space-y-2">
           <FavIcon className="w-[80px] h-[66px] mx-auto" name="logo" />
           <h1 className="text-2xl font-bold text-center">
