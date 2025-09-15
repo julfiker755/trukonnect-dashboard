@@ -54,6 +54,11 @@ export const adminLinks = [
     to: "/admin/engagement-management",
   },
   {
+    label: "Content & Media Control",
+    icon: "cut",
+    to: "/admin/media-control",
+  },
+  {
     label: "Support & Disputes",
     icon: "support_dispute",
     to: "/admin/support-disputes",

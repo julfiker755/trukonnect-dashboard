@@ -63,6 +63,7 @@ export default function NavItem({ item }: NavItemProps) {
                   groupHover={hoverIdx === parentIndex}
                   activeColor={pathname === to && ("#ffffff" as any)}
                   name={icon}
+                  className="size-6"
                 />
               )}{" "}
               {label}
