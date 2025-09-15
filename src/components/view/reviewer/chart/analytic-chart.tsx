@@ -1,3 +1,4 @@
+import { cn } from "@/lib";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const chartData = [
@@ -22,11 +23,11 @@ const CustomLegend = ({ payload }: any) => {
   );
 };
 
-export default function AnalyticChart() {
+export default function AnalyticChart({ className, show=true, heightStyle }: any) {
   return (
-    <div className="bg-[#575757]/10 rounded-xl p-5">
-      <h1 className="font-medium text-2xl">Analytic Chart</h1>
-      <div className="flex flex-col items-center">
+    <div className={cn(`bg-[#575757]/10 rounded-xl p-5`, className)}>
+      {show && <h1 className="font-medium text-2xl">Analytic Chart</h1>}
+      <div className={cn(`flex flex-col items-center`, heightStyle)}>
         <div className="relative w-64 h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>

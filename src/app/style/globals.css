@@ -58,6 +58,7 @@
   --color-figma-red: #eb4335;
   --color-figma-chart: rgba(87, 87, 87, 0.2);
   --color-figma-green: #7eff76;
+  --color-figma-input:rgba(87, 87, 87, 0.20);
 }
 
 @font-face {
@@ -69,7 +70,7 @@
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover:#00060c;
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);

@@ -7,7 +7,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import { TextareaHTMLAttributes } from "react";
 
 // Props interface
-interface FromTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface FromTextAreaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label?: string;
   placeholder?: string;
@@ -32,14 +33,17 @@ export function FromTextArea({
       render={({ field, fieldState: { error } }) => (
         <div>
           {label && (
-            <Label className={cn("mb-2 text-black text-base", stylelabel)}>
+            <Label className={cn("mb-1 text-base", stylelabel)}>
               {label}
             </Label>
           )}
           <div className="relative">
             <Textarea
-              className={cn("h-12 w-full rounded-full  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm",className)}
-              placeholder={label}
+              className={cn(
+                "h-12 w-full border-none resize-none rounded-sm bg-figma-input  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm",
+                className
+              )}
+              placeholder={placeholder}
               {...field}
               {...rest}
             />

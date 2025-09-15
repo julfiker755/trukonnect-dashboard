@@ -20,7 +20,7 @@ interface formInputProps {
   placeholder?: string;
   className?: string;
   matching?: boolean;
-  icon:any,
+  icon?:any,
   [key: string]: any;
 }
 
@@ -66,7 +66,7 @@ export function FromInput({
             <Input
               id={inputId}
               className={cn(
-                `h-13 w-full border-none bg-[#5E5E5E]/20 rounded-sm ${
+                `h-13 w-full border-none bg-figma-input  rounded-sm ${
                   icon ? "pl-10" : "pl-4"
                 } ${eye ? "pr-10" : "pr-3"} text-blacks`,
                 className

@@ -1,6 +1,10 @@
 "use client";
 import { dummyJson } from "@/components/dummy-json";
 import Avatars from "@/components/reuseable/avater";
+import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
+import Form from "@/components/reuseable/from";
+import { FromInput } from "@/components/reuseable/from-input";
+import Modal2 from "@/components/reuseable/modal2";
 import { Pagination } from "@/components/reuseable/pagination";
 import RadioToggle from "@/components/reuseable/radio-toggle";
 import { CustomTable } from "@/components/reuseable/table";
@@ -13,6 +17,11 @@ import { SingleCalendar } from "@/components/view/common/single-calender";
 import FavIcon from "@/icon/favIcon";
 import Link from "next/link";
 import React, { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { reviewerSchema } from "@/schema";
+import { CircleAlert } from "lucide-react";
+import { PhoneInput } from "@/components/reuseable/phone-input";
 
 const item = [
   {
@@ -89,7 +98,18 @@ const item = [
 
 export default function ReviewerManagement() {
   const [isValue, setIsValue] = useState("not_banned");
+  const [isStore, setIsStore] = useState(false);
   const [isPage, setIsPage] = useState(1);
+  const from = useForm({
+    resolver: zodResolver(reviewerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+    },
+  });
+
   const headers = [
     "Reviewer",
     "Email",
@@ -99,6 +119,11 @@ export default function ReviewerManagement() {
     "Action",
   ];
 
+  // handleSubmit
+  const handleSubmit = async (values: FieldValues) => {
+    console.log(values);
+    from.reset();
+  };
   const isLoading = false;
   return (
     <div>
@@ -126,7 +151,11 @@ export default function ReviewerManagement() {
           />
         </div>
         <div className="flex items-center space-x-5">
-          <Button variant="primary" className="rounded-md">
+          <Button
+            onClick={() => setIsStore(!isStore)}
+            variant="primary"
+            className="rounded-md"
+          >
             Add Reviewer
           </Button>
           <div className="flex items-center">
@@ -187,6 +216,67 @@ export default function ReviewerManagement() {
           {...dummyJson.meta}
         ></Pagination>
       </div>
+      {/* ============= Add New Reviewer ========== */}
+      <Modal2 open={isStore} setIsOpen={setIsStore}>
+        <div className="mb-5">
+          <h1 className="text-2xl font-semibold text-center">
+            Add New Reviewer
+          </h1>
+          <h1 className="text-sm text-figma-gray text-center">
+            Please provide reviewer email & name. Then create a password.
+          </h1>
+        </div>
+        <CloseIcon className="mt-2 mr-3" onClose={() => setIsStore(!isStore)} />
+        <Form from={from} onSubmit={handleSubmit} className="space-y-4">
+          <FromInput
+            className="h-10"
+            name="name"
+            label="Full Name"
+            placeholder="Enter your full name"
+            icon={<FavIcon name="user" className="size-4" color="#777777" />}
+          />
+          <FromInput
+            className="h-10"
+            name="email"
+            label="Email"
+            placeholder="Enter your email"
+            icon={<FavIcon name="mail" className="size-4" color="#777777" />}
+          />
+          <div>
+            <div className="text-blacks text-base font-medium pb-1">
+              Contact Number
+            </div>
+            <PhoneInput
+              onChange={(v) => {
+                from.setValue("phone", v);
+              }}
+              placeholder="Enter a phone number"
+            />
+            {from?.formState?.errors?.phone && (
+              <p className="text-reds justify-end  text-[#f73f4e]  flex items-center gap-1 text-sm">
+                {from?.formState?.errors?.phone?.message as string}
+                <CircleAlert size={14} />
+              </p>
+            )}
+          </div>
+
+          <FromInput
+            className="h-10"
+            name="password"
+            label="Password"
+            placeholder="Password"
+            eye={true}
+            icon={
+              <FavIcon name="password" className="size-5" color="#777777" />
+            }
+          />
+
+          <CloseBtn onClose={() => setIsStore(!isStore)} />
+          <Button variant="primary" className="w-full">
+            Add
+          </Button>
+        </Form>
+      </Modal2>
     </div>
   );
 }

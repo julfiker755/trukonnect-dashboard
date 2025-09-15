@@ -13,3 +13,5 @@ export * from "./badge"
 export * from "./dialog"
 export * from "./textarea"
 export * from "./calendar"
+export * from "./command"
+
