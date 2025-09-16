@@ -124,6 +124,9 @@ export default function ReviewerManagement() {
     console.log(values);
     from.reset();
   };
+  const handleReset = () => {
+    from.reset();
+  };
   const isLoading = false;
   return (
     <div>
@@ -226,7 +229,13 @@ export default function ReviewerManagement() {
             Please provide reviewer email & name. Then create a password.
           </h1>
         </div>
-        <CloseIcon className="mt-2 mr-3" onClose={() => setIsStore(!isStore)} />
+        <CloseIcon
+          className="mt-2 mr-3"
+          onClose={() => {
+            handleReset();
+            setIsStore(false);
+          }}
+        />
         <Form from={from} onSubmit={handleSubmit} className="space-y-4">
           <FromInput
             className="h-10"
@@ -271,7 +280,12 @@ export default function ReviewerManagement() {
             }
           />
 
-          <CloseBtn onClose={() => setIsStore(!isStore)} />
+          <CloseBtn
+            onClose={() => {
+              handleReset();
+              setIsStore(false);
+            }}
+          />
           <Button variant="primary" className="w-full">
             Add
           </Button>

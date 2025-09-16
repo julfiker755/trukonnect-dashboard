@@ -3,13 +3,13 @@ import { cn } from "@/lib";
 import { XIcon } from "lucide-react";
 import React from "react";
 
-interface CloseBtnProps {
+interface CloseIconProps {
   className?: string;
   onClose: () => any;
 }
 
 // CloseIcon
-export function CloseIcon({ className, onClose }: CloseBtnProps) {
+export function CloseIcon({ className, onClose }: CloseIconProps) {
   return (
     <button
       className={cn("absolute top-2 right-2", className)}
@@ -22,7 +22,7 @@ export function CloseIcon({ className, onClose }: CloseBtnProps) {
 }
 
 // CloseBtn
-export function CloseBtn({ className, onClose }: CloseBtnProps) {
+export function CloseBtn({ className, onClose }: CloseIconProps) {
   return (
     <Button
       onClick={onClose}

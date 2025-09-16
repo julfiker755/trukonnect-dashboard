@@ -1,18 +1,25 @@
+"use client";
 import { BackBtn } from "@/components/reuseable/back-btn";
 import Navber from "@/components/view/common/dash/navber";
 import FavIcon from "@/icon/favIcon";
 import { getSocial } from "@/icon/utils";
-import { IdParams } from "@/types";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import calendar from "@/assets/calendar.svg";
 import { PlaceholderImg } from "@/lib";
 import { ImgBox } from "@/components/reuseable/Img-box";
+import { useParams } from "next/navigation";
 import CopyBox from "@/components/reuseable/copy-box";
+import { Button, Textarea } from "@/components/ui";
+import Modal2 from "@/components/reuseable/modal2";
+import { CloseBtn } from "@/components/reuseable/btn";
+import useSuccessModal from "@/components/context/sucess-box";
 
-export default async function TaskDetails({ params }: IdParams) {
-  const { id } = await params;
+export default function TaskDetails() {
+  const [isReject, setIsReject] = useState(false);
+  const { openSucc } = useSuccessModal();
+  const { id } = useParams();
   return (
     <div>
       <Navber
@@ -27,10 +34,10 @@ export default async function TaskDetails({ params }: IdParams) {
       />
       <div className="grid grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
-          <h1 className="text-lg mb-4">Task Details</h1>
+          <h1 className="text-xl mb-4">Task Details</h1>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h1 className="text-xl">Instagram Likes</h1>
+              <h1 className="text-lg">Instagram Likes</h1>
             </div>
             <p className="text-figma-gray">
               Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
@@ -83,28 +90,33 @@ export default async function TaskDetails({ params }: IdParams) {
               </li>
               <li className="flex justify-between items-center">
                 <span>Link</span>
-                <CopyBox value=" https://hdurbakjdfb.com" />
+                <CopyBox value="https://www.figma.com/design/yXKlQR3P8SaIfdykQPG5uP/Truekonnect?node-id=1544-2241&m=dev" />
               </li>
             </ul>
           </div>
-          <h1 className="text-lg mt-5">Progress of task</h1>
-          {/* task view */}
-          <div className="w-full">
-            <div>
-              <div className="text-xs font-semibold flex mb-2 justify-end">
-                <span className="text-figma-primary mr-1"> 75 </span> / 150
-              </div>
-              <div className="bg-[#575757]/20  h-2 mb-2.5 rounded-md w-full">
-                <div
-                  className="bg-figma-primary  h-2 rounded-full"
-                  style={{ width: `50%` }}
-                ></div>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-5">
+            <Button onClick={() => setIsReject(true)} variant="secondary">
+              Reject
+            </Button>
+            <Button
+              onClick={async () => {
+                await openSucc({
+                  title: "Successfully",
+                  description: "Task approved successfully",
+                });
+              }}
+              variant="primary"
+            >
+              Approve
+            </Button>
           </div>
         </div>
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
-          <h1 className="text-lg mb-4">Reviewed By</h1>
+          <div>
+            <h1 className="text-xl">Issue</h1>
+             <p className="text-figma-gray">I can not find the link which given by task creator.</p>
+          </div>
+          <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">
             <div className="mb-10">
               <ImgBox
@@ -136,6 +148,20 @@ export default async function TaskDetails({ params }: IdParams) {
           </div>
         </div>
       </div>
+      {/* ===== account varification reject======= */}
+      <Modal2 open={isReject} setIsOpen={setIsReject} className="sm:max-w-sm">
+        <div className="space-y-4">
+          <h1 className="font-medium text-xl">Cause of rejection</h1>
+          <Textarea
+            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+            placeholder="Write additional note"
+          />
+          <CloseBtn onClose={() => setIsReject(false)} />
+          <Button variant="primary" className="w-full">
+            Send
+          </Button>
+        </div>
+      </Modal2>
     </div>
   );
 }

@@ -1,24 +1,15 @@
 "use client";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import useSuccessModal from "@/components/context/sucess-box";
 import { dummyJson } from "@/components/dummy-json";
 import Avatars from "@/components/reuseable/avater";
-import Modal2 from "@/components/reuseable/modal2";
 import { Pagination } from "@/components/reuseable/pagination";
 import { CustomTable } from "@/components/reuseable/table";
 import { TableNoItem } from "@/components/reuseable/table-no-item";
 import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Button, TableCell, TableRow, Textarea } from "@/components/ui";
+import {TableCell, TableRow} from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
-import { useModalState } from "@/hooks/useModalState";
 import React, { useEffect, useState } from "react";
-import calendar from "@/assets/calendar.svg";
-import { getSocial } from "@/icon/utils";
 import FavIcon from "@/icon/favIcon";
-import { Files } from "lucide-react";
-import Image from "next/image";
-import ReactCountryFlag from "react-country-flag";
 import RadioToggle from "@/components/reuseable/radio-toggle";
 import Link from "next/link";
 

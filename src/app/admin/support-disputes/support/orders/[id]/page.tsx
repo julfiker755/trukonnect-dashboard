@@ -1,3 +1,4 @@
+"use client";
 import Avatars from "@/components/reuseable/avater";
 import { ImageGallery } from "@/components/reuseable/image-gallery";
 import { ImgBox } from "@/components/reuseable/Img-box";
@@ -8,12 +9,22 @@ import calendar from "@/assets/calendar.svg";
 import { PlaceholderImg } from "@/lib";
 import FavIcon from "@/icon/favIcon";
 import { getSocial } from "@/icon/utils";
-import { IdParams } from "@/types";
 import Image from "next/image";
 import React from "react";
+import { useParams } from "next/navigation";
+import { Button, Textarea } from "@/components/ui";
+import useSuccessModal from "@/components/context/sucess-box";
+import { useModalState } from "@/hooks/useModalState";
+import Modal2 from "@/components/reuseable/modal2";
+import { CloseBtn } from "@/components/reuseable/btn";
 
-export default async function TaskDetails({ params }: IdParams) {
-  const { id } = await params;
+export default function TaskDetails() {
+  const { openSucc } = useSuccessModal();
+  const { id } = useParams();
+  const [state, updateState] = useModalState({
+    isReject: false,
+    isSocial: false,
+  });
   const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
   return (
     <div>
@@ -56,6 +67,13 @@ export default async function TaskDetails({ params }: IdParams) {
               <li>- There have a light profile picture</li>
               <li>- React on this link</li>
             </ul>
+            <Button
+              onClick={() => updateState("isSocial", true)}
+              variant="secondary"
+              className="w-full  text-figma-primary"
+            >
+              User Social
+            </Button>
             <ul className="space-y-2">
               <li className="flex justify-between items-center">
                 <span>Total tokens</span>
@@ -119,50 +137,114 @@ export default async function TaskDetails({ params }: IdParams) {
                 </ImageGallery>
               </li>
             </ul>
-          </div>
-        </div>
-        <div>
-          <div className="bg-figma-chart p-6 h-fit rounded-xl">
-            <h1 className="text-lg mb-4">Reviewed By</h1>
-            <div className="space-y-3">
-              <div className="mb-10">
-                <ImgBox
-                  className="size-30 rounded-xl mx-auto"
-                  src={PlaceholderImg()}
-                  alt="img"
-                ></ImgBox>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-figma-gray">Full name</span>
-                <span className="text-white">Mr. Daniel</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-figma-gray">Email</span>
-                <span className="text-white">daniel234@gmail.com</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-figma-gray">Phone number</span>
-                <span className="text-white">+334 254845665</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-figma-gray">Region</span>
-                <span className="text-white">Ghana</span>
-              </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-5">
+              <Button
+                onClick={() => updateState("isReject", true)}
+                variant="secondary"
+              >
+                Reject
+              </Button>
+              <Button
+                onClick={async () => {
+                  await openSucc({
+                    title: "Successfully",
+                    description: "You approved the order",
+                  });
+                }}
+                variant="primary"
+              >
+                Approve
+              </Button>
             </div>
           </div>
-          {/* Issue condition apply for the web */}
-          <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
-            <h1 className="text-lg mb-2">Issue</h1>
+        </div>
+        <div className="bg-figma-chart p-6 h-fit rounded-xl">
+          <div>
+            <h1 className="text-xl">Issue</h1>
             <p className="text-figma-gray">
               I can not find the link which given by task creator.
             </p>
           </div>
+          <h1 className="text-xl my-4">Reviewed By</h1>
+          <div className="space-y-3">
+            <div className="mb-10">
+              <ImgBox
+                className="size-30 rounded-xl mx-auto"
+                src={PlaceholderImg()}
+                alt="img"
+              ></ImgBox>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-figma-gray">Full name</span>
+              <span className="text-white">Mr. Daniel</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-figma-gray">Email</span>
+              <span className="text-white">daniel234@gmail.com</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-figma-gray">Phone number</span>
+              <span className="text-white">+334 254845665</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-figma-gray">Region</span>
+              <span className="text-white">Ghana</span>
+            </div>
+          </div>
         </div>
       </div>
+      {/* ===== account varification reject======= */}
+      <Modal2
+        open={state.isReject}
+        setIsOpen={(v) => updateState("isReject", v)}
+        className="sm:max-w-sm"
+      >
+        <div className="space-y-4">
+          <h1 className="font-medium text-xl">Cause of rejection</h1>
+          <Textarea
+            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+            placeholder="Write additional note"
+          />
+          <CloseBtn onClose={() => updateState("isReject", false)} />
+          <Button variant="primary" className="w-full">
+            Send
+          </Button>
+        </div>
+      </Modal2>
+        {/* ========User social======== */}
+      <Modal2
+        open={state.isSocial}
+        setIsOpen={(v) => updateState("isSocial", v)}
+        className="sm:max-w-sm"
+      >
+        <div>
+          <ImgBox
+            src={PlaceholderImg()}
+            className="w-full h-[250px]"
+            alt="imgbox1"
+          ></ImgBox>
+          <ul className="*:text-lg my-3">
+            <li>
+              <span className="text-figma-gray">Username: </span>Sourov Das
+              Mithun
+            </li>
+            <li>
+              {" "}
+              <span className="text-figma-gray">Notes: </span>This is my
+              facebook account
+            </li>
+          </ul>
+          {/* performer takle checkbox show hobe */}
+          <CloseBtn
+            className="bg-figma-primary"
+            onClose={() => updateState("isSocial", false)}
+          />
+        </div>
+      </Modal2>
     </div>
   );
 }

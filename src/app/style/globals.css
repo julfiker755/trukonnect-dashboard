@@ -59,6 +59,7 @@
   --color-figma-chart: rgba(87, 87, 87, 0.2);
   --color-figma-green: #7eff76;
   --color-figma-input:rgba(87, 87, 87, 0.20);
+  --color-figma-card:rgba(87, 87, 87, 0.10)
 }
 
 @font-face {
@@ -158,4 +159,65 @@
     0 -2px 4px 0 rgba(255, 228, 204, 0.25),
     2px 0 4px 0 rgba(255, 228, 204, 0.25),
     -2px 0 4px 0 rgba(255, 228, 204, 0.25);
+}
+
+
+
+/* ql-toolbar styels */
+.ql-toolbar {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid rgba(87, 87, 87, 0.20) !important;
+  background: rgba(87, 87, 87, 0.20) !important;
+  padding: 12px 16px !important;
+  border-radius: 10px !important;
+}
+
+/* Make toolbar icons white */
+.ql-toolbar .ql-stroke {
+  stroke: white !important; /* for SVG icons */
+}
+.ql-toolbar .ql-fill {
+  fill: white !important; /* for filled icons */
+}
+.ql-toolbar button,
+.ql-toolbar .ql-picker {
+  color: white !important; /* for text buttons/dropdowns */
+}
+
+
+.ql-container {
+  border: none !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: white !important;
+}
+
+.ql-editor {
+  padding: 16px !important;
+  min-height: 200px !important;
+  color: white !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: white !important;
+  font-style: normal !important;
+  left: 16px !important;
+}
+
+.ql-snow .ql-tooltip {
+  background: #1e1d1d !important;
+  border: 1px solid rgba(87, 87, 87, 0.10)!important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  color: white !important;
+}
+
+.ql-snow .ql-picker-options {
+  background: #1e1d1d !important;
+  border: 1px solid rgba(87, 87, 87, 0.10) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+  color: white !important;
 }

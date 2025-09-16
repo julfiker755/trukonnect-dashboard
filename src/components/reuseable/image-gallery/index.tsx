@@ -14,6 +14,7 @@ import {
   ZoomIn,
   ZoomOut,
   Download,
+  ListRestart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -120,6 +121,10 @@ export function ImageGallery({
               {currentIndex + 1} of {images.length}
             </span>
             <div className="flex space-x-4 items-center">
+              <ListRestart
+                onClick={() => setZoomLevel(1)}
+                className="text-gray-400 size-6 cursor-pointer"
+              />
               <ZoomIn
                 onClick={() => setZoomLevel((z) => Math.min(z + 0.5, 5))}
                 className="text-gray-400 size-6 cursor-pointer"

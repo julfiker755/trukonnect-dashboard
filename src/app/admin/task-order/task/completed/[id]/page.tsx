@@ -7,9 +7,9 @@ import Image from "next/image";
 import React from "react";
 import ReactCountryFlag from "react-country-flag";
 import calendar from "@/assets/calendar.svg";
-import { Files, icons } from "lucide-react";
 import { PlaceholderImg } from "@/lib";
 import { ImgBox } from "@/components/reuseable/Img-box";
+import CopyBox from "@/components/reuseable/copy-box";
 
 const overviewItem = [
   {
@@ -121,10 +121,7 @@ export default async function TaskDetails({ params }: IdParams) {
               </li>
               <li className="flex justify-between items-center">
                 <span>Link</span>
-                <span className="border-2 flex justify-between items-center border-[#575757]/20 rounded-md px-2 py-[2px]">
-                  <span> https://hdurbakjdfb..</span>
-                  <Files className="text-[#575757]/40 cursor-pointer ml-3 size-5" />
-                </span>
+               <CopyBox value=" https://hdurbakjdfb.com" />
               </li>
             </ul>
           </div>

@@ -59,6 +59,11 @@ export const adminLinks = [
     to: "/admin/media-control",
   },
   {
+    label: "Performance & Analytics",
+    icon: "perfomace",
+    to: "/admin/performance-analytics",
+  },
+  {
     label: "Support & Disputes",
     icon: "support_dispute",
     to: "/admin/support-disputes",

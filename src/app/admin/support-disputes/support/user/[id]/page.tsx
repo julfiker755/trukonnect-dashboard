@@ -1,18 +1,25 @@
+"use client";
 import { BackBtn } from "@/components/reuseable/back-btn";
 import Navber from "@/components/view/common/dash/navber";
 import FavIcon from "@/icon/favIcon";
 import { getSocial } from "@/icon/utils";
-import { IdParams } from "@/types";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import calendar from "@/assets/calendar.svg";
 import { PlaceholderImg } from "@/lib";
 import { ImgBox } from "@/components/reuseable/Img-box";
+import { useParams } from "next/navigation";
 import CopyBox from "@/components/reuseable/copy-box";
+import { Button, Textarea } from "@/components/ui";
+import Modal2 from "@/components/reuseable/modal2";
+import { CloseBtn } from "@/components/reuseable/btn";
+import useSuccessModal from "@/components/context/sucess-box";
 
-export default async function RejectedTaskDetails({ params }: IdParams) {
-  const { id } = await params;
+export default function UsersDetails() {
+  const [isReject, setIsReject] = useState(false);
+  const { openSucc } = useSuccessModal();
+  const { id } = useParams();
   return (
     <div>
       <Navber
@@ -27,11 +34,8 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
       />
       <div className="grid grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
-          <h1 className="text-lg mb-4">Task Details</h1>
+          <h1 className="text-xl mb-4">Issue</h1>
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h1 className="text-xl">Instagram Likes</h1>
-            </div>
             <p className="text-figma-gray">
               Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
               instantly for showing your support!
@@ -41,55 +45,20 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
               <li>- There have a light profile picture</li>
               <li>- React on this link</li>
             </ul>
-            <ul className="space-y-2">
-              <li className="flex justify-between items-center">
-                <span>Quantity</span>
-                <span>150</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Selected Audience</span>
-                <span>
-                  <ReactCountryFlag
-                    countryCode={"GH"}
-                    svg
-                    style={{
-                      width: "2em",
-                      height: "1em",
-                    }}
-                    title={"item.region"}
-                  />
-                  Ghana
-                </span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Per user earned Tokens</span>
-                <span className="flex items-center">
-                  <FavIcon name="coin" className="mr-1 size-5" />2
-                </span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Platform</span>
-                <span className="flex items-center">
-                  {getSocial("instagram")}
-                  <span className="ml-2">Instagram</span>
-                </span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Creation Date</span>
-                <span className="flex items-center">
-                  <Image src={calendar} width={18} height={20} alt="img1" />
-                  <span className="ml-1">13 Aug, 2025</span>
-                </span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span>Link</span>
-                <CopyBox value=" https://hdurbakjdfb.com" />
-              </li>
-            </ul>
+          </div>
+          <div className="mt-10">
+            <h1 className="text-lg">Your reply*</h1>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Briefly describe the answer"
+            />
+            <Button variant="primary" className="w-full mt-5">
+              Send
+            </Button>
           </div>
         </div>
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
-          <h1 className="text-lg mb-4">Reviewed By</h1>
+          <h1 className="text-xl mb-4">Reviewed By</h1>
           <div className="space-y-3">
             <div className="mb-10">
               <ImgBox
