@@ -54,21 +54,13 @@ export default function SupportDisputes() {
         props={
           <>
             <h1 className="text-xl">Performance & Analytics</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
           </>
         }
       />
       <ul className="flex flex-wrap justify-between items-center mt-4">
         <li className="flex items-center space-x-3">
           <div className="flex items-center">
-            <span className="text-lg mr-2">From: </span>
-            <SingleCalendar onChange={(date: any) => console.log(date)} />
-          </div>
-          <div className="flex items-center">
-            <span className="text-lg mr-2">To: </span>
+            <span className="text-lg mr-2">Date: </span>
             <SingleCalendar onChange={(date: any) => console.log(date)} />
           </div>
         </li>

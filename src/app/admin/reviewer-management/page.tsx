@@ -162,11 +162,7 @@ export default function ReviewerManagement() {
             Add Reviewer
           </Button>
           <div className="flex items-center">
-            <span className="text-lg mr-2">From: </span>
-            <SingleCalendar onChange={(date: any) => console.log(date)} />
-          </div>
-          <div className="flex items-center">
-            <span className="text-lg mr-2">To: </span>
+            <span className="text-lg mr-2">Date: </span>
             <SingleCalendar onChange={(date: any) => console.log(date)} />
           </div>
         </div>

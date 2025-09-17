@@ -24,17 +24,18 @@ export default function SearchBox({
   return (
     <div
       className={cn(
-        `relative w-full max-w-2xl rounded-full bg-figma-blacks py-1`,
+        `relative w-12 h-12 cursor-pointer md:cursor-default grid place-items-center md:h-full md:w-full max-w-2xl rounded-full bg-figma-blacks py-1`,
         className
       )}
     >
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-figma-gray" />
+      <Search className="absolute block md:hidden  h-5 w-5 text-figma-gray" />
+      <Search className="absolute hidden md:block left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-figma-gray" />
       <Input
         type="text"
         value={searchText}
         onChange={handleSearchChange}
         placeholder={placeholder}
-        className="pl-10 pr-4 py-3  rounded-full border-none w-full placeholder:text-figma-gray text-whie"
+        className="pl-10 hidden md:block md:pr-4 py-3  rounded-full border-none w-full placeholder:text-figma-gray text-whie"
       />
     </div>
   );

@@ -28,10 +28,6 @@ export default function Communication() {
         props={
           <>
             <h1 className="text-xl">Communication</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
           </>
         }
       />

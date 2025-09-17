@@ -28,10 +28,6 @@ export default function MediaControl() {
         props={
           <>
             <h1 className="text-xl">Content & Media Control</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
           </>
         }
       />

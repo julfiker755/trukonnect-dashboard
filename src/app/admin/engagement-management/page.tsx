@@ -65,10 +65,6 @@ export default function Engagement() {
         props={
           <>
             <h1 className="text-xl">Engagement Management</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
           </>
         }
       />
@@ -89,7 +85,7 @@ export default function Engagement() {
         </li>
       </ul>
 
-      <div className="flex  flex-wrap gap-10">
+      <div className="flex justify-center lg:justify-start  flex-wrap gap-10">
         {item.map((item, index) => (
           <Link
             href={`/admin/engagement-management/${item.label}`}

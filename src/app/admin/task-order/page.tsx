@@ -5,26 +5,86 @@ import { Pagination } from "@/components/reuseable/pagination";
 import { CustomTable } from "@/components/reuseable/table";
 import { TableNoItem } from "@/components/reuseable/table-no-item";
 import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import {TableCell, TableRow} from "@/components/ui";
+import { Badge, TableCell, TableRow } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import React, { useEffect, useState } from "react";
 import FavIcon from "@/icon/favIcon";
 import RadioToggle from "@/components/reuseable/radio-toggle";
 import Link from "next/link";
+import { capitalize } from "@/lib";
+
+// { label: "Active Task", value: "active_task" },
+// { label: "Completed Task", value: "completed_task" },
+// { label: "Rejected Task", value: "rejected_task" },
 
 const item = [
-  { creator: "Abir", taskType: "Instagram Follows", quantity: 150 },
-  { creator: "Maksud", taskType: "TikTok Shares", quantity: 100 },
-  { creator: "Arjun", taskType: "Facebook Post Likes", quantity: 250 },
-  { creator: "Sita", taskType: "Twitter Retweets", quantity: 100 },
-  { creator: "Kiran", taskType: "YouTube Comments", quantity: 250 },
-  { creator: "Ravi", taskType: "Instagram Shares", quantity: 300 },
-  { creator: "Anita", taskType: "YouTube Video Views", quantity: 50 },
-  { creator: "Deepak", taskType: "TikTok Comments", quantity: 150 },
-  { creator: "Deepak", taskType: "Twitter Follows", quantity: 350 },
-  { creator: "Deepak", taskType: "YouTube Shares", quantity: 400 },
-  { creator: "Anita", taskType: "Instagram Likes", quantity: 600 },
+  {
+    creator: "Abir",
+    taskType: "Instagram Follows",
+    quantity: 150,
+    status: "active",
+  },
+  {
+    creator: "Maksud",
+    taskType: "TikTok Shares",
+    quantity: 100,
+    status: "completed",
+  },
+  {
+    creator: "Arjun",
+    taskType: "Facebook Post Likes",
+    quantity: 250,
+    status: "active",
+  },
+  {
+    creator: "Sita",
+    taskType: "Twitter Retweets",
+    quantity: 100,
+    status: "rejected",
+  },
+  {
+    creator: "Kiran",
+    taskType: "YouTube Comments",
+    quantity: 250,
+    status: "completed",
+  },
+  {
+    creator: "Ravi",
+    taskType: "Instagram Shares",
+    quantity: 300,
+    status: "completed",
+  },
+  {
+    creator: "Anita",
+    taskType: "YouTube Video Views",
+    quantity: 50,
+    status: "completed",
+  },
+  {
+    creator: "Deepak",
+    taskType: "TikTok Comments",
+    quantity: 150,
+    status: "completed",
+  },
+  {
+    creator: "Deepak",
+    taskType: "Twitter Follows",
+    quantity: 350,
+    status: "rejected",
+  },
+  {
+    creator: "Deepak",
+    taskType: "YouTube Shares",
+    quantity: 400,
+    status: "active",
+  },
+  {
+    creator: "Anita",
+    taskType: "Instagram Likes",
+    quantity: 600,
+    status: "completed",
+  },
 ];
 
 // item2
@@ -43,9 +103,9 @@ const item2 = [
 ];
 
 export default function TaskOrder() {
-  const [isValue, setIsValue] = useState("active_task");
+  const [isValue, setIsValue] = useState("all_task");
   const [isTab, setIsTab] = useState("task_management");
-  const headers = ["Creator", "Task Type", "Quantity", "Action"];
+  const headers = ["Creator", "Task Type", "Quantity", "Status", "Action"];
 
   const isLoading = false;
 
@@ -96,6 +156,7 @@ export default function TaskOrder() {
               options={
                 isTab === "task_management"
                   ? [
+                      { label: "All Task", value: "all_task" },
                       { label: "Active Task", value: "active_task" },
                       { label: "Completed Task", value: "completed_task" },
                       { label: "Rejected Task", value: "rejected_task" },
@@ -155,12 +216,13 @@ const TaskManagement = ({ headers, isLoading, item, isValue }: any) => {
                   <span>{item.creator}</span>
                 </div>
               </TableCell>
-
-              {/* Role */}
               <TableCell>{item.taskType}</TableCell>
-              {/* Email */}
               <TableCell>{item.quantity}</TableCell>
-              {/* Action Buttons */}
+              <TableCell>
+                <Badge variant={item.status.toLowerCase()}>
+                  {capitalize(item.status)}
+                </Badge>
+              </TableCell>
               <TableCell>
                 <Link
                   href={

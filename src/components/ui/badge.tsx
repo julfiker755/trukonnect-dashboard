@@ -21,6 +21,10 @@ const badgeVariants = cva(
           "bg-[#FECACA] text-[#991B1B] text-base px-3  rounded-full border-none",
         completed:
           "bg-[#D1FAE5] text-[#065F46] text-base px-3  rounded-full border-none",
+        active:
+          "bg-[#E0F2FE] text-[#0284C7] text-base px-3 rounded-full border-none",
+        rejected:
+          "bg-[#FECACA] text-[#991B1B] text-base px-3 rounded-full border-none",
       },
     },
     defaultVariants: {

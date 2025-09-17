@@ -48,7 +48,7 @@ export default function Profile() {
           </>
         }
       />
-      <ul className="flex space-x-5">
+      <ul className="flex flex-wrap space-x-5">
         {[
           { label: "Personal Information", value: "personal_information" },
           { label: "Privacy Policy", value: "privacy_policy" },

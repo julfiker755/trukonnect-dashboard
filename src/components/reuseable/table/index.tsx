@@ -27,7 +27,7 @@ export const CustomTable = ({
       )}
     >
       <div>
-        <TableArea className="border-separate border-spacing-y-3 my-0">
+        <TableArea className="border-separate !overflow-x-auto border-spacing-y-3 my-0">
           {headers && headers.length > 0 && (
             <TableHeader>
               <TableRow className="text-base  text-center font-semibold text-black border-2 border-[#F6F6F6]">

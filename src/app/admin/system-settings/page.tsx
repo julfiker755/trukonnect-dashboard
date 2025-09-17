@@ -44,10 +44,6 @@ export default function SystemSettings() {
         props={
           <>
             <h1 className="text-xl">System Settings</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
           </>
         }
       />
