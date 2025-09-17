@@ -14,14 +14,14 @@ import { Button, TableCell, TableRow } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import { SingleCalendar } from "@/components/view/common/single-calender";
-import FavIcon from "@/icon/favIcon";
-import Link from "next/link";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewerSchema } from "@/schema";
 import { CircleAlert } from "lucide-react";
 import { PhoneInput } from "@/components/reuseable/phone-input";
+import FavIcon from "@/icon/favIcon";
+import Link from "next/link";
 
 const item = [
   {
@@ -133,15 +133,17 @@ export default function ReviewerManagement() {
       <Navber
         props={
           <>
-            <h1 className="text-xl">Reviewer Management</h1>
+            <h1 className="text-xl big">Reviewer Management</h1>
             <SearchBox
               placeholder="Search by user name"
               onSearch={(text: any) => console.log(text)}
             />
           </>
         }
-      />
-      <div className="mb-8 flex justify-between items-center">
+      >
+        <h1 className="text-xl small mb-5">Reviewer Management</h1>
+      </Navber>
+      <div className="mb-8 flex justify-between space-y-3 flex-wrap items-center">
         <div className="flex items-center">
           <h1 className="mr-2">Select Reviewer:</h1>
           <RadioToggle
@@ -168,7 +170,7 @@ export default function ReviewerManagement() {
         </div>
       </div>
       <div>
-        <CustomTable headers={headers}>
+      <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
           ) : item.length > 0 ? (
@@ -210,6 +212,7 @@ export default function ReviewerManagement() {
             />
           )}
         </CustomTable>
+     
         <Pagination
           onClick={(v: any) => setIsPage(v)}
           {...dummyJson.meta}

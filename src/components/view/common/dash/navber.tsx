@@ -10,9 +10,14 @@ import { usePathname } from "next/navigation";
 interface navberProps {
   props: any;
   isShow?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function Navber({ props, isShow = true }: navberProps) {
+export default function Navber({
+  props,
+  isShow = true,
+  children,
+}: navberProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { sidebarOpen, setSidebarOpen } = useSidebarReviewer();
@@ -32,8 +37,8 @@ export default function Navber({ props, isShow = true }: navberProps) {
   return (
     <div
       ref={navRef}
-      className="flex space-x-3 sticky top-0 lg:space-x-0  z-20 items-center justify-between py-6"
     >
+      <div className="flex space-x-3  lg:space-x-0  z-20 items-center justify-between py-2 lg:py-6">
       <h1
         onClick={() => handleSidebar()}
         className="cursor-pointer block lg:hidden"
@@ -46,7 +51,6 @@ export default function Navber({ props, isShow = true }: navberProps) {
           <Link href={"/reviewer/notification"}>
             <FavIcon name="bell" />
           </Link>
-          {/* src={pathname.includes("/admin") ? "/bg2.svg" : "/bg1.svg"} */}
           <Link
             href={
               pathname.includes("/admin")
@@ -63,17 +67,8 @@ export default function Navber({ props, isShow = true }: navberProps) {
           </Link>
         </div>
       )}
-
-      <style jsx>{`
-        .nav-sticky {
-          position: sticky;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 50;
-          background-color:#00060c;
-        }
-      `}</style>
+      </div>
+      {children}
     </div>
   );
 }

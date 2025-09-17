@@ -20,7 +20,7 @@ function RadioToggle<T extends string | number>({
     <RadioGroup
       value={String(value)}
       onValueChange={(val) => onValueChange(val as T)}
-      className={cn(`flex items-center space-x-4`, className)}
+      className={cn(`flex flex-wrap items-center space-x-4`, className)}
     >
       {options.map((option) => (
         <div key={String(option.value)} className="flex items-center gap-3">

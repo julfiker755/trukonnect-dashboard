@@ -106,14 +106,13 @@ export default function TaskOrder() {
   const [isValue, setIsValue] = useState("all_task");
   const [isTab, setIsTab] = useState("task_management");
   const headers = ["Creator", "Task Type", "Quantity", "Status", "Action"];
+  const headers2= ["Creator", "Task Type", "Quantity", "Action"];
 
   const isLoading = false;
 
   useEffect(() => {
     if (isTab) {
-      setIsValue(
-        isTab === "task_management" ? "active_task" : "completed_order"
-      );
+      setIsValue(isTab === "task_management" ? "all_task" : "completed_order");
     }
   }, [isTab]);
   return (
@@ -130,7 +129,7 @@ export default function TaskOrder() {
         }
       />
       <div>
-        <div className="flex items-center justify-between my-5">
+        <div className="flex space-y-2 flex-wrap items-center justify-between my-5">
           <ul className="flex space-x-5">
             {[
               { label: "Task Management", value: "task_management" },
@@ -180,7 +179,7 @@ export default function TaskOrder() {
         ) : (
           <OrderManagement
             key="order_management"
-            headers={headers}
+            headers={headers2}
             item={item2}
             isLoading={isLoading}
             isValue={isValue}
@@ -219,8 +218,27 @@ const TaskManagement = ({ headers, isLoading, item, isValue }: any) => {
               <TableCell>{item.taskType}</TableCell>
               <TableCell>{item.quantity}</TableCell>
               <TableCell>
-                <Badge variant={item.status.toLowerCase()}>
+                {/* <Badge variant={item.status.toLowerCase()}>
                   {capitalize(item.status)}
+                </Badge> */}
+                <Badge
+                  variant={
+                    isValue == "all_task"
+                      ? item.status.toLowerCase()
+                      : isValue === "completed_task"
+                      ? "completed"
+                      : isValue == "active_task"
+                      ? "active"
+                      : "rejected"
+                  }
+                >
+                  {isValue == "all_task"
+                    ? capitalize(item.status)
+                    : isValue === "completed_task"
+                    ? "Completed"
+                    : isValue == "active_task"
+                    ? "Active"
+                    : "Rejected"}
                 </Badge>
               </TableCell>
               <TableCell>

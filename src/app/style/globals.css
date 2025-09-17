@@ -58,8 +58,8 @@
   --color-figma-red: #eb4335;
   --color-figma-chart: rgba(87, 87, 87, 0.2);
   --color-figma-green: #7eff76;
-  --color-figma-input:rgba(87, 87, 87, 0.20);
-  --color-figma-card:rgba(87, 87, 87, 0.10)
+  --color-figma-input: rgba(87, 87, 87, 0.2);
+  --color-figma-card: rgba(87, 87, 87, 0.1);
 }
 
 @font-face {
@@ -71,7 +71,7 @@
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover:#00060c;
+  --popover: #00060c;
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
@@ -147,6 +147,14 @@
   }
 }
 
+.small {
+  @apply block md:hidden;
+}
+
+.big {
+  @apply hidden md:block;
+}
+
 .modal-shadow1 {
   box-shadow: 0 4px 4px 0 rgba(224, 231, 255, 0.25),
     0 -4px 4px 0 rgba(224, 231, 255, 0.25),
@@ -161,15 +169,13 @@
     -2px 0 4px 0 rgba(255, 228, 204, 0.25);
 }
 
-
-
 /* ql-toolbar styels */
 .ql-toolbar {
   border-top: none !important;
   border-left: none !important;
   border-right: none !important;
-  border-bottom: 1px solid rgba(87, 87, 87, 0.20) !important;
-  background: rgba(87, 87, 87, 0.20) !important;
+  border-bottom: 1px solid rgba(87, 87, 87, 0.2) !important;
+  background: rgba(87, 87, 87, 0.2) !important;
   padding: 12px 16px !important;
   border-radius: 10px !important;
 }
@@ -185,7 +191,6 @@
 .ql-toolbar .ql-picker {
   color: white !important; /* for text buttons/dropdowns */
 }
-
 
 .ql-container {
   border: none !important;
@@ -208,7 +213,7 @@
 
 .ql-snow .ql-tooltip {
   background: #1e1d1d !important;
-  border: 1px solid rgba(87, 87, 87, 0.10)!important;
+  border: 1px solid rgba(87, 87, 87, 0.1) !important;
   border-radius: 8px !important;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
   color: white !important;
@@ -216,8 +221,22 @@
 
 .ql-snow .ql-picker-options {
   background: #1e1d1d !important;
-  border: 1px solid rgba(87, 87, 87, 0.10) !important;
+  border: 1px solid rgba(87, 87, 87, 0.1) !important;
   border-radius: 8px !important;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
   color: white !important;
+}
+
+
+
+/* media query added */
+@media only screen and (min-width: 1000px) {
+  .nav-sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: #00060c;
+  }
 }

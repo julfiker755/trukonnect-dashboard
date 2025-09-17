@@ -41,7 +41,7 @@ export default function ReviewerHome() {
       <Navber
         props={
           <>
-            <h1 className="text-xl">Dashboard</h1>
+            <h1 className="text-xl hidden md:block">Dashboard</h1>
           </>
         }
       />
