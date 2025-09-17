@@ -110,7 +110,7 @@ export default function Support() {
       <Navber
         props={
           <>
-            <h1 className="text-xl">Account Verification</h1>
+            <h1 className="text-xl">Support</h1>
             <SearchBox
               placeholder="Search by user name"
               onSearch={(text: any) => console.log(text)}

@@ -21,6 +21,7 @@ import { ImgBox } from "@/components/reuseable/Img-box";
 import { PlaceholderImg } from "@/lib";
 import { useModalState } from "@/hooks/useModalState";
 import { ImageGallery } from "@/components/reuseable/image-gallery";
+import CopyBox from "@/components/reuseable/copy-box";
 
 const item = [
   { performer: "Abir", taskType: "Instagram Follows" },
@@ -185,10 +186,7 @@ export default function PerformanceReview() {
             </li>
             <li className="flex justify-between items-center">
               <span>Link</span>
-              <span className="border-2 flex justify-between items-center border-[#575757]/20 rounded-md px-2 py-[2px]">
-                <span> https://hdurbakjdfb..</span>
-                <Files className="text-[#575757]/40 cursor-pointer ml-3 size-5" />
-              </span>
+              <CopyBox value=" https://hdurbakjdfb.com" />
             </li>
             <li>
               <ImageGallery images={images}>
