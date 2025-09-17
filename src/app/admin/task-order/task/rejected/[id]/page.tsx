@@ -82,42 +82,58 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
                 </span>
               </li>
               <li className="flex justify-between items-center">
+                <span>Total Cost</span>
+                <span className="flex items-center">
+                  <FavIcon className="size-5" name="cost" />
+                  <span className="ml-1 text-figma-primary">5896.00</span>
+                </span>
+              </li>
+              <li className="flex justify-between items-center">
                 <span>Link</span>
                 <CopyBox value=" https://hdurbakjdfb.com" />
               </li>
             </ul>
           </div>
         </div>
-        <div className="bg-figma-chart p-6 h-fit rounded-xl">
-          <h1 className="text-lg mb-4">Reviewed By</h1>
-          <div className="space-y-3">
-            <div className="mb-10">
-              <ImgBox
-                className="size-30 rounded-xl mx-auto"
-                src={PlaceholderImg()}
-                alt="img"
-              ></ImgBox>
-            </div>
+        <div>
+          <div className="bg-figma-chart p-6 h-fit rounded-xl">
+            <h1 className="text-lg mb-4">Reviewed By</h1>
+            <div className="space-y-3">
+              <div className="mb-10">
+                <ImgBox
+                  className="size-30 rounded-xl mx-auto"
+                  src={PlaceholderImg()}
+                  alt="img"
+                ></ImgBox>
+              </div>
 
-            <div className="flex justify-between items-center">
-              <span className="text-figma-gray">Full name</span>
-              <span className="text-white">Mr. Daniel</span>
-            </div>
+              <div className="flex justify-between items-center">
+                <span className="text-figma-gray">Full name</span>
+                <span className="text-white">Mr. Daniel</span>
+              </div>
 
-            <div className="flex justify-between items-center">
-              <span className="text-figma-gray">Email</span>
-              <span className="text-white">daniel234@gmail.com</span>
-            </div>
+              <div className="flex justify-between items-center">
+                <span className="text-figma-gray">Email</span>
+                <span className="text-white">daniel234@gmail.com</span>
+              </div>
 
-            <div className="flex justify-between items-center">
-              <span className="text-figma-gray">Phone number</span>
-              <span className="text-white">+334 254845665</span>
-            </div>
+              <div className="flex justify-between items-center">
+                <span className="text-figma-gray">Phone number</span>
+                <span className="text-white">+334 254845665</span>
+              </div>
 
-            <div className="flex justify-between items-center">
-              <span className="text-figma-gray">Region</span>
-              <span className="text-white">Ghana</span>
+              <div className="flex justify-between items-center">
+                <span className="text-figma-gray">Region</span>
+                <span className="text-white">Ghana</span>
+              </div>
             </div>
+          </div>
+          {/* Issue condition apply for the web */}
+          <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
+            <h1 className="text-lg mb-2">Issue</h1>
+            <p className="text-figma-gray">
+              I can not find the link which given by task creator.
+            </p>
           </div>
         </div>
       </div>

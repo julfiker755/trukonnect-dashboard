@@ -82,6 +82,13 @@ export default async function TaskDetails({ params }: IdParams) {
                 </span>
               </li>
               <li className="flex justify-between items-center">
+                <span>Total Cost</span>
+                <span className="flex items-center">
+                  <FavIcon className="size-5" name="cost"/>
+                  <span className="ml-1 text-figma-primary">5896.00</span>
+                </span>
+              </li>
+              <li className="flex justify-between items-center">
                 <span>Link</span>
                 <CopyBox value=" https://hdurbakjdfb.com" />
               </li>
