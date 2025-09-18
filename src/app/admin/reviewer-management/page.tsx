@@ -143,7 +143,7 @@ export default function ReviewerManagement() {
       >
         <h1 className="text-xl small mb-5">Reviewer Management</h1>
       </Navber>
-      <div className="mb-8 flex justify-between space-y-3 flex-wrap items-center">
+      <div className="mb-5 flex justify-between items-center space-y-3 lg:space-y-0 flex-wrap">
         <div className="flex items-center">
           <h1 className="mr-2">Select Reviewer:</h1>
           <RadioToggle
@@ -156,6 +156,10 @@ export default function ReviewerManagement() {
           />
         </div>
         <div className="flex items-center space-x-5">
+          <div className="flex items-center">
+            <span className="text-lg mr-2">Date: </span>
+            <SingleCalendar onChange={(date: any) => console.log(date)} />
+          </div>
           <Button
             onClick={() => setIsStore(!isStore)}
             variant="primary"
@@ -163,14 +167,10 @@ export default function ReviewerManagement() {
           >
             Add Reviewer
           </Button>
-          <div className="flex items-center">
-            <span className="text-lg mr-2">Date: </span>
-            <SingleCalendar onChange={(date: any) => console.log(date)} />
-          </div>
         </div>
       </div>
       <div>
-      <CustomTable headers={headers}>
+        <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
           ) : item.length > 0 ? (
@@ -212,7 +212,7 @@ export default function ReviewerManagement() {
             />
           )}
         </CustomTable>
-     
+
         <Pagination
           onClick={(v: any) => setIsPage(v)}
           {...dummyJson.meta}

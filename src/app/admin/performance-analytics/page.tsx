@@ -74,21 +74,21 @@ export default function SupportDisputes() {
                 width: "1em",
                 height: "1em",
               }}
-              title={"item.region"}
+              title={"Ghana"}
             />
             <span className="ml-1"> Ghana</span>
           </span>
           <span className="border p-1 btn-shadow rounded-md">
             <ReactCountryFlag
-              countryCode={"NI"}
+              countryCode={"NG"}
               svg
               style={{
                 width: "1em",
                 height: "1em",
               }}
-              title={"item.region"}
+              title={"Nigeria"}
             />
-            <span className="ml-1"> Ghana</span>
+            <span className="ml-1">Nigeria</span>
           </span>
         </li>
       </ul>

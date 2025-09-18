@@ -144,7 +144,7 @@ export default function SystemSettings() {
               <div>
                 <span>
                   <ReactCountryFlag
-                    countryCode={"NI"}
+                    countryCode={"NG"}
                     svg
                     style={{
                       width: "1em",

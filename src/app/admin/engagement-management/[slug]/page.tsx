@@ -121,28 +121,28 @@ export default function PlatformSingle() {
         <li className="space-x-4">
           <span className="text-lg">Selected Currency:</span>
           <span className="border p-1 btn-shadow rounded-md">
-            <ReactCountryFlag
+          <ReactCountryFlag
               countryCode={"GH"}
               svg
               style={{
                 width: "1em",
                 height: "1em",
               }}
-              title={"item.region"}
+              title={"Ghana"}
             />
             <span className="ml-1"> Ghana</span>
           </span>
           <span className="border p-1 btn-shadow rounded-md">
-            <ReactCountryFlag
-              countryCode={"NI"}
+          <ReactCountryFlag
+              countryCode={"NG"}
               svg
               style={{
                 width: "1em",
                 height: "1em",
               }}
-              title={"item.region"}
+              title={"Nigeria"}
             />
-            <span className="ml-1"> Ghana</span>
+            <span className="ml-1">Nigeria</span>
           </span>
         </li>
       </ul>
