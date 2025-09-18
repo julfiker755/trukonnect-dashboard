@@ -6,6 +6,8 @@ import FavIcon from "@/icon/favIcon";
 import NavItem from "./navitem";
 import Avatars from "@/components/reuseable/avater";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -41,12 +43,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       >
         <div>
           <div className="flex justify-center h-[60px]">
-            <ul className="flex justify-center space-x-2 items-center">
-              <li>
-                <FavIcon className="w-[72px] h-[60px]" name="logo" />
-              </li>
-              <li className="font-semibold text-2xl">Trukonnect</li>
-            </ul>
+            <Link href={links && links[0]?.to || ""}>
+              <ul className="flex justify-center space-x-2 items-center">
+                <li>
+                  <FavIcon className="w-[72px] h-[60px]" name="logo" />
+                </li>
+                <li className="font-semibold text-2xl">Trukonnect</li>
+              </ul>
+            </Link>
           </div>
           <div className="h-[calc(100vh-140px)] mt-6 flex flex-col justify-between overflow-y-scroll scrollbar-hide">
             <nav>
