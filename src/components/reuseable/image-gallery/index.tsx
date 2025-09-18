@@ -150,7 +150,7 @@ export function ImageGallery({
           <div className="flex items-center justify-center h-[calc(100vh-80px)]">
             <div
               className={cn(
-                "relative overflow-hidden border border-gray-500/50 bg-figma-gray/2 rounded-lg max-w-4xl w-full h-[70vh]",
+                "relative overflow-hidden border border-gray-500/50 bg-figma-gray/2 rounded-lg w-fit lg:max-w-4xl  lg:h-[70vh]",
                 aspectRatioClasses[aspectRatio]
               )}
               onMouseMove={handleMouseMove}
