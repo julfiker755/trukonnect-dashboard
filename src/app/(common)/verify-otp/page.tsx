@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui";
 import FavIcon from "@/icon/favIcon";
 import React, {
@@ -12,6 +12,7 @@ import React, {
 } from "react";
 
 function ForgotPasswordChild() {
+  const router=useRouter()
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
@@ -61,7 +62,7 @@ function ForgotPasswordChild() {
       } else {
         const value = { email, otp: code.join("") };
         console.log(value);
-
+         router.push("/new-password?email=julfiker755.bd@gmail.com")
         setError("");
       }
     } catch (err: any) {

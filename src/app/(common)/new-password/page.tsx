@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function NewPassword() {
+  const router=useRouter()
   const from = useForm({
     // resolver: zodResolver(authSchema),
     defaultValues: {
@@ -17,6 +19,7 @@ export default function NewPassword() {
 
   const handleSubmit = async (values: FieldValues) => {
     console.log(values);
+    router.push("/")
   };
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center relative z-10">
