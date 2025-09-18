@@ -40,13 +40,7 @@ export default function SystemSettings() {
   };
   return (
     <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl">System Settings</h1>
-          </>
-        }
-      />
+      <Navber title="System Settings" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-card p-4 rounded-lg pb-6">

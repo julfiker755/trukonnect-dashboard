@@ -21,18 +21,17 @@ export default function TaskDetails() {
   const { openSucc } = useSuccessModal();
   const { id } = useParams();
   return (
-    <div>
+    <div className="mb-10">
       <Navber
-        props={
-          <>
-            <div className="flex items-center space-x-2">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="relative -ml-3">Back</h1>
-            </div>
-          </>
+        className="py-3"
+        backbtn={
+          <div className="items-center hidden lg:flex">
+            <BackBtn iconStyle="text-figma-primary" />
+            <h1 className="text-lg relative -ml-2 mb-[2px]">Back</h1>
+          </div>
         }
       />
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
           <h1 className="text-xl mb-4">Task Details</h1>
           <div className="space-y-4">
@@ -94,7 +93,7 @@ export default function TaskDetails() {
               </li>
             </ul>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-10 mt-5">
             <Button onClick={() => setIsReject(true)} variant="secondary">
               Reject
             </Button>
@@ -114,7 +113,9 @@ export default function TaskDetails() {
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <div>
             <h1 className="text-xl">Issue</h1>
-             <p className="text-figma-gray">I can not find the link which given by task creator.</p>
+            <p className="text-figma-gray">
+              I can not find the link which given by task creator.
+            </p>
           </div>
           <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">

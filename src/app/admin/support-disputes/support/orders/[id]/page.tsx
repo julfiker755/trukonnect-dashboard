@@ -27,19 +27,18 @@ export default function TaskDetails() {
   });
   const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
   return (
-    <div>
+    <div className="mb-10">
       <Navber
-        props={
-          <>
-            <div className="flex items-center space-x-2">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="relative -ml-3">Back</h1>
-            </div>
-          </>
+        className="py-3"
+        backbtn={
+          <div className="items-center hidden lg:flex">
+            <BackBtn iconStyle="text-figma-primary" />
+            <h1 className="text-lg relative -ml-2 mb-[2px]">Back</h1>
+          </div>
         }
       />
 
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
           <h1 className="text-lg mb-4">Task Details</h1>
           <div className="space-y-5">
@@ -102,7 +101,7 @@ export default function TaskDetails() {
               <li className="mt-3">
                 <h1 className="text-lg font-medium mb-3">Proven File</h1>
                 <ImageGallery images={images}>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap gap-5 items-center justify-between">
                     <ImgBox
                       src={"/photo.jpg"}
                       alt="photo2"
@@ -137,7 +136,7 @@ export default function TaskDetails() {
                 </ImageGallery>
               </li>
             </ul>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-10 mt-5">
               <Button
                 onClick={() => updateState("isReject", true)}
                 variant="secondary"
@@ -215,7 +214,7 @@ export default function TaskDetails() {
           </Button>
         </div>
       </Modal2>
-        {/* ========User social======== */}
+      {/* ========User social======== */}
       <Modal2
         open={state.isSocial}
         setIsOpen={(v) => updateState("isSocial", v)}

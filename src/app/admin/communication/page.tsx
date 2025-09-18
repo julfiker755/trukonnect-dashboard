@@ -24,13 +24,7 @@ export default function Communication() {
   };
   return (
     <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl">Communication</h1>
-          </>
-        }
-      />
+      <Navber title="Communication" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-card p-4 rounded-lg pb-6">
           <h1 className="text-xl font-medium mb-4">Send Bulk Email</h1>
@@ -65,7 +59,7 @@ export default function Communication() {
                 className="resize-none bg-figma-input min-h-[100px] border-none"
               />
             </div>
-             <Button variant="primary" className="w-full">
+            <Button variant="primary" className="w-full">
               {" "}
               Send
             </Button>

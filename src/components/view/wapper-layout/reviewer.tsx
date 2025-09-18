@@ -32,7 +32,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="min-h-screen flex relative">
+      <div className="min-h-screen lg:flex relative">
         {/* Full-screen background image  className="min-h-screen flex relative"*/}
         <div className="fixed inset-0">
           <Image

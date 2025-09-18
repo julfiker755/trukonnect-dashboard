@@ -9,7 +9,7 @@ import SearchBox from "@/components/view/common/search-box";
 import React, { useState } from "react";
 
 export default function MediaControl() {
-   const { confirm } = useConfirmation();
+  const { confirm } = useConfirmation();
   const [isStore, setIsStore] = useState(false);
 
   const handleDelete = async (id: string) => {
@@ -24,18 +24,16 @@ export default function MediaControl() {
   };
   return (
     <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl">Content & Media Control</h1>
-          </>
-        }
-      />
+      <Navber title="Content & Media Control" />
       <div className="bg-figma-card p-6 rounded-xl">
         <ul className="flex justify-between items-center mb-8">
           <li className="text-2xl font-medium">Promo Video</li>
           <li>
-            <Button onClick={() => handleDelete("123")} variant="primary" className="!px-10 rounded-md">
+            <Button
+              onClick={() => handleDelete("123")}
+              variant="primary"
+              className="!px-10 rounded-md"
+            >
               Delete
             </Button>
           </li>
@@ -62,9 +60,11 @@ export default function MediaControl() {
             setIsStore(false);
           }}
         />
-        <Input className="bg-figma-input h-10 border-none" placeholder="Video URL" />
+        <Input
+          className="bg-figma-input h-10 border-none"
+          placeholder="Video URL"
+        />
         <div className="space-y-2 mt-10">
-          
           <CloseBtn
             onClose={() => {
               setIsStore(false);

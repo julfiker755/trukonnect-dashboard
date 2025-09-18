@@ -6,17 +6,22 @@ import React, { useEffect, useRef } from "react";
 import { useSidebarReviewer } from "../../wapper-layout/reviewer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib";
 
 interface navberProps {
-  props: any;
+  className?: string;
+  props?: any;
   isShow?: boolean;
-  children?: React.ReactNode;
+  title?: string;
+  backbtn?: React.ReactNode;
 }
 
 export default function Navber({
   props,
   isShow = true,
-  children,
+  title,
+  backbtn,
+  className,
 }: navberProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -35,40 +40,48 @@ export default function Navber({
   }, []);
 
   return (
-    <div
-      ref={navRef}
-    >
-      <div className="flex space-x-3  lg:space-x-0  z-20 items-center justify-between py-2 lg:py-6">
-      <h1
-        onClick={() => handleSidebar()}
-        className="cursor-pointer block lg:hidden"
+    <div ref={navRef}>
+      <div
+        className={cn(
+          `flex space-x-3  lg:space-x-0  z-20 items-center justify-between pt-2 lg:py-6`,
+          className
+        )}
       >
-        <Menu className="text-figma-gray" />
-      </h1>
-      {props}
-      {isShow && (
-        <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
-          <Link href={"/reviewer/notification"}>
-            <FavIcon name="bell" />
-          </Link>
-          <Link
-            href={
-              pathname.includes("/admin")
-                ? "/admin/profile"
-                : "/reviewer/profile"
-            }
-          >
-            <Avatars
-              src="/user.png"
-              fallback="P"
-              className="2xl:size-10  cursor-pointer"
-              alt="img"
-            />
-          </Link>
-        </div>
-      )}
+        <h1
+          onClick={() => handleSidebar()}
+          className="cursor-pointer block lg:hidden"
+        >
+          <Menu className="text-figma-gray" />
+        </h1>
+        {backbtn && backbtn}
+        {title && <h1 className="text-xl hidden md:block">{title}</h1>}
+        <div className="hidden lg:block">{props && props}</div>
+        {isShow && (
+          <div className="flex space-x-2 lg:space-x-0">
+            <div className="block lg:hidden">{props && props}</div>
+            <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
+              <Link href={"/reviewer/notification"}>
+                <FavIcon name="bell" />
+              </Link>
+              <Link
+                href={
+                  pathname.includes("/admin")
+                    ? "/admin/profile"
+                    : "/reviewer/profile"
+                }
+              >
+                <Avatars
+                  src="/user.png"
+                  fallback="P"
+                  className="2xl:size-10  cursor-pointer"
+                  alt="img"
+                />
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
-      {children}
+      {title && <h1 className="text-xl block md:hidden mt-1 mb-4">{title}</h1>}
     </div>
   );
 }

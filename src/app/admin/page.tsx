@@ -1,7 +1,6 @@
 "use client";
 import assets from "@/assets";
 import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
 import RevenueChart from "@/components/view/reviewer/chart/reevenue-chart";
 import Image from "next/image";
 import React from "react";
@@ -30,13 +29,7 @@ const overviewItem = [
 export default function ReviewerHome() {
   return (
     <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl">Dashboard</h1>
-          </>
-        }
-      />
+      <Navber title="Dashboard" />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {overviewItem?.map((item, index) => (
           <div

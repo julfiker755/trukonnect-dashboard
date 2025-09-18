@@ -108,11 +108,11 @@ export default function Support() {
   return (
     <div>
       <Navber
+        title="Support"
         props={
           <>
-            <h1 className="text-xl">Support</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>

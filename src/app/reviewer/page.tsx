@@ -38,13 +38,7 @@ const overviewItem = [
 export default function ReviewerHome() {
   return (
     <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl hidden md:block">Dashboard</h1>
-          </>
-        }
-      />
+      <Navber title="Dashboard" />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {overviewItem?.map((item, index) => (
           <div

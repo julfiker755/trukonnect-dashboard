@@ -68,7 +68,7 @@ export default function RevenueChart() {
   return (
     <div className="space-y-6 bg-figma-chart rounded-xl p-4 mt-10">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
         <div>
           <p className="text-slate-400 text-sm font-medium">Static analysis</p>
           <h2 className="text-white text-2xl font-semibold">Revenues</h2>
@@ -90,7 +90,7 @@ export default function RevenueChart() {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            // margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           >
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="1" y2="0">

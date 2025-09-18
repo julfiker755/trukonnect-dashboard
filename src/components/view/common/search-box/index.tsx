@@ -24,7 +24,7 @@ export default function SearchBox({
   return (
     <div
       className={cn(
-        `relative w-12 h-12 cursor-pointer md:cursor-default grid place-items-center md:h-full md:w-full max-w-2xl rounded-full bg-figma-blacks py-1`,
+        `relative w-12 h-12 cursor-pointer md:cursor-default grid place-items-center md:h-full md:w-full lg:min-w-2xl rounded-full bg-figma-blacks py-1`,
         className
       )}
     >

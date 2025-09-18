@@ -39,13 +39,12 @@ export default function Profile() {
     <div>
       <Navber
         isShow={false}
-        props={
-          <>
-            <h1 className="text-xl flex items-center">
-              <BackBtn />
-              My Profile
-            </h1>
-          </>
+        className="py-3"
+        backbtn={
+          <div className="items-center flex">
+            <BackBtn className="hidden lg:grid" iconStyle="text-figma-primary" />
+            <h1 className="text-xl relative -ml-2"> My Profile</h1>
+          </div>
         }
       />
       <ul className="flex flex-wrap space-x-5">
@@ -68,9 +67,7 @@ export default function Profile() {
           </li>
         ))}
       </ul>
-      <div className="mt-10 mx-auto rounded-md">
-        {renderContent()}
-      </div>
+      <div className="mt-10 mx-auto rounded-md">{renderContent()}</div>
     </div>
   );
 }
@@ -121,118 +118,53 @@ const PersonalInformation = () => {
   };
   return (
     <div className="bg-figma-card">
-       <div className="py-5 pb-10 max-w-xl mx-auto">
-      <Form from={from} onSubmit={handleSubmit}>
-        <div className="space-y-6 pt-5">
-          <div className="relative mx-auto size-28 rounded-full">
-            <Image
-              src={avatar.preview || PlaceholderImg() || "/blur.png"}
-              alt={"title"}
-              fill
-              className={"object-cover rounded-full"}
-            />
-            <ImgUpload
-              className="grid place-items-center shadow-md  rounded-full absolute bottom-[6px] -right-1 cursor-pointer"
-              onFileSelect={(file: File) => {
-                setAvatar({
-                  ...avatar,
-                  file,
-                  preview: URL.createObjectURL(file),
-                });
-              }}
-            >
-              <div className="size-8 grid place-items-center bg-white  rounded-full">
-                <SquarePen className="text-figma-primary size-5" />
-              </div>
-            </ImgUpload>
-          </div>
-          <FromInput
-            label="Your Full Name"
-            name="name"
-            placeholder="Enter Your Name"
-            className="h-10"
-            icon={<FavIcon color="#A4A4A4" name="user" />}
-          />
-          <FromInput
-            label="Contact Number"
-            name="contact_number"
-            placeholder="Write Your Contact Number"
-            className="h-10"
-            icon={<FavIcon color="#A4A4A4" className="size-4" name="phone" />}
-            type="number"
-          />
-          <div className="grid grid-cols-2 gap-5">
-            <Button
-              variant="secondary"
-              className="text-figma-red font-semibold"
-              onClick={() => setIsUpdatePassword(true)}
-            >
-              Update Password
-            </Button>
-            <Button className="w-full" variant="primary">
-              Save Changes
-            </Button>
-          </div>
-        </div>
-      </Form>
-      {/* ============ update password modal ============ */}
-      <Modal2 open={isUpdatePassword} setIsOpen={setIsUpdatePassword}>
-        <ul className="flex items-center justify-between">
-          <li className="opacity-0">0</li>
-          <li className="text-2xl font-medium">Update Password</li>
-          <li>
-            <CloseIcon
-              className="static"
-              onClose={() => {
-                from2.reset();
-                setIsUpdatePassword(false);
-              }}
-            />
-          </li>
-        </ul>
-        <Form from={from2} onSubmit={handlePasswordSubmit}>
+      <div className="py-5 pb-10 max-w-xl mx-auto">
+        <Form from={from} onSubmit={handleSubmit}>
           <div className="space-y-6 pt-5">
+            <div className="relative mx-auto size-28 rounded-full">
+              <Image
+                src={avatar.preview || PlaceholderImg() || "/blur.png"}
+                alt={"title"}
+                fill
+                className={"object-cover rounded-full"}
+              />
+              <ImgUpload
+                className="grid place-items-center shadow-md  rounded-full absolute bottom-[6px] -right-1 cursor-pointer"
+                onFileSelect={(file: File) => {
+                  setAvatar({
+                    ...avatar,
+                    file,
+                    preview: URL.createObjectURL(file),
+                  });
+                }}
+              >
+                <div className="size-8 grid place-items-center bg-white  rounded-full">
+                  <SquarePen className="text-figma-primary size-5" />
+                </div>
+              </ImgUpload>
+            </div>
             <FromInput
-              label="Current Password"
-              name="current_password"
-              placeholder="***********"
+              label="Your Full Name"
+              name="name"
+              placeholder="Enter Your Name"
               className="h-10"
-              icon={
-                <FavIcon name="password" className="size-5" color="#777777" />
-              }
-              eye={true}
+              icon={<FavIcon color="#A4A4A4" name="user" />}
             />
             <FromInput
-              label="New Password"
-              name="new_password"
-              placeholder="***********"
+              label="Contact Number"
+              name="contact_number"
+              placeholder="Write Your Contact Number"
               className="h-10"
-              icon={
-                <FavIcon name="password" className="size-5" color="#777777" />
-              }
-              eye={true}
+              icon={<FavIcon color="#A4A4A4" className="size-4" name="phone" />}
+              type="number"
             />
-            <FromInput
-              label="Retype New Password"
-              name="c_password"
-              placeholder="***********"
-              className="h-10"
-              icon={
-                <FavIcon name="password" className="size-5" color="#777777" />
-              }
-              eye={true}
-            />
-            <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-5">
               <Button
                 variant="secondary"
-                className="w-full"
-                onClick={() => {
-                  from2.reset();
-                  setIsUpdatePassword(false);
-                }}
-                type="button"
+                className="text-figma-red font-semibold"
+                onClick={() => setIsUpdatePassword(true)}
               >
-                Cancel
+                Update Password
               </Button>
               <Button className="w-full" variant="primary">
                 Save Changes
@@ -240,8 +172,73 @@ const PersonalInformation = () => {
             </div>
           </div>
         </Form>
-      </Modal2>
-    </div>
+        {/* ============ update password modal ============ */}
+        <Modal2 open={isUpdatePassword} setIsOpen={setIsUpdatePassword}>
+          <ul className="flex items-center justify-between">
+            <li className="opacity-0">0</li>
+            <li className="text-2xl font-medium">Update Password</li>
+            <li>
+              <CloseIcon
+                className="static"
+                onClose={() => {
+                  from2.reset();
+                  setIsUpdatePassword(false);
+                }}
+              />
+            </li>
+          </ul>
+          <Form from={from2} onSubmit={handlePasswordSubmit}>
+            <div className="space-y-6 pt-5">
+              <FromInput
+                label="Current Password"
+                name="current_password"
+                placeholder="***********"
+                className="h-10"
+                icon={
+                  <FavIcon name="password" className="size-5" color="#777777" />
+                }
+                eye={true}
+              />
+              <FromInput
+                label="New Password"
+                name="new_password"
+                placeholder="***********"
+                className="h-10"
+                icon={
+                  <FavIcon name="password" className="size-5" color="#777777" />
+                }
+                eye={true}
+              />
+              <FromInput
+                label="Retype New Password"
+                name="c_password"
+                placeholder="***********"
+                className="h-10"
+                icon={
+                  <FavIcon name="password" className="size-5" color="#777777" />
+                }
+                eye={true}
+              />
+              <div className="space-y-2">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={() => {
+                    from2.reset();
+                    setIsUpdatePassword(false);
+                  }}
+                  type="button"
+                >
+                  Cancel
+                </Button>
+                <Button className="w-full" variant="primary">
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          </Form>
+        </Modal2>
+      </div>
     </div>
   );
 };
@@ -349,15 +346,15 @@ const AdminList = () => {
             {adminData.map((item, index) => (
               <div key={index} className="table-row transition-colors">
                 <div className="table-cell px-6 py-4 text-sm">
-                   <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <Avatars
-                    src={""}
-                    fallback={item.name}
-                    alt={item.name}
-                    fallbackStyle="avatar"
-                  />
-                  <span>{item.name}</span>
-                    </div>
+                      src={""}
+                      fallback={item.name}
+                      alt={item.name}
+                      fallbackStyle="avatar"
+                    />
+                    <span>{item.name}</span>
+                  </div>
                 </div>
                 <div className="table-cell px-6 py-4 text-sm text-center">
                   {item.email}

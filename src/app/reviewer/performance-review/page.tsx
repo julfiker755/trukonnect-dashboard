@@ -53,11 +53,11 @@ export default function PerformanceReview() {
   return (
     <div>
       <Navber
+        title="Performance Review"
         props={
           <>
-            <h1 className="text-xl">Performance Review</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>

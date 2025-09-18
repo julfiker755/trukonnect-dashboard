@@ -120,18 +120,18 @@ export default function SupportDisputes() {
   return (
     <div>
       <Navber
-        props={
-          <>
-            <h1 className="text-xl">Support & Disputes</h1>
-            <SearchBox
-              placeholder="Search by user name"
-              onSearch={(text: any) => console.log(text)}
-            />
-          </>
-        }
+       title="Support & Disputes"
+       props={
+         <>
+           <SearchBox
+             placeholder="Search hare"
+             onSearch={(text: any) => console.log(text)}
+           />
+         </>
+       }
       />
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-medium">Select Option</h1>
+      <div className="flex items-center flex-wrap justify-between mb-4">
+        <h1 className="text-lg">Select Option</h1>
         <RadioToggle
           value={isValue}
           onValueChange={(value) => setIsValue(value as any)}

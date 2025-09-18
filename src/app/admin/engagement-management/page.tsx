@@ -60,15 +60,9 @@ export default function Engagement() {
     setPlatform(intAva);
   };
   return (
-    <div>
-      <Navber
-        props={
-          <>
-            <h1 className="text-xl">Engagement Management</h1>
-          </>
-        }
-      />
-      <ul className="flex justify-between mt-10 mb-4">
+    <div className="mb-10">
+      <Navber title="Engagement Management" />
+      <ul className="flex flex-wrap space-y-2 lg:space-y-0 justify-center lg:justify-between mt-10 mb-4">
         <li>
           {" "}
           <h1 className="text-2xl font-medium">Available Platform</h1>

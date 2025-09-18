@@ -91,18 +91,18 @@ export default function FinancialControls() {
   return (
     <div>
       <Navber
+        title="Financial Controls"
         props={
           <>
-            <h1 className="text-xl">Financial Controls</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>
         }
       />
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-medium">Select Option</h1>
+      <div className="flex items-center flex-wrap justify-between mb-4">
+        <h1 className="text-lg font-medium">Select Option</h1>
         <RadioToggle
           value={isValue}
           onValueChange={(value) => setIsValue(value as any)}

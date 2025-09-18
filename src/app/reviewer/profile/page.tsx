@@ -62,16 +62,18 @@ export default function Profile() {
     // });
   };
   return (
-    <div>
+    <div className="mb-10">
       <Navber
         isShow={false}
-        props={
-          <>
-            <h1 className="text-xl flex items-center">
-              <BackBtn />
-              My Profile
-            </h1>
-          </>
+        className="py-3"
+        backbtn={
+          <div className="items-center flex">
+            <BackBtn
+              className="hidden lg:grid"
+              iconStyle="text-figma-primary"
+            />
+            <h1 className="text-xl relative -ml-2"> My Profile</h1>
+          </div>
         }
       />
       <div className="bg-[#5E5E5E]/20 p-5 rounded-xl mb-5 py-9">

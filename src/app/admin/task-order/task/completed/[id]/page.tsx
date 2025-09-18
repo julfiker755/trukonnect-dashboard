@@ -29,18 +29,19 @@ const overviewItem = [
 export default async function TaskDetails({ params }: IdParams) {
   const { id } = await params;
   return (
-    <div>
+    <div className="mb-10">
       <Navber
-        props={
-          <>
-            <div className="flex items-center space-x-2">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="relative -ml-3">Back</h1>
-            </div>
-          </>
-        }
+       className="py-4"
+       backbtn={
+         <div className="items-center hidden lg:flex">
+           <BackBtn
+             iconStyle="text-figma-primary"
+           />
+           <h1 className="text-xl  relative -ml-2">Back</h1>
+         </div>
+       }
       />
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
           <h1 className="text-lg mb-4">Task Details</h1>
           <div className="space-y-4">

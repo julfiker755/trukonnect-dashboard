@@ -50,11 +50,11 @@ export default function TaskReview() {
   return (
     <div>
       <Navber
+      title="Task Review"
         props={
           <>
-            <h1 className="text-xl">Task Review</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>

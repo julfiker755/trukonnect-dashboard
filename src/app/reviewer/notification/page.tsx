@@ -21,16 +21,15 @@ export default function Ntification() {
     <div>
       <Navber
         isShow={false}
-        props={
-          <>
-            <h1 className="text-xl flex items-center">
-              <BackBtn />
-              Notification
-            </h1>
-            <h1 className="text-figma-red underline cursor-pointer">
-              Read all
-            </h1>
-          </>
+        className="py-4"
+        backbtn={
+          <div className="flex items-center">
+            <BackBtn
+              className="hidden lg:grid"
+              iconStyle="text-figma-primary"
+            />
+            <h1 className="text-xl font-medium"> Notification</h1>
+          </div>
         }
       />
       <div>

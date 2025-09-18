@@ -1,38 +1,27 @@
 "use client";
 import { BackBtn } from "@/components/reuseable/back-btn";
 import Navber from "@/components/view/common/dash/navber";
-import FavIcon from "@/icon/favIcon";
-import { getSocial } from "@/icon/utils";
-import Image from "next/image";
 import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
-import calendar from "@/assets/calendar.svg";
 import { PlaceholderImg } from "@/lib";
 import { ImgBox } from "@/components/reuseable/Img-box";
 import { useParams } from "next/navigation";
-import CopyBox from "@/components/reuseable/copy-box";
 import { Button, Textarea } from "@/components/ui";
-import Modal2 from "@/components/reuseable/modal2";
-import { CloseBtn } from "@/components/reuseable/btn";
-import useSuccessModal from "@/components/context/sucess-box";
+
 
 export default function UsersDetails() {
-  const [isReject, setIsReject] = useState(false);
-  const { openSucc } = useSuccessModal();
   const { id } = useParams();
   return (
-    <div>
+    <div className="mb-10">
       <Navber
-        props={
-          <>
-            <div className="flex items-center space-x-2">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="relative -ml-3">Back</h1>
-            </div>
-          </>
-        }
+         className="py-3"
+         backbtn={
+           <div className="items-center hidden lg:flex">
+             <BackBtn iconStyle="text-figma-primary" />
+             <h1 className="text-lg relative -ml-2 mb-[2px]">Back</h1>
+           </div>
+         }
       />
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
           <h1 className="text-xl mb-4">Issue</h1>
           <div className="space-y-4">

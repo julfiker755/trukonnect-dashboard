@@ -106,7 +106,7 @@ export default function TaskOrder() {
   const [isValue, setIsValue] = useState("all_task");
   const [isTab, setIsTab] = useState("task_management");
   const headers = ["Creator", "Task Type", "Quantity", "Status", "Action"];
-  const headers2= ["Creator", "Task Type", "Quantity", "Action"];
+  const headers2 = ["Creator", "Task Type", "Quantity", "Action"];
 
   const isLoading = false;
 
@@ -118,11 +118,11 @@ export default function TaskOrder() {
   return (
     <div>
       <Navber
+        title="Task & Order Management"
         props={
           <>
-            <h1 className="text-xl">Task & Order Management</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>

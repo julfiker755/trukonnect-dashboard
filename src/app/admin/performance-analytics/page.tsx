@@ -49,13 +49,9 @@ const data = [
 
 export default function SupportDisputes() {
   return (
-    <div>
+    <div className="mb-10">
       <Navber
-        props={
-          <>
-            <h1 className="text-xl">Performance & Analytics</h1>
-          </>
-        }
+       title="Performance & Analytics"
       />
       <ul className="flex flex-wrap justify-between items-center mt-4">
         <li className="flex items-center space-x-3">
@@ -64,9 +60,10 @@ export default function SupportDisputes() {
             <SingleCalendar onChange={(date: any) => console.log(date)} />
           </div>
         </li>
-        <li className="space-x-4 mt-4 lg:mt-0">
+        <li className="space-x-4 flex items-center flex-wrap">
           <span className="text-lg">Selected Currency:</span>
-          <span className="border p-1 btn-shadow rounded-md">
+           <div className="space-x-4 mt-3 lg:mt-0">
+           <span className="border p-1 btn-shadow rounded-md">
             <ReactCountryFlag
               countryCode={"GH"}
               svg
@@ -90,6 +87,7 @@ export default function SupportDisputes() {
             />
             <span className="ml-1">Nigeria</span>
           </span>
+           </div>
         </li>
       </ul>
       <div>

@@ -131,9 +131,9 @@ export default function AccountVarificaton() {
   return (
     <div>
       <Navber
+        title="Account Verification"
         props={
           <>
-            <h1 className="text-xl w-fit">Account Verification</h1>
             <SearchBox
               placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}

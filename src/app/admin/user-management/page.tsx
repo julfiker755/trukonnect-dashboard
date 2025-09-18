@@ -116,18 +116,18 @@ export default function UserManagement() {
   return (
     <div>
       <Navber
+        title="User Management"
         props={
           <>
-            <h1 className="text-xl">User Management</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>
         }
       />
-      <div className="mb-3 flex justify-between">
-        <h1 className="font-semibold text-xl">Select Users</h1>
+      <div className="mb-3 flex flex-wrap justify-between">
+        <h1 className="font-medium lg:font-semibold  text-xl">Select Users</h1>
         <RadioToggle
           value={isValue}
           onValueChange={(value) => setIsValue(value as any)}

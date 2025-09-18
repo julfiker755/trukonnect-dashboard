@@ -16,7 +16,7 @@ export default function UserManagementAction({isShow=true}:any) {
 
   return (
     <div>
-      <ul className="flex justify-between items-center">
+      <ul className="flex flex-wrap  space-y-3 lg:space-y-0 justify-between items-center">
         <li className="text-xl font-medium">Basic Information</li>
         <li className="flex items-center space-x-2">
           {isShow && (

@@ -124,13 +124,15 @@ export default async function UserDetail({ params }: IdParams) {
     <div>
       <Navber
         isShow={false}
-        props={
-          <>
-            <div className="flex items-center">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="text-xl font-medium">Performer Details</h1>
-            </div>
-          </>
+        className="py-4"
+        backbtn={
+          <div className="flex items-center">
+            <BackBtn
+              className="hidden lg:grid"
+              iconStyle="text-figma-primary"
+            />
+            <h1 className="text-xl font-medium">Performer Details</h1>
+          </div>
         }
       />
       <div className="bg-figma-chart p-5 rounded-xl mb-5">

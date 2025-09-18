@@ -131,31 +131,30 @@ export default function ReviewerManagement() {
   return (
     <div>
       <Navber
+        title="Reviewer Management"
         props={
           <>
-            <h1 className="text-xl big">Reviewer Management</h1>
             <SearchBox
-              placeholder="Search by user name"
+              placeholder="Search hare"
               onSearch={(text: any) => console.log(text)}
             />
           </>
         }
-      >
-        <h1 className="text-xl small mb-5">Reviewer Management</h1>
-      </Navber>
+      />
       <div className="mb-5 flex justify-between items-center space-y-3 lg:space-y-0 flex-wrap">
-        <div className="flex items-center">
-          <h1 className="mr-2">Select Reviewer:</h1>
+        <div className="flex flex-wrap items-center">
+          <h1 className="lg:mr-2">Select Reviewer:</h1>
           <RadioToggle
             value={isValue}
             onValueChange={(value) => setIsValue(value as any)}
+            className="mt-1 lg:mt-0 "
             options={[
               { label: "Not Banned", value: "not_banned" },
               { label: "Banned Reviewer", value: "banned_reviewer" },
             ]}
           />
         </div>
-        <div className="flex items-center space-x-5">
+        <div className="flex items-center flex-wrap space-y-3 lg:space-y-0 space-x-5">
           <div className="flex items-center">
             <span className="text-lg mr-2">Date: </span>
             <SingleCalendar onChange={(date: any) => console.log(date)} />

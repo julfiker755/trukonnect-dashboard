@@ -107,21 +107,21 @@ export default function PlatformSingle() {
   return (
     <div>
       <Navber
-        props={
-          <>
-            <div className="flex items-center space-x-2">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="relative -ml-3">Back</h1>
-            </div>
-          </>
+        className="py-4"
+        backbtn={
+          <div className="items-center hidden lg:flex">
+            <BackBtn iconStyle="text-figma-primary" />
+            <h1 className="text-xl relative -ml-2">Back</h1>
+          </div>
         }
       />
-      <ul className="flex justify-between items-center">
+      <ul className="flex flex-wrap justify-between items-center">
         <li className="text-xl">Engagement types</li>
-        <li className="space-x-4">
+        <li className="space-x-4 flex items-center flex-wrap">
           <span className="text-lg">Selected Currency:</span>
-          <span className="border p-1 btn-shadow rounded-md">
-          <ReactCountryFlag
+           <div className="space-x-4 mt-3 lg:mt-0">
+           <span className="border p-1 btn-shadow rounded-md">
+            <ReactCountryFlag
               countryCode={"GH"}
               svg
               style={{
@@ -133,7 +133,7 @@ export default function PlatformSingle() {
             <span className="ml-1"> Ghana</span>
           </span>
           <span className="border p-1 btn-shadow rounded-md">
-          <ReactCountryFlag
+            <ReactCountryFlag
               countryCode={"NG"}
               svg
               style={{
@@ -144,6 +144,7 @@ export default function PlatformSingle() {
             />
             <span className="ml-1">Nigeria</span>
           </span>
+           </div>
         </li>
       </ul>
       <div className="bg-[#575757]/10 rounded-md mt-8">
@@ -201,7 +202,7 @@ export default function PlatformSingle() {
           <Button
             onClick={() => updateState("isAdd", true)}
             variant="primary"
-            className="w-1/2"
+            className="w-fit lg:w-1/2"
           >
             Add New Engagement Type
           </Button>

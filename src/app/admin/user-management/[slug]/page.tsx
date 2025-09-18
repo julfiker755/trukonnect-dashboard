@@ -97,13 +97,12 @@ export default async function UserDetail({ params }: SlugParams) {
     <div>
       <Navber
         isShow={false}
-        props={
-          <>
-            <div className="flex items-center">
-              <BackBtn iconStyle="text-figma-primary" />
-              <h1 className="text-xl font-medium">Referred Users</h1>
-            </div>
-          </>
+        className="py-4"
+        backbtn={
+          <div className="flex items-center">
+            <BackBtn className="hidden lg:grid" iconStyle="text-figma-primary" />
+            <h1 className="text-xl font-medium">Referred Users</h1>
+          </div>
         }
       />
       <div>
