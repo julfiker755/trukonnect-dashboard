@@ -57,7 +57,7 @@ export default function PerformanceReview() {
         props={
           <>
             <SearchBox
-              placeholder="Search hare"
+              placeholder="Search here"
               onSearch={(text: any) => console.log(text)}
             />
           </>

@@ -112,7 +112,7 @@ export default function Support() {
         props={
           <>
             <SearchBox
-              placeholder="Search hare"
+              placeholder="Search here"
               onSearch={(text: any) => console.log(text)}
             />
           </>

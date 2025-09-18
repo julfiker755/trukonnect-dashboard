@@ -106,7 +106,7 @@ export default function TaskOrder() {
   const [isValue, setIsValue] = useState("all_task");
   const [isTab, setIsTab] = useState("task_management");
   const headers = ["Creator", "Task Type", "Quantity", "Status", "Action"];
-  const headers2 = ["Creator", "Task Type", "Quantity", "Action"];
+  const headers2 = ["Creator", "Task Type", "Quantity", "Status", "Action"];
 
   const isLoading = false;
 
@@ -122,7 +122,7 @@ export default function TaskOrder() {
         props={
           <>
             <SearchBox
-              placeholder="Search hare"
+              placeholder="Search here"
               onSearch={(text: any) => console.log(text)}
             />
           </>
@@ -271,7 +271,7 @@ const TaskManagement = ({ headers, isLoading, item, isValue }: any) => {
 };
 
 // OrderManagement
-const OrderManagement = ({ headers, isLoading, item }: any) => {
+const OrderManagement = ({ headers, isLoading, item, isValue }: any) => {
   return (
     <div>
       <CustomTable headers={headers}>
@@ -300,6 +300,18 @@ const OrderManagement = ({ headers, isLoading, item }: any) => {
               <TableCell>{item.taskType}</TableCell>
               {/* Email */}
               <TableCell>{item.quantity}</TableCell>
+              <TableCell>
+                {/* <Badge variant={item.status.toLowerCase()}>
+                  {capitalize(item.status)}
+                </Badge> */}
+                <Badge
+                  variant={
+                    isValue == "completed_order" ? "completed" : "rejected"
+                  }
+                >
+                  {isValue == "completed_order" ? "Completed" : "Rejected"}
+                </Badge>
+              </TableCell>
               {/* Action Buttons */}
               <TableCell>
                 <Link

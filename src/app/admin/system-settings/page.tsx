@@ -24,6 +24,8 @@ export default function SystemSettings() {
       icon: null,
       country_name: "",
       dialing_code: "",
+      currency: "",
+      token: "",
     },
   });
 
@@ -97,6 +99,19 @@ export default function SystemSettings() {
                 placeholder="Write the dialing code"
                 className="h-10"
               />
+
+              <FromInput
+                label="Token"
+                name="token"
+                placeholder="Write the token"
+                className="h-10"
+              />
+              <FromInput
+                label="Currency"
+                name="currency"
+                placeholder="Write the currency"
+                className="h-10"
+              />
               <Button className="w-full" variant="primary">
                 Add
               </Button>
@@ -124,6 +139,8 @@ export default function SystemSettings() {
                 </span>
               </div>
               <div>+233</div>
+              <div>350</div>
+              <div>GHS</div>
               <div>
                 {" "}
                 <button className="mr-2 cursor-pointer">
@@ -150,6 +167,8 @@ export default function SystemSettings() {
                 </span>
               </div>
               <div>+233</div>
+              <div>350</div>
+              <div>NGN</div>
               <div>
                 {" "}
                 <button className="mr-2 cursor-pointer">

@@ -8,6 +8,7 @@ import ImgUpload from "@/components/reuseable/img-uplod";
 import Modal2 from "@/components/reuseable/modal2";
 import { Button } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
+import UpdatePassword from "@/components/view/common/update-password";
 import FavIcon from "@/icon/favIcon";
 import { PlaceholderImg } from "@/lib";
 import Image from "next/image";
@@ -43,10 +44,12 @@ const intAva = {
 export default function Profile() {
   const [avatar, setAvatar] = useState<any>(intAva);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isUpdatePassword, setIsUpdatePassword] = useState(false);
   const from = useForm({
     defaultValues: {
       name: "Suuu Ronaldo",
       thumbnail: null,
+      contact:"850948305"
     },
   });
 
@@ -108,7 +111,16 @@ export default function Profile() {
             </li>
           </ul>
         </div>
-        <div className="mt-5">
+
+        <div className="mt-5 grid-cols-1 grid lg:grid-cols-2 gap-5">
+          <Button
+            size="lg"
+            variant="secondary"
+            className="text-figma-red font-semibold"
+            onClick={() => setIsUpdatePassword(true)}
+          >
+            Update Password
+          </Button>
           <Button
             onClick={() => setIsUpdate(!isUpdate)}
             size="lg"
@@ -169,9 +181,15 @@ export default function Profile() {
               </ImgUpload>
             </div>
             <FromInput
-              label="Your Full Name"
+              label="Full Name"
               name="name"
               placeholder="Enter Your title"
+              className="h-10"
+            />
+            <FromInput
+              label="Contact Number"
+              name="contact"
+              placeholder="Enter Your Contact Number"
               className="h-10"
             />
             <div className="space-y-2">
@@ -182,6 +200,10 @@ export default function Profile() {
             </div>
           </div>
         </Form>
+      </Modal2>
+      {/* ============ update password modal ============ */}
+      <Modal2 open={isUpdatePassword} setIsOpen={setIsUpdatePassword}>
+        <UpdatePassword setIsUpdatePassword={setIsUpdatePassword} />
       </Modal2>
     </div>
   );
