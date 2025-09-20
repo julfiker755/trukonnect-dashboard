@@ -44,7 +44,7 @@ export default function UpdatePassword({ setIsUpdatePassword}:any) {
               <FromInput
                 label="Current Password"
                 name="current_password"
-                placeholder="***********"
+                placeholder="Enter current password"
                 className="h-10"
                 icon={
                   <FavIcon name="password" className="size-5" color="#777777" />
@@ -54,7 +54,7 @@ export default function UpdatePassword({ setIsUpdatePassword}:any) {
               <FromInput
                 label="New Password"
                 name="new_password"
-                placeholder="***********"
+                placeholder="Enter new password"
                 className="h-10"
                 icon={
                   <FavIcon name="password" className="size-5" color="#777777" />
@@ -64,7 +64,7 @@ export default function UpdatePassword({ setIsUpdatePassword}:any) {
               <FromInput
                 label="Retype New Password"
                 name="c_password"
-                placeholder="***********"
+                placeholder="Enter retype new password"
                 className="h-10"
                 icon={
                   <FavIcon name="password" className="size-5" color="#777777" />

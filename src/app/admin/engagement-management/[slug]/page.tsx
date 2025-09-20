@@ -232,26 +232,26 @@ export default function PlatformSingle() {
             <FromInput
               label="Engagement Name"
               name="name"
-              placeholder="Write engagement name"
+              placeholder="Enter Engagement name"
               className="h-10"
             />
             <FromInput
               label="Minimum Required"
               name="minimum"
-              placeholder="Enter minimum amount that have to purchase"
+              placeholder="Enter Minimum Quantity Required"
               className="h-10"
             />
             <FromInput
               label="Price"
               name="price"
-              placeholder="Enter each engagement price"
+              placeholder="Enter Engagement price"
               className="h-10"
               type="number"
             />
             <FromTextArea
               label="Description"
               name="description"
-              placeholder="Enter each engagement price"
+              placeholder="Enter Engagement description"
               className="min-h-25"
             />
             <div className="space-y-2">
@@ -268,7 +268,7 @@ export default function PlatformSingle() {
           </div>
         </Form>
       </Modal2>
-      {/* =========== Add New Engagement ========== */}
+      {/* =========== Edit New Engagement ========== */}
       <Modal2 open={state.isEdit} setIsOpen={(v) => updateState("isEdit", v)}>
         <ul className="flex items-center pt-1 justify-between">
           <li className="opacity-0">0</li>
@@ -290,26 +290,26 @@ export default function PlatformSingle() {
             <FromInput
               label="Engagement Name"
               name="name"
-              placeholder="Write engagement name"
+              placeholder="Enter Engagement name"
               className="h-10"
             />
             <FromInput
               label="Minimum Required"
               name="minimum"
-              placeholder="Enter minimum amount that have to purchase"
+              placeholder="Enter Minimum Quantity Required"
               className="h-10"
             />
             <FromInput
               label="Price"
               name="price"
-              placeholder="Enter each engagement price"
+              placeholder="Enter Engagement price"
               className="h-10"
               type="number"
             />
             <FromTextArea
               label="Description"
               name="description"
-              placeholder="Enter each engagement price"
+              placeholder="Enter Engagement description"
               className="min-h-25"
             />
             <div className="space-y-2">

@@ -33,12 +33,12 @@ export default function Communication() {
               className="h-10"
               name="subject"
               label="Subject"
-              placeholder="Write the country name"
+              placeholder="Write the Subject"
             />
             <FromTextArea
               name="message"
               label="Message"
-              placeholder="Write the dialing code"
+              placeholder="Write the Message"
               className="min-h-[100px]"
             />
 

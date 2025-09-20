@@ -311,21 +311,21 @@ const AdminList = () => {
             <FromInput
               label="Full Name"
               name="name"
-              placeholder="Enter Your Name"
+              placeholder="Enter Name"
               className="h-10"
               icon={<FavIcon name="user" className="size-5" color="#777777" />}
             />
             <FromInput
               label="Email"
               name="email"
-              placeholder="Enter Your Email"
+              placeholder="Enter Email"
               className="h-10"
               icon={<FavIcon name="email" className="size-5" color="#777777" />}
             />
             <FromInput
               label="New Password"
               name="password"
-              placeholder="Enter New Password"
+              placeholder="Enter Password"
               className="h-10"
               icon={
                 <FavIcon name="password" className="size-5" color="#777777" />

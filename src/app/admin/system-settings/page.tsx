@@ -103,7 +103,7 @@ export default function SystemSettings() {
               <FromInput
                 label="Token"
                 name="token"
-                placeholder="Write the token"
+                placeholder="Enter rate per token"
                 className="h-10"
               />
               <FromInput
