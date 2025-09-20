@@ -5,9 +5,9 @@ import React from "react";
 
 const activityLog = [
   { user: "Marks", action: "added a task.", time: "09:00 AM",active:true },
-  { user: "Daniel", action: "submitted a task for proof.", time: "09:00 AM",active:true },
+  { user: "Daniel", action: "Submitted proof for a task", time: "09:00 AM",active:true },
   { user: "Marks", action: "added a task.", time: "09:00 AM",active:false },
-  { user: "Daniel", action: "submitted a task for proof.", time: "09:00 AM",active:true },
+  { user: "Daniel", action: "Submitted proof for a task", time: "09:00 AM",active:true },
   { user: "Yusuf", action: "added an account for verify.", time: "09:00 AM",active:false },
   { user: "Marks", action: "added a task.", time: "09:00 AM",active:false },    
   { user: "Marks", action: "added a task.", time: "09:00 AM",active:false },

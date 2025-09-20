@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
 import AnalyticChart from "@/components/view/reviewer/chart/analytic-chart";
 import RecentActivity from "@/components/view/reviewer/recent-activity";
 import FavIcon from "@/icon/favIcon";
@@ -34,6 +33,7 @@ const overviewItem = [
     bg: "rgba(145, 137, 255, 0.10)",
   },
 ];
+
 
 export default function ReviewerHome() {
   return (

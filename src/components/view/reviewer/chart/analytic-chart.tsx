@@ -2,9 +2,9 @@ import { cn } from "@/lib";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const chartData = [
-  { name: "Orders Review", value: 43, color: "#FF6B9D" },
-  { name: "Task Review", value: 64, color: "#4ECDC4" },
-  { name: "Account review", value: 13, color: "#6366F1" },
+  { name: "Orders Reviewed", value: 43, color: "#FF6B9D" },
+  { name: "Task Reviewed", value: 64, color: "#4ECDC4" },
+  { name: "Accounts Reviewed", value: 13, color: "#6366F1" },
 ];
 
 const CustomLegend = ({ payload }: any) => {
@@ -22,11 +22,12 @@ const CustomLegend = ({ payload }: any) => {
     </div>
   );
 };
+// 2. Analytics chart should be Orders Reviewed, Task Reviewed, Accounts Reviewed
 
 export default function AnalyticChart({ className, show=true, heightStyle }: any) {
   return (
     <div className={cn(`bg-[#575757]/10 rounded-xl p-5`, className)}>
-      {show && <h1 className="font-medium text-2xl">Analytic Chart</h1>}
+      {show && <h1 className="font-medium text-2xl">Analytics chart</h1>}
       <div className={cn(`flex flex-col items-center`, heightStyle)}>
         <div className="relative w-64 h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
