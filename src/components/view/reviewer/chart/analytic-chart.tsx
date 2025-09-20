@@ -22,12 +22,12 @@ const CustomLegend = ({ payload }: any) => {
     </div>
   );
 };
-// 2. Analytics chart should be Orders Reviewed, Task Reviewed, Accounts Reviewed
+
 
 export default function AnalyticChart({ className, show=true, heightStyle }: any) {
   return (
     <div className={cn(`bg-[#575757]/10 rounded-xl p-5`, className)}>
-      {show && <h1 className="font-medium text-2xl">Analytics chart</h1>}
+      {show && <h1 className="font-medium text-2xl">Analytics Chart</h1>}
       <div className={cn(`flex flex-col items-center`, heightStyle)}>
         <div className="relative w-64 h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
