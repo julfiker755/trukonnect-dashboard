@@ -2,28 +2,23 @@
 import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
 import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
+import { ImgBox } from "@/components/reuseable/Img-box";
 import ImgUpload from "@/components/reuseable/img-uplod";
 import Modal2 from "@/components/reuseable/modal2";
-import { Button } from "@/components/ui";
+import { RepeatCount } from "@/components/reuseable/repeat-count";
+import { NoItemData } from "@/components/reuseable/table-no-item";
+import { Button, Skeleton } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
 import { useModalState } from "@/hooks/useModalState";
-import FavIcon from "@/icon/favIcon";
+import { useGetSoMediaQuery } from "@/redux/api/engagementApi";
 import { platformSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, Upload } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-
-const item = [
-  { label: "Facebook", icon: "facebook" },
-  { label: "Twitter", icon: "twitter" },
-  { label: "Instagram", icon: "instagram" },
-  { label: "Tiktok", icon: "tiktok" },
-  { label: "Youtube", icon: "youtube" },
-];
+import Image from "next/image";
+import Link from "next/link";
+import { helpers } from "@/lib";
 
 const intAva = {
   preview: null,
@@ -34,6 +29,7 @@ export default function Engagement() {
   const [state, updateState] = useModalState({
     isStore: false,
   });
+  const { data: socialMedia, isLoading } = useGetSoMediaQuery({});
   const from = useForm({
     resolver: zodResolver(platformSchema),
     defaultValues: {
@@ -41,6 +37,8 @@ export default function Engagement() {
       icon: "",
     },
   });
+
+  console.log(socialMedia);
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
@@ -80,16 +78,28 @@ export default function Engagement() {
       </ul>
 
       <div className="flex justify-center lg:justify-start  flex-wrap gap-10">
-        {item.map((item, index) => (
-          <Link
-            href={`/admin/engagement-management/${item.label}`}
-            key={index}
-            className="bg-figma-chart w-[200px] py-4 rounded-md grid place-items-center"
-          >
-            <FavIcon name={item.icon as any} />
-            <h1 className="mt-3">{item.label}</h1>
-          </Link>
-        ))}
+        {isLoading ? (
+          <RepeatCount count={10}>
+            <Skeleton className="w-[200px] h-[160px]" />
+          </RepeatCount>
+        ) : socialMedia?.data?.length > 0 ? (
+          socialMedia?.data?.map((item: any, index: any) => (
+            <Link
+              href={`/admin/engagement-management/${item?.label}`}
+              key={index}
+              className="bg-figma-chart w-[200px] py-4 rounded-md grid place-items-center"
+            >
+              <ImgBox
+                src={helpers.imgSource(item?.icon_url)}
+                alt={item.name}
+                className="w-[80px] h-[80px]"
+              />
+              <h1 className="mt-3">{item?.name}</h1>
+            </Link>
+          ))
+        ) : (
+          <NoItemData className="w-full" title="No Platform Found" />
+        )}
       </div>
       {/* =========== Add the Platform Modal========== */}
       <Modal2 open={state.isStore} setIsOpen={(v) => updateState("isStore", v)}>

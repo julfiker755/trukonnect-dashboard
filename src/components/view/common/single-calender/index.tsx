@@ -8,7 +8,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import FavIcon from "@/icon/favIcon";
-import { formatDate } from "@/lib";
+import { helpers } from "@/lib";
+
 
 export function SingleCalendar({ onChange }: any) {
   const [open, setOpen] = React.useState(false);
@@ -47,10 +48,7 @@ export function SingleCalendar({ onChange }: any) {
     setEndDate(newEndDate);
 
     // Log the selected dates with proper formatting
-    console.log({
-      startDate: newStartDate ? formatDate(newStartDate) : "",
-      endDate: newEndDate ? formatDate(newEndDate) : "",
-    });
+ 
 
     // Update the parent component with the selected dates
     onChange({ startDate: newStartDate, endDate: newEndDate });
@@ -65,8 +63,8 @@ export function SingleCalendar({ onChange }: any) {
             id="date"
             className="w-fit cursor-pointer hover:!bg-transparent hover:text-white border-none btn-shadow justify-between font-normal"
           >
-            {startDate ? `${formatDate(startDate)}` : "Start Date"} - {" "}
-            {endDate ? `${formatDate(endDate)}` : "End Date"}
+            {startDate ? `${helpers.formatDate(startDate)}` : "Start Date"} - {" "}
+            {endDate ? `${helpers.formatDate(endDate)}` : "End Date"}
             <span className="bg-white p-[6px] rounded-full">
               <FavIcon name="calender" className="size-4" />
             </span>
