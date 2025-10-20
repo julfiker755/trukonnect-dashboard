@@ -11,6 +11,7 @@ const overviewItem = [
     title: "Total Performers",
     count: 10,
     bg: "rgba(130, 255, 167, 0.10)",
+    // bg: "rgba(130, 255, 167, 0.10)",
   },
   {
     icon: assets.admin.overview.brands,
