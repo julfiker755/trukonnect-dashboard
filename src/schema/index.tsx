@@ -34,6 +34,7 @@ export const bulkSchema = z.object({
   message: z.string().nonempty("Message is required"),
 });
 
+// passwordChangeSchema
 export const passwordChangeSchema = z
   .object({
     current_password: z.string().nonempty("Current Password is required"),
@@ -46,14 +47,25 @@ export const passwordChangeSchema = z
   });
 
 
-export const adminSchema = z
+  // forgotSchema
+  export const forgotSchema = z
   .object({
-   name: z.string().nonempty("Name is required"),
-    email: z.string().nonempty("Email is required"),
-    password: z.string().nonempty("Password is required"),
+   new_password: z.string().nonempty("Password is required"),
+    c_password: z.string().nonempty("Retype Password is required"),
   })
+  .refine((value) => value.new_password === value.c_password, {
+    path: ["c_password"],
+    message: "Passwords must be match.",
+  });
 
-
+// authSchema
+export const authSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Invalid email address"),
+  password: z.string().nonempty("Password is required"),
+});
 
 
 

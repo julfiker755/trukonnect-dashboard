@@ -8,7 +8,6 @@ export default function CommonLayout({
 }) {
   return (
     <div className="min-h-screen flex relative">
-      {/* Full-screen background image  className="min-h-screen flex relative"*/}
       <div className="fixed inset-0">
         <Image
           src="bg2.svg"

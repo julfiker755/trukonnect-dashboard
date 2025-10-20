@@ -7,18 +7,29 @@ import React, {
   ChangeEvent,
   KeyboardEvent,
   Suspense,
+  useEffect,
   useRef,
   useState,
 } from "react";
+import { useOtpVarifyMutation } from "@/redux/api/authApi";
+import { helpers } from "@/lib";
 
 function ForgotPasswordChild() {
-  const router=useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [error, setError] = useState<string>("");
   const [isError, setIsError] = useState<string>("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [otpVarify] = useOtpVarifyMutation();
+
+
+  useEffect(() => {
+    if (!email) {
+      router.push("/forgot-password");
+    }
+  }, [email, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, i: number) => {
     const { value } = e.target;
@@ -60,13 +71,19 @@ function ForgotPasswordChild() {
       if (joinedCode.length < 6) {
         setError("Please enter all 6 digits.");
       } else {
-        const value = { email, otp: code.join("") };
-        console.log(value);
-         router.push("/new-password?email=julfiker755.bd@gmail.com")
+        const values = { email, otp: code.join("") };
+        const value = helpers.fromData(values);
+        const res = await otpVarify(value).unwrap();
+        if (res.status) {
+          router.push(
+            `/new-password?id=${res?.data?.user_id}&email=${res?.data?.email}`
+          );
+        }
+
         setError("");
       }
     } catch (err: any) {
-      if (err?.data?.message) {
+      if (err) {
         setIsError(err?.data?.message);
       }
     }

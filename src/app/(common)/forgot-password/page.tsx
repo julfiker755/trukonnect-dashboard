@@ -1,35 +1,54 @@
 "use client";
 import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
+import { useForgotPasswordMutation } from "@/redux/api/authApi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
 import React from "react";
+import { authSchema } from "@/schema";
+import { helpers } from "@/lib";
+import { toast } from "sonner";
+import { ResponseApiErrors } from "@/lib/api-response";
+import { Loader } from "lucide-react";
 
 export default function VerifyOtp() {
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
   const router = useRouter();
   const from = useForm({
-    // resolver: zodResolver(authSchema),
+    resolver: zodResolver(authSchema.partial()),
     defaultValues: {
       email: "",
     },
   });
 
   const handleSubmit = async (values: FieldValues) => {
-    console.log(values);
-    router.push("/verify-otp")
+    try {
+      const value = helpers.fromData(values);
+      const res = await forgotPassword(value).unwrap();
+      if (res.status) {
+        router.push(`/verify-otp/?email=${res.email}`);
+        from.reset();
+        toast.success("OTP sent Successfully", {
+          description: "Please check your email",
+        });
+      }
+    } catch (err: any) {
+      if (err?.data?.errors) {
+        ResponseApiErrors(err?.data, from);
+      }
+    }
   };
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center relative z-10">
       <div className="md:m-0 w-11/12 lg:w-0 lg:min-w-lg p-5 rounded-2xl bg-[#A7A7A7]/10 backdrop-blur-2xl">
         <div className="mb-6 space-y-2">
           <FavIcon className="w-[80px] h-[66px] mx-auto" name="logo" />
-          <h1 className="text-2xl font-bold text-center">
-           Forgot Password
-          </h1>
+          <h1 className="text-2xl font-bold text-center">Forgot Password</h1>
           <h1 className="text-figma-gray text-center">
-           Please provide valid information to access your account
+            Please provide valid information to access your account
           </h1>
         </div>
         <Form className="space-y-4 py-7" from={from} onSubmit={handleSubmit}>
@@ -47,9 +66,15 @@ export default function VerifyOtp() {
           >
             Back to log in
           </Button>
-          <Button variant="primary" className="w-full">
-            {" "}
-            Verify
+          <Button disabled={isLoading} variant="primary" className="w-full">
+            {isLoading ? (
+              <span className="flex text-base items-center justify-center">
+                <Loader className="animate-spin size-5 text-white mr-1" />
+                Waiting...
+              </span>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </Form>
       </div>

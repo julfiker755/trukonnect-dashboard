@@ -1,8 +1,7 @@
-export const authKey = "accessToken";
-export const roleKey="__secure_role"
+export const authKey = "auth_token";
 
-export enum reasonType {
-  uploading_video = "Uploading video",
-  youTube_link = "Promoting YouTube Link",
-  onsite_account = "Onsite account creation",
+export enum role {
+  performer = "performer",
+  admin = "admin",
+  user="user"
 }

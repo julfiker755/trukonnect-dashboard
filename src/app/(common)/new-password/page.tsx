@@ -4,22 +4,47 @@ import { FromInput } from "@/components/reuseable/from-input";
 import { Button } from "@/components/ui/button";
 import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { forgotSchema } from "@/schema";
+import { useChangePasswordMutation } from "@/redux/api/authApi";
+import { helpers } from "@/lib";
 
 export default function NewPassword() {
-  const router=useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const id = searchParams.get("id");
+  const [changePassword] = useChangePasswordMutation();
   const from = useForm({
-    // resolver: zodResolver(authSchema),
+    resolver: zodResolver(forgotSchema),
     defaultValues: {
-      password: "",
-      retype_password: "",
+      new_password: "",
+      c_password: "",
     },
   });
 
+  useEffect(() => {
+    if (!email && !id) {
+      router.push("/forgot-password");
+    }
+  }, [email, router, id]);
+
   const handleSubmit = async (values: FieldValues) => {
-    console.log(values);
-    router.push("/")
+    const value = {
+      _method: "PUT",
+      password: values.new_password,
+      password_confirmation: values.c_password,
+      user_id: id,
+      user_email: email,
+    };
+    const data = helpers.fromData(value);
+    const res = await changePassword(data).unwrap();
+    if (res.status) {
+      router.push("/");
+      from.reset();
+    }
   };
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center relative z-10">
@@ -36,7 +61,7 @@ export default function NewPassword() {
         <Form className="space-y-4 py-7" from={from} onSubmit={handleSubmit}>
           <FromInput
             className="h-10"
-            name="password"
+            name="new_password"
             label="Password"
             placeholder="Password"
             eye={true}
@@ -46,7 +71,7 @@ export default function NewPassword() {
           />
           <FromInput
             className="h-10"
-            name="retype_password"
+            name="c_password"
             label="Retype Password"
             placeholder="Retype Password"
             eye={true}
