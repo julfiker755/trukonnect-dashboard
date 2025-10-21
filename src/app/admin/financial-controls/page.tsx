@@ -13,7 +13,7 @@ import { Badge, Button, Label, TableCell, TableRow } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import FavIcon from "@/icon/favIcon";
-import { capitalize, PlaceholderImg } from "@/lib";
+import { PlaceholderImg } from "@/lib";
 import Link from "next/link";
 import React, { useState } from "react";
 import ReactCountryFlag from "react-country-flag";

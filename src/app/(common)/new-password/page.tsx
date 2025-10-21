@@ -4,14 +4,14 @@ import { FromInput } from "@/components/reuseable/from-input";
 import { Button } from "@/components/ui/button";
 import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgotSchema } from "@/schema";
 import { useChangePasswordMutation } from "@/redux/api/authApi";
 import { helpers } from "@/lib";
 
-export default function NewPassword() {
+function NewPasswordChild() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
@@ -87,5 +87,13 @@ export default function NewPassword() {
         </Form>
       </div>
     </div>
+  );
+}
+
+export default function NewPassword() {
+  return (
+    <Suspense>
+      <NewPasswordChild />
+    </Suspense>
   );
 }

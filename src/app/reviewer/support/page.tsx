@@ -12,7 +12,7 @@ import { Badge, Button, TableCell, TableRow, Textarea } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import FavIcon from "@/icon/favIcon";
-import { capitalize } from "@/lib";
+import { helpers } from "@/lib";
 import React, { useState } from "react";
 
 const item = [
@@ -140,7 +140,7 @@ export default function Support() {
 
                 {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>{capitalize(item.role)}</Badge>
+                  <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
                 </TableCell>
                 {/* Email */}
                 <TableCell>{item.email}</TableCell>

@@ -12,7 +12,6 @@ import Navber from "@/components/view/common/dash/navber";
 import UpdatePassword from "@/components/view/common/update-password";
 import FavIcon from "@/icon/favIcon";
 import { PlaceholderImg } from "@/lib";
-import { adminSchema} from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SquarePen } from "lucide-react";
 import Image from "next/image";
@@ -229,7 +228,7 @@ const adminData = [
 const AdminList = () => {
   const [isStore, setIsStore] = useState(false);
   const from = useForm({
-    resolver: zodResolver(adminSchema),
+    // resolver: zodResolver(adminSchema),
     defaultValues: {
       name: "",
       email: "",
