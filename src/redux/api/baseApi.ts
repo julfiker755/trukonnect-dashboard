@@ -2,42 +2,66 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { tagTypesList } from "../tag-types";
 import { authKey, helpers } from "@/lib";
 
-export const baseApi = createApi({
-  reducerPath: "api",
-  baseQuery: async (args, api, extraOptions) => {
-    const baseQuery = fetchBaseQuery({
-      baseUrl: process.env.NEXT_PUBLIC_API_URL,
-      prepareHeaders: (headers) => {
-        const token = helpers.getAuthCookie(authKey);
-        if (token) {
-          headers.set("Authorization", `Bearer ${token}`);
-          headers.set("accept", "application/json");
-        }
-        return headers;
-      },
-    });
+let refreshingTokenPromise: Promise<string | null> | null = null;
 
-    let result = await baseQuery(args, api, extraOptions);
-    // Check if the token is expired (Assuming status 401 means expired token)
-    if (result.error && result.error.status === 401) {
-      const newToken = await refreshAuthToken();
-      if (newToken) {
-        helpers.setAuthCookie(authKey, newToken);
-        args.headers.set("Authorization", `Bearer ${newToken}`);
-        result = await baseQuery(args, api, extraOptions);
-      }
+const baseQuery = fetchBaseQuery({
+  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  prepareHeaders: (headers) => {
+    const token = helpers.getAuthCookie(authKey);
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("accept", "application/json");
+    }
+    return headers;
+  },
+});
+
+const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  // If unauthorized, try refresh flow
+  if (result.error && result.error.status === 401) {
+    // Prevent multiple refreshes at the same time
+    if (!refreshingTokenPromise) {
+      refreshingTokenPromise = refreshAuthToken();
     }
 
-    return result;
-  },
+    const newToken = await refreshingTokenPromise;
+    refreshingTokenPromise = null;
+
+    if (newToken) {
+      helpers.setAuthCookie(authKey, newToken);
+      // Retry previous request with new token
+      const retryResult = await baseQuery(
+        {
+          ...args,
+          headers: {
+            ...(args.headers || {}),
+            Authorization: `Bearer ${newToken}`,
+          },
+        },
+        api,
+        extraOptions
+      );
+
+      return retryResult;
+    }
+  }
+
+  return result;
+};
+
+export const baseApi = createApi({
+  reducerPath: "api",
+  baseQuery: customBaseQuery,
   tagTypes: tagTypesList,
   endpoints: () => ({}),
 });
 
-// == freshToken Generate ==
+// === Token Refresh Function ===
 async function refreshAuthToken() {
   const token = helpers.getAuthCookie(authKey);
-  const response = await fetch(
+  const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
     {
       method: "POST",
@@ -47,6 +71,6 @@ async function refreshAuthToken() {
       },
     }
   );
-  const data = await response.json();
+  const data = await res.json();
   return data?.token;
 }

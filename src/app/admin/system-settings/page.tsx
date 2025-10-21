@@ -2,30 +2,33 @@
 import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
 import ImgUpload from "@/components/reuseable/img-uplod";
-import { Button } from "@/components/ui";
+import { Button, Skeleton } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import FavIcon from "@/icon/favIcon";
+import { useGetCountryQuery } from "@/redux/api/countryApi";
+import { countrySchema } from "@/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, Upload } from "lucide-react";
-import Image from "next/image";
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
 import { FieldValues, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import Image from "next/image";
+import FavIcon from "@/icon/favIcon";
+import { helpers } from "@/lib";
 
-const intAva = {
+const intFlag = {
   preview: null,
 };
 
 export default function SystemSettings() {
-  const [platform, setPlatform] = useState<any>(intAva);
+  const [flag, setIsFlag] = useState<any>(intFlag);
+  const { data: country, isLoading } = useGetCountryQuery({});
   const from = useForm({
-    // resolver: zodResolver(platformSchema),
+    resolver: zodResolver(countrySchema),
     defaultValues: {
-      icon: null,
-      country_name: "",
-      dialing_code: "",
-      currency: "",
-      token: "",
+      flag: null,
+      name: "",
+      dial_code: "",
+      currency_code: "",
+      token_rate: "",
     },
   });
 
@@ -33,13 +36,14 @@ export default function SystemSettings() {
   const handleSubmit = async (values: FieldValues) => {
     const value = {
       name: values.name,
-      ...(values.icon && { icon: values?.icon }),
+      ...(values.flag && { flag: values?.flag }),
     };
     console.log(value);
     // toast.success("Update Successful", {
     //   description: "Your profile has been updated successfully",
     // });
   };
+
   return (
     <div>
       <Navber title="System Settings" />
@@ -50,21 +54,21 @@ export default function SystemSettings() {
           <Form from={from} onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div>
-                <h1 className="mb-2">Upload Logo (JPG/SVG)*</h1>
+                <h1 className="mb-2">Upload Flag (JPG/SVG)*</h1>
                 <ImgUpload
                   onFileSelect={(file: File) => {
-                    setPlatform({
-                      ...platform,
+                    setIsFlag({
+                      ...flag,
                       preview: URL.createObjectURL(file),
                     });
-                    from.setValue("icon", file as any);
+                    from.setValue("flag", file as any);
                   }}
                 >
                   <div className="h-22 bg-figma-chart rounded-md flex flex-col justify-center items-center">
-                    {platform.preview ? (
+                    {flag.preview ? (
                       <div className="w-[60px] relative h-full my-3">
                         <Image
-                          src={platform.preview || "/blur.png"}
+                          src={flag.preview || "/blur.png"}
                           alt={"alt"}
                           fill
                           loading="lazy"
@@ -80,35 +84,36 @@ export default function SystemSettings() {
                     )}
                   </div>
                 </ImgUpload>
-                {from?.formState?.errors?.icon && (
+                {from?.formState?.errors?.flag && (
                   <p className="text-[#f73f4e] flex justify-end items-center gap-1 text-sm">
-                    {from?.formState?.errors?.icon?.message as string}
+                    {from?.formState?.errors?.flag?.message as string}
                     <CircleAlert size={14} />
                   </p>
                 )}
               </div>
               <FromInput
                 label="Country Name"
-                name="country_name"
+                name="name"
                 placeholder="Write the country name"
                 className="h-10"
               />
               <FromInput
                 label="Dialing Code"
-                name="dialing_name"
+                name="dial_code"
                 placeholder="Write the dialing code"
                 className="h-10"
               />
 
               <FromInput
-                label="Token"
-                name="token"
+                label="Token Rate"
+                name="token_rate"
                 placeholder="Enter rate per token"
                 className="h-10"
+                type="number"
               />
               <FromInput
-                label="Currency"
-                name="currency"
+                label="Currency Code"
+                name="currency_code"
                 placeholder="Write the currency"
                 className="h-10"
               />
@@ -122,61 +127,69 @@ export default function SystemSettings() {
           <h1 className="text-2xl font-semibold mb-4">
             Current Supported Countries
           </h1>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <span>
-                  <ReactCountryFlag
-                    countryCode={"GH"}
-                    svg
-                    style={{
-                      width: "1em",
-                      height: "1em",
-                    }}
-                    title={"item.region"}
-                  />
-                  <span className="ml-1"> Ghana</span>
-                </span>
+          <div>
+            <div className="table w-full">
+              {/* Table Header */}
+              <div className="table-header-group">
+                <div className="table-row">
+                  <div className="table-cell px-6 py-4 text-left text-sm font-semibold text-white">
+                    Country
+                  </div>
+                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+                    Dialing Code
+                  </div>
+                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+                    Token Rate
+                  </div>
+                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+                    Currency Code
+                  </div>
+                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+                    Action
+                  </div>
+                </div>
               </div>
-              <div>+233</div>
-              <div>350</div>
-              <div>GHS</div>
-              <div>
-                {" "}
-                <button className="mr-2 cursor-pointer">
-                  <FavIcon name="edit2" />
-                </button>
-                <button className="cursor-pointer">
-                  <FavIcon name="delete" />
-                </button>
-              </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <div>
-                <span>
-                  <ReactCountryFlag
-                    countryCode={"NG"}
-                    svg
-                    style={{
-                      width: "1em",
-                      height: "1em",
-                    }}
-                    title={"item.region"}
-                  />
-                  <span className="ml-1"> Nigeria</span>
-                </span>
-              </div>
-              <div>+233</div>
-              <div>350</div>
-              <div>NGN</div>
-              <div>
-                {" "}
-                <button className="mr-2 cursor-pointer">
-                  <FavIcon name="edit2" />
-                </button>
-                <button className="cursor-pointer">
-                  <FavIcon name="delete" />
-                </button>
+
+              {/* Table Body */}
+              <div className="table-row-group">
+                {isLoading
+                  ? CounTeSkeleton()
+                  : country?.data?.map((item: any) => (
+                      <div
+                        key={item.id}
+                        className="table-row transition-colors"
+                      >
+                        <div className="table-cell px-6 py-4 text-sm">
+                          <div className="flex items-center">
+                            <picture>
+                              <img
+                                src={helpers.imgSource(item?.flag)}
+                                alt="flag"
+                                className="w-[20px] h-[20px]"
+                              />
+                            </picture>
+                            <span className="ml-2"> {item?.name}</span>
+                          </div>
+                        </div>
+                        <div className="table-cell px-6 py-4 text-sm text-center">
+                          {item?.dial_code}
+                        </div>
+                        <div className="table-cell px-6 py-4 text-sm text-center">
+                          {item?.token_rate}
+                        </div>
+                        <div className="table-cell px-6 py-4 text-sm text-center">
+                          {item?.currency_code}
+                        </div>
+                        <div className="table-cell px-6 py-4 text-center">
+                          <button className="mr-2 cursor-pointer">
+                            <FavIcon name="edit2" />
+                          </button>
+                          <button className="cursor-pointer">
+                            <FavIcon name="delete" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
               </div>
             </div>
           </div>
@@ -184,4 +197,27 @@ export default function SystemSettings() {
       </div>
     </div>
   );
+}
+
+// ===== CounTeSkeleton ========
+function CounTeSkeleton() {
+  return [...Array(7)].map((_, index) => (
+    <div key={index} className="table-row">
+      <div className="table-cell px-1 py-3 text-center text-sm">
+        <Skeleton className="w-[100px] mx-auto rounded-sm text-center h-[20px]" />
+      </div>
+      <div className="table-cell px-1 py-3 text-sm">
+        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
+      </div>
+      <div className="table-cell px-1 py-3 text-sm">
+        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
+      </div>
+      <div className="table-cell px-1 py-3 text-sm">
+        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
+      </div>
+      <div className="table-cell px-1 py-3 text-sm">
+        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
+      </div>
+    </div>
+  ));
 }

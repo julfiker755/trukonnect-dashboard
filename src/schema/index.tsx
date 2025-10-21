@@ -46,11 +46,10 @@ export const passwordChangeSchema = z
     message: "Passwords must be match.",
   });
 
-
-  // forgotSchema
-  export const forgotSchema = z
+// forgotSchema
+export const forgotSchema = z
   .object({
-   new_password: z.string().nonempty("Password is required"),
+    new_password: z.string().nonempty("Password is required"),
     c_password: z.string().nonempty("Retype Password is required"),
   })
   .refine((value) => value.new_password === value.c_password, {
@@ -67,9 +66,16 @@ export const authSchema = z.object({
   password: z.string().nonempty("Password is required"),
 });
 
-
-
-
+// countrySchema
+export const countrySchema = z.object({
+  flag: z
+    .any()
+    .refine((file) => file instanceof File, { message: "flag is required" }),
+  name: z.string().nonempty("Name is required"),
+  dial_code: z.string().nonempty("Dialing Code is required"),
+  currency_code: z.string().nonempty("Currency Code is required"),
+  token_rate: z.string().nonempty("Token Rate is required"),
+});
 
 // loginSchema
 // export const ForgotSchema = z.object({
