@@ -7,7 +7,7 @@ export const makeStore = () =>
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
     },
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: false,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(baseApi.middleware),
   });

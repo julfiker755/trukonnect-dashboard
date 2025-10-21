@@ -21,7 +21,7 @@ import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import { useModalState } from "@/hooks/useModalState";
 import FavIcon from "@/icon/favIcon";
-import { capitalize, PlaceholderImg } from "@/lib";
+import { helpers, PlaceholderImg } from "@/lib";
 import React, { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
@@ -163,7 +163,9 @@ export default function AccountVarificaton() {
 
                 {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>{capitalize(item.role)}</Badge>
+                  <Badge variant={item.role}>
+                    {helpers.capitalize(item.role)}
+                  </Badge>
                 </TableCell>
                 {/* Email */}
                 <TableCell>{item.email}</TableCell>

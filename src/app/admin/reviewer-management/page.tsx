@@ -122,7 +122,7 @@ export default function ReviewerManagement() {
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
     console.log(values);
-    from.reset();
+    // from.reset();
   };
   const handleReset = () => {
     from.reset();

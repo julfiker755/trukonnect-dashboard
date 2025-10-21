@@ -11,8 +11,9 @@ import SearchBox from "@/components/view/common/search-box";
 import React, { useEffect, useState } from "react";
 import FavIcon from "@/icon/favIcon";
 import RadioToggle from "@/components/reuseable/radio-toggle";
+import { helpers } from "@/lib";
 import Link from "next/link";
-import { capitalize } from "@/lib";
+
 
 // { label: "Active Task", value: "active_task" },
 // { label: "Completed Task", value: "completed_task" },
@@ -233,7 +234,7 @@ const TaskManagement = ({ headers, isLoading, item, isValue }: any) => {
                   }
                 >
                   {isValue == "all_task"
-                    ? capitalize(item.status)
+                    ? helpers.capitalize(item.status)
                     : isValue === "completed_task"
                     ? "Completed"
                     : isValue == "active_task"

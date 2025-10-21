@@ -96,6 +96,6 @@ export class helpers {
   static imgSource(href: string): string {
     if (href?.startsWith("https://") || href?.startsWith("http://"))
       return href;
-    return href ? `${process.env.NEXT_PUBLIC_IMG_URL}${href}` : "";
+    return href ? `${process.env.NEXT_PUBLIC_IMG_URL}/${href}` : "";
   }
 }

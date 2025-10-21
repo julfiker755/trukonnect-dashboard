@@ -10,7 +10,10 @@ import { NoItemData } from "@/components/reuseable/table-no-item";
 import { Button, Skeleton } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import { useModalState } from "@/hooks/useModalState";
-import { useGetSoMediaQuery } from "@/redux/api/engagementApi";
+import {
+  useGetSoMediaQuery,
+  useStoreSoMediaMutation,
+} from "@/redux/api/engagementApi";
 import { platformSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, Upload } from "lucide-react";
@@ -19,6 +22,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
 import { helpers } from "@/lib";
+import { ResponseApiErrors } from "@/lib/api-response";
 
 const intAva = {
   preview: null,
@@ -30,6 +34,8 @@ export default function Engagement() {
     isStore: false,
   });
   const { data: socialMedia, isLoading } = useGetSoMediaQuery({});
+  const [storeSoMedia, { isLoading: isStoreLoading }] =
+    useStoreSoMediaMutation();
   const from = useForm({
     resolver: zodResolver(platformSchema),
     defaultValues: {
@@ -38,24 +44,30 @@ export default function Engagement() {
     },
   });
 
-  console.log(socialMedia);
-
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
-    const value = {
-      name: values.name,
-      ...(values.icon && { icon: values?.icon }),
-    };
-    console.log(value);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    try {
+      const value = {
+        name: values.name,
+        ...(values.icon && { icon: values?.icon }),
+      };
+      const data = helpers.fromData(value);
+      const res = await storeSoMedia(data).unwrap();
+      if (res.status) {
+        handleReset();
+      }
+    } catch (err: any) {
+      if (err?.data?.errors) {
+        ResponseApiErrors(err?.data, from);
+      }
+    }
   };
 
   // hanlde reset
   const handleReset = () => {
     from.reset();
     setPlatform(intAva);
+    updateState("isStore", false);
   };
   return (
     <div className="mb-10">
@@ -85,7 +97,7 @@ export default function Engagement() {
         ) : socialMedia?.data?.length > 0 ? (
           socialMedia?.data?.map((item: any, index: any) => (
             <Link
-              href={`/admin/engagement-management/${item?.label}`}
+              href={`/admin/engagement-management/${item?.id}`}
               key={index}
               className="bg-figma-chart w-[200px] py-4 rounded-md grid place-items-center"
             >
@@ -176,7 +188,11 @@ export default function Engagement() {
                   updateState("isStore", false);
                 }}
               />
-              <Button className="w-full" variant="primary">
+              <Button
+                disabled={isStoreLoading}
+                className="w-full"
+                variant="primary"
+              >
                 Add
               </Button>
             </div>

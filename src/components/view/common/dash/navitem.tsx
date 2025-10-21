@@ -47,6 +47,13 @@ export default function NavItem({ item }: NavItemProps) {
     setActiveSubmenu((prev) => (prev === index ? null : index));
   };
 
+  const isActive = (href: string) => {
+    if (href === "/admin" || href === "/reviewer") {
+      return pathname === href;
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
     <ul className="space-y-2">
       {item.map(
@@ -57,21 +64,22 @@ export default function NavItem({ item }: NavItemProps) {
                 className={`flex px-3  rounded-md border-l-5 border-transparent  py-2 items-center font-medium text-base gap-x-2 text-figma-gray`}
                 href={to}
                 style={{
-                  backgroundColor: pathname === to ? bg : "transparent",
-                  color: pathname === to ? color : "#a4a4a4",
+                  backgroundColor:  isActive(to) ? bg : "transparent",
+                  color: isActive(to)  ? color : "#a4a4a4",
                 }}
               >
                 {/* {pathname === to ? active_i : icon} */}
                 <span className="relative flex justify-center items-center size-6">
-                  {pathname === to ? (
+                  {isActive(to) ? (
                     <FavIcon
                       name={active_i as any}
                       // className="size-5"
                     />
                   ) : (
-                    <FavIcon name={icon}
-                    //  className="size-5" 
-                     />
+                    <FavIcon
+                      name={icon}
+                      //  className="size-5"
+                    />
                   )}
                 </span>
 
@@ -106,7 +114,7 @@ export default function NavItem({ item }: NavItemProps) {
                     onMouseEnter={() => setsubHoverIdx(subIndex)}
                     onMouseLeave={() => setsubHoverIdx(null)}
                     className={`${
-                      pathname === to &&
+                      isActive(to as string) &&
                       "!border-l-5 !border-[#073CE9] !bg-white !text-reds"
                     } rounded-r-md pl-6 hover:bg-white font-medium border-l-5 border-transparent  py-2 hover:!text-reds`}
                   >
@@ -116,7 +124,7 @@ export default function NavItem({ item }: NavItemProps) {
                           <FavIcon
                             hoverColor="#ef4444"
                             groupHover={subhoverIdx === subIndex}
-                            activeColor={pathname === to && ("#ef4444" as any)}
+                            activeColor={isActive(to) && ("#ef4444" as any)}
                             name={icon}
                           />
                         )}{" "}
