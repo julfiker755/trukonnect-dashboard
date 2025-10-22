@@ -35,7 +35,7 @@ export const countryApi = baseApi.injectEndpoints({
     updateCountry: build.mutation({
       query: ({ id, data }) => ({
         url: `admin/edit-countrie/${id}`,
-        method: "PATCH",
+        method: "POST",
         body: data,
       }),
       invalidatesTags: [tagTypes.country],

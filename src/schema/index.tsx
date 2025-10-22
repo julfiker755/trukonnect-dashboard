@@ -67,14 +67,21 @@ export const authSchema = z.object({
 });
 
 // countrySchema
-export const countrySchema = z.object({
+export const countrystore = z.object({
   flag: z
     .any()
     .refine((file) => file instanceof File, { message: "flag is required" }),
   name: z.string().nonempty("Name is required"),
   dial_code: z.string().nonempty("Dialing Code is required"),
-  currency_code: z.string().nonempty("Currency Code is required"),
-  token_rate: z.string().nonempty("Token Rate is required"),
+  currency: z.string().nonempty("Currency Code is required"),
+  rate: z.string().nonempty("Token Rate is required"),
+});
+export const countryEdit = z.object({
+  flag: z.any().optional(),
+  name: z.string().nonempty("Name is required"),
+  dial_code: z.string().nonempty("Dialing Code is required"),
+  currency: z.string().nonempty("Currency Code is required"),
+  rate: z.string().nonempty("Token Rate is required"),
 });
 
 // loginSchema

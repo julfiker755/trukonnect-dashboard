@@ -5,7 +5,6 @@ import Modal2 from "@/components/reuseable/modal2";
 import PlayerBox from "@/components/reuseable/player-box";
 import { Button, Input } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
 import React, { useState } from "react";
 
 export default function MediaControl() {
