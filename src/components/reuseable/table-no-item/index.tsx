@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import FavIcon from "@/icon/favIcon";
 
 
-interface itemProps {
+export interface itemProps {
   title?: string;
   colSpan: number;
   className?: string;

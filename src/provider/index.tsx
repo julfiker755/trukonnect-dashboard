@@ -34,3 +34,4 @@ export default function Provider({ children }: childrenProps) {
     </ReduxProvider>
   );
 }
+

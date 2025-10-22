@@ -5,63 +5,51 @@ import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
 import { FromTextArea } from "@/components/reuseable/from-textarea";
 import Modal2 from "@/components/reuseable/modal2";
-import { Button } from "@/components/ui";
+import { Button, Table } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import { useModalState } from "@/hooks/useModalState";
 import { engagementSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
-import ReactCountryFlag from "react-country-flag";
 import { FieldValues, useForm } from "react-hook-form";
 import FavIcon from "@/icon/favIcon";
-import React from "react";
+import React, { useState } from "react";
 import useConfirmation from "@/components/context/delete-modal";
-
-const facebookServices = [
-  {
-    id: 1,
-    name: "Facebook Page Likes",
-    minimumRequired: 100,
-    price: 3,
-  },
-  {
-    id: 2,
-    name: "Facebook Follows",
-    minimumRequired: 150,
-    price: 2,
-  },
-  {
-    id: 3,
-    name: "Facebook Post Likes",
-    minimumRequired: 200,
-    price: 4,
-  },
-  {
-    id: 4,
-    name: "Facebook Comments",
-    minimumRequired: 50,
-    price: 8,
-  },
-  {
-    id: 5,
-    name: "Facebook Shares",
-    minimumRequired: 100,
-    price: 2,
-  },
-];
+import {
+  TableNoItem2,
+  TableSkeleton2,
+} from "@/components/reuseable/table-skeleton2";
+import { useGetCountryQuery } from "@/redux/api/countryApi";
+import FlagBox from "@/components/reuseable/flag-box";
+import {
+  useDeleteEngmentMutation,
+  useGetEngmentQuery,
+  useStoreEngmentMutation,
+  useUpdateEngmentMutation,
+} from "@/redux/api/engagementApi";
+import { ResponseApiErrors } from "@/lib/api-response";
+import { helpers } from "@/lib";
+import { FakeInput } from "@/components/reuseable/fake-input";
 
 export default function PlatformSingle() {
   const { confirm } = useConfirmation();
+  const { slug } = useParams();
   const [state, updateState] = useModalState({
     isAdd: false,
     isEdit: false,
   });
-  const { slug } = useParams();
+  const [countryId, setCountryId] = useState(1);
+  const { data: engagement, isLoading } = useGetEngmentQuery(slug);
+  const { data: country } = useGetCountryQuery({});
+  const [storeEngment, { isLoading: storeLoading }] = useStoreEngmentMutation();
+  const [updateEngment, { isLoading: updateLoading }] =
+    useUpdateEngmentMutation();
+  const [deleteEngment] = useDeleteEngmentMutation();
   const addFrom = useForm({
-    resolver: zodResolver(engagementSchema),
+    resolver: zodResolver(engagementSchema.partial()),
     defaultValues: {
       name: "",
-      minimum: "",
+      minimum_qty: "",
       price: "",
       description: "",
     },
@@ -69,29 +57,78 @@ export default function PlatformSingle() {
 
   // handleSubmit
   const handleAddSubmit = async (values: FieldValues) => {
-    console.log(values);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    try {
+      const value = {
+        sm_id: slug,
+        country_id: countryId,
+        engagement_name: values.name,
+        description: values.description,
+        min_quantity: values.minimum_qty,
+        unit_price: values.price,
+      };
+      const data = helpers.fromData(value);
+      const res = await storeEngment(data).unwrap();
+      if (res.status) {
+        handleAddReset();
+      }
+    } catch (err: any) {
+      if (err?.data?.errors) {
+        ResponseApiErrors(err?.data, addFrom);
+      }
+    }
   };
 
-  // editFrom
+  const handleAddReset = () => {
+    addFrom.reset();
+    updateState("isAdd", false);
+  };
+
+  // == editFrom ==
   const editFrom = useForm({
-    resolver: zodResolver(engagementSchema),
+    resolver: zodResolver(engagementSchema.partial()),
     defaultValues: {
+      id: "",
       name: "",
-      minimum: "",
+      minimum_qty: "",
       price: "",
       description: "",
     },
   });
 
-  // handleEditSubmit
   const handleEditSubmit = async (values: FieldValues) => {
-    console.log(values);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    try {
+      const value = {
+        _method: "put",
+        // sm_id: slug,
+        engagement_name: values.name,
+        description: values.description,
+        min_quantity: values.minimum_qty,
+        unit_price: values.price,
+      };
+      const data = helpers.fromData(value);
+      const res = await updateEngment({ id: values.id, data });
+      if (res?.data?.status) {
+        handleEditReset();
+      }
+    } catch (err: any) {
+      if (err?.data?.errors) {
+        ResponseApiErrors(err?.data, editFrom);
+      }
+    }
+  };
+
+  const handleEdit = (item: any) => {
+    updateState("isEdit", true);
+    editFrom.setValue("name", item?.engagement_name);
+    editFrom.setValue("minimum_qty", item?.min_quantity?.toString());
+    editFrom.setValue("price", item?.unit_price?.toString());
+    editFrom.setValue("description", item?.description);
+    editFrom.setValue("id", item?.id?.toString());
+  };
+
+  const handleEditReset = () => {
+    editFrom.reset();
+    updateState("isEdit", false);
   };
 
   const handleDelete = async (id: string) => {
@@ -101,9 +138,15 @@ export default function PlatformSingle() {
         "After deleting, users wont be able to find this engagement in your app",
     });
     if (con) {
-      console.log(id);
+      await deleteEngment(id).unwrap();
     }
   };
+
+  //  == filter by country wase data ==
+  const engItem = engagement?.data?.filter(
+    (cty: any) => cty?.country?.id == countryId
+  );
+
   return (
     <div>
       <Navber
@@ -118,86 +161,85 @@ export default function PlatformSingle() {
       <ul className="flex flex-wrap justify-between items-center">
         <li className="text-xl">Engagement types</li>
         <li className="space-x-4 flex items-center flex-wrap">
-          <span className="text-lg">Selected Currency:</span>
-           <div className="space-x-4 mt-3 lg:mt-0">
-           <span className="border p-1 btn-shadow rounded-md">
-            <ReactCountryFlag
-              countryCode={"GH"}
-              svg
-              style={{
-                width: "1em",
-                height: "1em",
-              }}
-              title={"Ghana"}
-            />
-            <span className="ml-1"> Ghana</span>
-          </span>
-          <span className="border p-1 btn-shadow rounded-md">
-            <ReactCountryFlag
-              countryCode={"NG"}
-              svg
-              style={{
-                width: "1em",
-                height: "1em",
-              }}
-              title={"Nigeria"}
-            />
-            <span className="ml-1">Nigeria</span>
-          </span>
-           </div>
+          <span className="text-lg">Selected Country:</span>
+          <div className="space-x-4 flex mt-3 lg:mt-0">
+            {/* btn-shadow */}
+            {country?.data?.map((item: any) => (
+              <FlagBox
+                className={`border-1 cursor-pointer p-1 ${
+                  item.id == countryId && "btn-shadow"
+                } rounded-md`}
+                key={item.id}
+                href={item.flag}
+                name={item.name}
+                onClick={() => setCountryId(item.id)}
+              />
+            ))}
+          </div>
         </li>
       </ul>
       <div className="bg-[#575757]/10 rounded-md mt-8">
-        <div className="table w-full">
+        <Table>
           {/* Table Header */}
-          <div className="table-header-group">
-            <div className="table-row">
-              <div className="table-cell px-6 py-4 text-left text-sm font-semibold text-white">
+          <thead className="table-header-group">
+            <tr className="table-row">
+              <th className="px-6 table-cell py-4 text-left text-sm font-semibold text-white">
                 Name
-              </div>
-              <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+              </th>
+              <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
                 Minimum Required
-              </div>
-              <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+              </th>
+              <th className="px-6 table-cell  py-4 text-center text-sm font-semibold text-white">
                 Each Eng. Price
-              </div>
-              <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+              </th>
+              <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
                 Action
-              </div>
-            </div>
-          </div>
+              </th>
+            </tr>
+          </thead>
 
           {/* Table Body */}
-          <div className="table-row-group">
-            {facebookServices.map((service) => (
-              <div key={service.id} className="table-row transition-colors">
-                <div className="table-cell px-6 py-4 text-sm">
-                  {service.name}
-                </div>
-                <div className="table-cell px-6 py-4 text-sm text-center">
-                  {service.minimumRequired}
-                </div>
-                <div className="table-cell px-6 py-4 text-sm text-center">
-                  ₡ {service.price}
-                </div>
-                <div className="table-cell px-6 py-4 text-center">
-                  <button
-                    onClick={() => updateState("isEdit", true)}
-                    className="mr-2 cursor-pointer"
-                  >
-                    <FavIcon name="edit2" />
-                  </button>
-                  <button
-                    className="cursor-pointer"
-                    onClick={() => handleDelete("55")}
-                  >
-                    <FavIcon name="delete" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          <tbody className="table-row-group">
+            {isLoading ? (
+              <TableSkeleton2 colSpan={4} />
+            ) : engagement?.data?.length > 0 ? (
+              engItem?.length > 0 ? (
+                engItem.map((item: any) => (
+                  <tr key={item.id} className="transition-colors table-row">
+                    <td className="px-6 py-4 table-cell text-sm">
+                      {item.engagement_name}
+                    </td>
+                    <td className="px-6 py-4  table-cell text-sm text-center">
+                      {item.min_quantity}
+                    </td>
+                    <td className="px-6 py-4 table-cell text-sm text-center">
+                      {item?.unit_price}
+                    </td>
+                    <td className="px-6 py-4 table-cell text-center">
+                      <button
+                        onClick={() => handleEdit(item)}
+                        className="mr-2 cursor-pointer"
+                      >
+                        <FavIcon name="edit2" />
+                      </button>
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <FavIcon name="delete" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <TableNoItem2 colSpan={4} title="Not Engagement Found" />
+              )
+            ) : (
+              <TableNoItem2 colSpan={4} title="Not Engagement Found" />
+            )}
+          </tbody>
+        </Table>
+
         <div className="p-4 flex justify-center mt-10">
           <Button
             onClick={() => updateState("isAdd", true)}
@@ -208,6 +250,7 @@ export default function PlatformSingle() {
           </Button>
         </div>
       </div>
+
       {/* =========== Add New Engagement ========== */}
       <Modal2 open={state.isAdd} setIsOpen={(v) => updateState("isAdd", v)}>
         <ul className="flex items-center pt-1 justify-between">
@@ -220,10 +263,7 @@ export default function PlatformSingle() {
           <li>
             <CloseIcon
               className="top-4 right-3"
-              onClose={() => {
-                addFrom.reset();
-                updateState("isAdd", false);
-              }}
+              onClose={() => handleAddReset()}
             />
           </li>
         </ul>
@@ -237,9 +277,10 @@ export default function PlatformSingle() {
             />
             <FromInput
               label="Minimum Required"
-              name="minimum"
+              name="minimum_qty"
               placeholder="Enter Minimum Quantity Required"
               className="h-10"
+              type="number"
             />
             <FromInput
               label="Price"
@@ -255,13 +296,12 @@ export default function PlatformSingle() {
               className="min-h-25"
             />
             <div className="space-y-2">
-              <CloseBtn
-                onClose={() => {
-                  addFrom.reset();
-                  updateState("isAdd", false);
-                }}
-              />
-              <Button className="w-full" variant="primary">
+              <CloseBtn onClose={() => handleAddReset()} />
+              <Button
+                disabled={storeLoading}
+                className="w-full"
+                variant="primary"
+              >
                 Add
               </Button>
             </div>
@@ -278,15 +318,13 @@ export default function PlatformSingle() {
           <li>
             <CloseIcon
               className="top-4 right-3"
-              onClose={() => {
-                editFrom.reset();
-                updateState("isEdit", false);
-              }}
+              onClose={() => handleEditReset()}
             />
           </li>
         </ul>
         <Form from={editFrom} onSubmit={handleEditSubmit}>
           <div className="space-y-6 pt-10">
+            <FakeInput name="id" />
             <FromInput
               label="Engagement Name"
               name="name"
@@ -295,7 +333,7 @@ export default function PlatformSingle() {
             />
             <FromInput
               label="Minimum Required"
-              name="minimum"
+              name="minimum_qty"
               placeholder="Enter Minimum Quantity Required"
               className="h-10"
             />
@@ -313,13 +351,12 @@ export default function PlatformSingle() {
               className="min-h-25"
             />
             <div className="space-y-2">
-              <CloseBtn
-                onClose={() => {
-                  editFrom.reset();
-                  updateState("isEdit", false);
-                }}
-              />
-              <Button className="w-full" variant="primary">
+              <CloseBtn onClose={() => handleEditReset()} />
+              <Button
+                disabled={updateLoading}
+                className="w-full"
+                variant="primary"
+              >
                 Edit
               </Button>
             </div>

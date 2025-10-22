@@ -23,8 +23,9 @@ export const platformSchema = z.object({
 
 // engagementSchema
 export const engagementSchema = z.object({
+  id: z.string().optional(),
   name: z.string().nonempty("Name is required"),
-  minimum: z.string().nonempty("Minimum is required"),
+  minimum_qty: z.string().nonempty("Minimum is required"),
   price: z.string().nonempty("Price is required"),
   description: z.string().nonempty("Description is required"),
 });

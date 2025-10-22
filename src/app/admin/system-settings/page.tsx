@@ -2,7 +2,7 @@
 import Form from "@/components/reuseable/from";
 import { FromInput } from "@/components/reuseable/from-input";
 import ImgUpload from "@/components/reuseable/img-uplod";
-import { Button, Skeleton } from "@/components/ui";
+import { Button, Table } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import {
   useDeleteCountryMutation,
@@ -17,10 +17,14 @@ import React, { useState } from "react";
 import { countryEdit, countrystore } from "@/schema";
 import { ResponseApiErrors } from "@/lib/api-response";
 import useConfirmation from "@/components/context/delete-modal";
-import { Pagination } from "@/components/reuseable/pagination";
 import Image from "next/image";
 import FavIcon from "@/icon/favIcon";
 import { helpers } from "@/lib";
+import {
+  TableNoItem2,
+  TableSkeleton2,
+} from "@/components/reuseable/table-skeleton2";
+import FlagBox from "@/components/reuseable/flag-box";
 
 const intFlag = {
   preview: "",
@@ -29,10 +33,9 @@ const intFlag = {
 export default function SystemSettings() {
   const { confirm } = useConfirmation();
   const [isSchema, setIsSchema] = useState(countrystore);
-  const [page, setPage] = useState(1);
   const [flag, setIsFlag] = useState<any>(intFlag);
   const [selectedCountry, setSelectedCountry] = useState<any>(null);
-  const { data: country, isLoading } = useGetCountryQuery({ page });
+  const { data: country, isLoading } = useGetCountryQuery({});
   const [deleteCountry] = useDeleteCountryMutation();
   const [storeCountry, { isLoading: storeLoading }] = useStoreCountryMutation();
   const [updateCountry, { isLoading: updateLoading }] =
@@ -80,8 +83,9 @@ export default function SystemSettings() {
   const handleEdit = (item: any) => {
     setIsSchema(countryEdit as any);
     setSelectedCountry(item);
+    const dialCode = parseFloat(item.dial_code);
     from.setValue("name", item.name);
-    from.setValue("dial_code", item.dial_code);
+    from.setValue("dial_code", `${dialCode}`);
     from.setValue("currency", item.currency_code);
     from.setValue("rate", item.token_rate);
     setIsFlag({ preview: helpers.imgSource(item.flag) });
@@ -209,106 +213,69 @@ export default function SystemSettings() {
           <h1 className="text-2xl font-semibold mb-4">
             Current Supported Countries
           </h1>
-          <div>
-            <div className="table w-full">
-              <div className="table-header-group">
-                <div className="table-row">
-                  <div className="table-cell px-6 py-4 text-left text-sm font-semibold text-white">
-                    Country
-                  </div>
-                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
-                    Dialing Code
-                  </div>
-                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
-                    Token Rate
-                  </div>
-                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
-                    Currency Code
-                  </div>
-                  <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
-                    Action
-                  </div>
-                </div>
-              </div>
-              <div className="table-row-group">
-                {isLoading
-                  ? CounTeSkeleton()
-                  : country?.data?.map((item: any) => (
-                      <div
-                        key={item.id}
-                        className="table-row transition-colors"
+
+          <Table>
+            {/* Table Header */}
+            <thead className="table-header-group">
+              <tr className="table-row">
+                <th className="px-6 table-cell py-4 text-left text-sm font-semibold text-white">
+                  Country
+                </th>
+                <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
+                  Dialing Code
+                </th>
+                <th className="px-6 table-cell  py-4 text-center text-sm font-semibold text-white">
+                  Token Rate
+                </th>
+                <th className="px-6 table-cell  py-4 text-center text-sm font-semibold text-white">
+                  Currency Code
+                </th>
+                <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody className="table-row-group">
+              {isLoading ? (
+                <TableSkeleton2 len={8} colSpan={5} />
+              ) : country?.data?.length > 0 ? (
+                country?.data?.map((item: any) => (
+                  <tr key={item.id} className="transition-colors table-row">
+                    <td className="px-6 py-4 table-cell text-sm">
+                      <FlagBox href={item.flag} name={item.name} />
+                    </td>
+                    <td className="px-6 py-4  table-cell text-sm text-center">
+                      {item?.dial_code}
+                    </td>
+                    <td className="px-6 py-4 table-cell text-sm text-center">
+                      {item?.token_rate}
+                    </td>
+                    <td className="px-6 py-4 table-cell text-sm text-center">
+                      {item?.currency_code}
+                    </td>
+                    <td className="px-6 py-4 table-cell text-center">
+                      <button
+                        onClick={() => handleEdit(item)}
+                        className="mr-2 cursor-pointer"
                       >
-                        <div className="table-cell px-6 py-4 text-sm">
-                          <div className="flex items-center">
-                            <picture>
-                              <img
-                                src={helpers.imgSource(item?.flag)}
-                                alt="flag"
-                                className="w-[20px] h-[15px]"
-                              />
-                            </picture>
-                            <span className="ml-2"> {item?.name}</span>
-                          </div>
-                        </div>
-                        <div className="table-cell px-6 py-4 text-sm text-center">
-                          {item?.dial_code}
-                        </div>
-                        <div className="table-cell px-6 py-4 text-sm text-center">
-                          {item?.token_rate}
-                        </div>
-                        <div className="table-cell px-6 py-4 text-sm text-center">
-                          {item?.currency_code}
-                        </div>
-                        <div className="table-cell px-6 py-4 text-center">
-                          <button
-                            onClick={() => handleEdit(item)}
-                            className="mr-2 cursor-pointer"
-                          >
-                            <FavIcon name="edit2" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="cursor-pointer"
-                          >
-                            <FavIcon name="delete" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-              </div>
-            </div>
-          </div>
-          {!isLoading && (
-            <Pagination
-              onClick={(v: any) => setPage(v)}
-              {...country?.meta}
-            ></Pagination>
-          )}
+                        <FavIcon name="edit2" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="cursor-pointer"
+                      >
+                        <FavIcon name="delete" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <TableNoItem2 colSpan={5} title="Not Country Found" />
+              )}
+            </tbody>
+          </Table>
         </div>
       </div>
     </div>
   );
-}
-
-// ===== CounTeSkeleton ========
-function CounTeSkeleton() {
-  return [...Array(10)].map((_, index) => (
-    <div key={index} className="table-row">
-      <div className="table-cell px-1 py-3 text-center text-sm">
-        <Skeleton className="w-[100px] mx-auto rounded-sm text-center h-[20px]" />
-      </div>
-      <div className="table-cell px-1 py-3 text-sm">
-        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
-      </div>
-      <div className="table-cell px-1 py-3 text-sm">
-        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
-      </div>
-      <div className="table-cell px-1 py-3 text-sm">
-        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
-      </div>
-      <div className="table-cell px-1 py-3 text-sm">
-        <Skeleton className="w-[100px] mx-auto rounded-sm h-[20px]" />
-      </div>
-    </div>
-  ));
 }

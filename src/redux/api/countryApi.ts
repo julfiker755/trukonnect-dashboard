@@ -11,9 +11,6 @@ export const countryApi = baseApi.injectEndpoints({
         params: arg,
       }),
       providesTags: [tagTypes.country],
-      transformResponse: (response: any) => {
-        return buildResponse(response.data);
-      },
     }),
     storeCountry: build.mutation({
       query: (data) => {
