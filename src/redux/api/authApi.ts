@@ -8,7 +8,7 @@ export const authApi = baseApi.injectEndpoints({
         return {
           url: "/auth/signin",
           method: "POST",
-          body:data,
+          body: data,
         };
       },
       invalidatesTags: [tagTypes.profile],
@@ -17,14 +17,14 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/auth/forgot-password",
         method: "POST",
-        body:data,
+        body: data,
       }),
     }),
     otpVarify: build.mutation({
       query: (data) => ({
         url: "/auth/verify-otp",
         method: "POST",
-        body:data,
+        body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
@@ -32,7 +32,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/auth/set-new-password",
         method: "POST",
-        body:data,
+        body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
@@ -40,7 +40,14 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/auth/set-new-password",
         method: "POST",
-        body:data,
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.profile],
+    }),
+    signOut: build.mutation({
+      query: () => ({
+        url: "/auth/signout",
+        method: "POST",
       }),
       invalidatesTags: [tagTypes.profile],
     }),
@@ -67,7 +74,6 @@ export const authApi = baseApi.injectEndpoints({
     //   }),
     //   invalidatesTags: [tagTypes.profile],
     // }),
-
   }),
 });
 
@@ -76,5 +82,6 @@ export const {
   useForgotPasswordMutation,
   useOtpVarifyMutation,
   useNewPasswordMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useSignOutMutation,
 } = authApi;

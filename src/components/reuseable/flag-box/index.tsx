@@ -3,11 +3,12 @@ import React from "react";
 
 interface flagProps {
   href: string;
-  name: string;
+  name?: string;
   className?: string;
   imgStyle?: string;
   nameStyle?: string;
   onClick?: () => any;
+  label?: boolean;
 }
 
 export default function FlagBox({
@@ -17,6 +18,7 @@ export default function FlagBox({
   imgStyle,
   nameStyle,
   onClick,
+  label = true,
 }: flagProps) {
   return (
     <div onClick={onClick} className={cn(`flex items-center`, className)}>
@@ -27,7 +29,7 @@ export default function FlagBox({
           className={cn(`w-[20px] h-[15px]`, imgStyle)}
         />
       </picture>
-      <span className={cn(`ml-2`, nameStyle)}>{name}</span>
+      {label && <span className={cn(`ml-2`, nameStyle)}>{name}</span>}
     </div>
   );
 }

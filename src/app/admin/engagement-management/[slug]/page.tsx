@@ -19,14 +19,14 @@ import {
   TableNoItem2,
   TableSkeleton2,
 } from "@/components/reuseable/table-skeleton2";
-import { useGetCountryQuery } from "@/redux/api/countryApi";
+import { useGetCountryQuery } from "@/redux/api/admin/countryApi";
 import FlagBox from "@/components/reuseable/flag-box";
 import {
   useDeleteEngmentMutation,
   useGetEngmentQuery,
   useStoreEngmentMutation,
   useUpdateEngmentMutation,
-} from "@/redux/api/engagementApi";
+} from "@/redux/api/admin/engagementApi";
 import { ResponseApiErrors } from "@/lib/api-response";
 import { helpers } from "@/lib";
 import { FakeInput } from "@/components/reuseable/fake-input";
@@ -99,7 +99,6 @@ export default function PlatformSingle() {
     try {
       const value = {
         _method: "put",
-        // sm_id: slug,
         engagement_name: values.name,
         description: values.description,
         min_quantity: values.minimum_qty,

@@ -13,7 +13,7 @@ import { useModalState } from "@/hooks/useModalState";
 import {
   useGetSoMediaQuery,
   useStoreSoMediaMutation,
-} from "@/redux/api/engagementApi";
+} from "@/redux/api/admin/engagementApi";
 import { platformSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, Upload } from "lucide-react";

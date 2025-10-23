@@ -1,14 +1,9 @@
 import { z } from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
 
 // reviewerSchema
 export const reviewerSchema = z.object({
   name: z.string().nonempty("Name is required"),
-  phone: z
-    .string()
-    .nonempty("Phone is required")
-    .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
-
+  phone: z.string().nonempty("Phone is required"),
   email: z.string().nonempty("Email is required"),
   password: z.string().nonempty("Password is required"),
 });

@@ -1,5 +1,4 @@
 "use client";
-import { dummyJson } from "@/components/dummy-json";
 import Avatars from "@/components/reuseable/avater";
 import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
 import Form from "@/components/reuseable/from";
@@ -18,88 +17,24 @@ import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewerSchema } from "@/schema";
-import { CircleAlert } from "lucide-react";
 import { PhoneInput } from "@/components/reuseable/phone-input";
 import FavIcon from "@/icon/favIcon";
 import Link from "next/link";
-
-const item = [
-  {
-    reviewer: "Abir Hossain",
-    email: "abid32@gmail.com",
-    accountRe: 21,
-    taskRe: 21,
-    performanceRe: 21,
-  },
-  {
-    reviewer: "Maksud Bhuiya",
-    email: "user123@example.com",
-    accountRe: 10,
-    taskRe: 10,
-    performanceRe: 10,
-  },
-  {
-    reviewer: "Arjun Patel",
-    email: "hello@creativeoutlook.com",
-    accountRe: 15,
-    taskRe: 15,
-    performanceRe: 15,
-  },
-  {
-    reviewer: "Sita Sharma",
-    email: "info@innovativeideas.com",
-    accountRe: 2,
-    taskRe: 2,
-    performanceRe: 2,
-  },
-  {
-    reviewer: "Kiran Mehta",
-    email: "support@techsolutions.com",
-    accountRe: 1,
-    taskRe: 1,
-    performanceRe: 1,
-  },
-  {
-    reviewer: "Ravi Kumar",
-    email: "contact@brightfuture.com",
-    accountRe: 12,
-    taskRe: 12,
-    performanceRe: 12,
-  },
-  {
-    reviewer: "Anita Desai",
-    email: "admin@yourdomain.com",
-    accountRe: 19,
-    taskRe: 19,
-    performanceRe: 19,
-  },
-  {
-    reviewer: "Deepak Singh",
-    email: "reachus@smartsolutions.com",
-    accountRe: 6,
-    taskRe: 6,
-    performanceRe: 6,
-  },
-  {
-    reviewer: "Deepak Verma",
-    email: "reachus@smartsolutions.com",
-    accountRe: 58,
-    taskRe: 58,
-    performanceRe: 58,
-  },
-  {
-    reviewer: "Deepak Joshi",
-    email: "reachus@smartsolutions.com",
-    accountRe: 14,
-    taskRe: 14,
-    performanceRe: 14,
-  },
-];
+import {
+  useGetReviewerQuery,
+  useStoreReviewerMutation,
+} from "@/redux/api/admin/reviewerApi";
+import { helpers } from "@/lib";
+import { ResponseApiErrors } from "@/lib/api-response";
 
 export default function ReviewerManagement() {
   const [isValue, setIsValue] = useState("not_banned");
   const [isStore, setIsStore] = useState(false);
   const [isPage, setIsPage] = useState(1);
+  const { data: reviewer, isLoading } = useGetReviewerQuery({page:isPage});
+  const [counId, setIsCoun] = useState("");
+  const [storeReviewer, { isLoading: stIsLoading }] =
+    useStoreReviewerMutation();
   const from = useForm({
     resolver: zodResolver(reviewerSchema),
     defaultValues: {
@@ -121,13 +56,32 @@ export default function ReviewerManagement() {
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
-    console.log(values);
-    // from.reset();
+    try {
+      const value = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        password: values.password,
+        country_id: counId,
+      };
+      const data = helpers.fromData(value);
+      const res = await storeReviewer(data).unwrap();
+      if (res.status) {
+        handleStReset();
+      }
+    } catch (err: any) {
+      if (err?.data?.errors) {
+        ResponseApiErrors(err?.data, from);
+      }
+    }
   };
-  const handleReset = () => {
+  const handleStReset = () => {
     from.reset();
+    setIsStore(false);
   };
-  const isLoading = false;
+
+
+
   return (
     <div>
       <Navber
@@ -172,26 +126,26 @@ export default function ReviewerManagement() {
         <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+          ) : reviewer?.data?.length > 0 ? (
+            reviewer?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
                 {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={""}
-                      fallback={item.reviewer}
-                      alt={item.reviewer}
+                      src={helpers.imgSource(item?.avatar)}
+                      fallback={item.name}
+                      alt={item.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.reviewer}</span>
+                    <span>{item.name}</span>
                   </div>
                 </TableCell>
                 {/* Email */}
                 <TableCell>{item.email}</TableCell>
-                <TableCell>{item.accountRe}</TableCell>
-                <TableCell>{item.taskRe}</TableCell>
-                <TableCell>{item.performanceRe}</TableCell>
+                <TableCell>0</TableCell>
+                <TableCell>0</TableCell>
+                <TableCell>0</TableCell>
                 {/* Action Buttons */}
                 <TableCell>
                   <Link href={`/admin/reviewer-management/9`}>
@@ -206,15 +160,15 @@ export default function ReviewerManagement() {
           ) : (
             <TableNoItem
               colSpan={headers?.length}
-              title="No users are available at the moment"
-              tdStyle="!bg-background"
+              title="No Reviewer are available at the moment"
+              className="bg-transparent"
             />
           )}
         </CustomTable>
 
         <Pagination
           onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
+          {...reviewer?.meta}
         ></Pagination>
       </div>
       {/* ============= Add New Reviewer ========== */}
@@ -227,13 +181,7 @@ export default function ReviewerManagement() {
             Please provide reviewer email & name. Then create a password.
           </h1>
         </div>
-        <CloseIcon
-          className="mt-2 mr-3"
-          onClose={() => {
-            handleReset();
-            setIsStore(false);
-          }}
-        />
+        <CloseIcon className="mt-2 mr-3" onClose={() => handleStReset()} />
         <Form from={from} onSubmit={handleSubmit} className="space-y-4">
           <FromInput
             className="h-10"
@@ -249,24 +197,13 @@ export default function ReviewerManagement() {
             placeholder="Enter your email"
             icon={<FavIcon name="mail" className="size-4" color="#777777" />}
           />
-          <div>
-            <div className="text-blacks text-base font-medium pb-1">
-              Contact Number
-            </div>
-            <PhoneInput
-              onChange={(v) => {
-                from.setValue("phone", v);
-              }}
-              placeholder="Enter your contact number"
-            />
-            {from?.formState?.errors?.phone && (
-              <p className="text-reds justify-end  text-[#f73f4e]  flex items-center gap-1 text-sm">
-                {from?.formState?.errors?.phone?.message as string}
-                <CircleAlert size={14} />
-              </p>
-            )}
-          </div>
-
+          <PhoneInput
+            onChange={(v: any) => {
+              setIsCoun(v);
+            }}
+            label="Contact Number"
+            name="phone"
+          />
           <FromInput
             className="h-10"
             name="password"
@@ -278,13 +215,8 @@ export default function ReviewerManagement() {
             }
           />
 
-          <CloseBtn
-            onClose={() => {
-              handleReset();
-              setIsStore(false);
-            }}
-          />
-          <Button variant="primary" className="w-full">
+          <CloseBtn onClose={() => handleStReset()} />
+          <Button disabled={stIsLoading} variant="primary" className="w-full">
             Add
           </Button>
         </Form>

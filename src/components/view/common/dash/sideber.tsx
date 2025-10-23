@@ -5,9 +5,10 @@ import { adminLinks, reviewerlinks } from "./navdata";
 import FavIcon from "@/icon/favIcon";
 import NavItem from "./navitem";
 import Avatars from "@/components/reuseable/avater";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-
+import { useSignOutMutation } from "@/redux/api/authApi";
+import { authKey, helpers } from "@/lib";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -16,7 +17,15 @@ interface SidebarProps {
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const links = pathname.includes("/admin") ? adminLinks : reviewerlinks;
+  const [signOut] = useSignOutMutation();
+
+  async function hanldeSignOut() {
+    await signOut({}).unwrap();
+    helpers.removeAuthCookie(authKey);
+    router.push("/");
+  }
 
   return (
     <div className="flex">
@@ -43,7 +52,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       >
         <div>
           <div className="flex justify-center h-[60px]">
-            <Link href={links && links[0]?.to || ""}>
+            <Link href={(links && links[0]?.to) || ""}>
               <ul className="flex justify-center space-x-2 items-center">
                 <li>
                   <FavIcon className="w-[72px] h-[60px]" name="logo" />
@@ -61,7 +70,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 variant="primary"
                 className="bg-figma-primary px-2 text-white w-full h-12 rounded-sm"
               >
-                <div className="flex w-full items-center justify-between">
+                <div
+                  onClick={() => hanldeSignOut()}
+                  className="flex w-full items-center justify-between"
+                >
                   <span className="flex items-center gap-x-1">
                     <Avatars
                       className="bg-white text-black rounded-md 2xl:size-10"

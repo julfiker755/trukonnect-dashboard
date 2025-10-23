@@ -1,6 +1,5 @@
-import { buildResponse } from "@/lib/api-response";
-import { tagTypes } from "../tag-types";
-import { baseApi } from "./baseApi";
+import { tagTypes } from "../../tag-types";
+import { baseApi } from "../baseApi";
 
 export const countryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

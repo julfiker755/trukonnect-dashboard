@@ -9,7 +9,7 @@ import {
   useGetCountryQuery,
   useStoreCountryMutation,
   useUpdateCountryMutation,
-} from "@/redux/api/countryApi";
+} from "@/redux/api/admin/countryApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, Upload } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ import {
   TableSkeleton2,
 } from "@/components/reuseable/table-skeleton2";
 import FlagBox from "@/components/reuseable/flag-box";
+import { DialInput } from "@/components/reuseable/diaing-input";
 
 const intFlag = {
   preview: "",
@@ -83,9 +84,8 @@ export default function SystemSettings() {
   const handleEdit = (item: any) => {
     setIsSchema(countryEdit as any);
     setSelectedCountry(item);
-    const dialCode = parseFloat(item.dial_code);
     from.setValue("name", item.name);
-    from.setValue("dial_code", `${dialCode}`);
+    from.setValue("dial_code", item.dial_code);
     from.setValue("currency", item.currency_code);
     from.setValue("rate", item.token_rate);
     setIsFlag({ preview: helpers.imgSource(item.flag) });
@@ -163,7 +163,7 @@ export default function SystemSettings() {
                 placeholder="Write the country name"
                 className="h-10"
               />
-              <FromInput
+              <DialInput
                 label="Dialing Code"
                 name="dial_code"
                 placeholder="Write the dialing code"
