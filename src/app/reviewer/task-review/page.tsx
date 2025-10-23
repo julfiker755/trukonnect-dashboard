@@ -50,7 +50,7 @@ export default function TaskReview() {
   return (
     <div>
       <Navber
-      title="Task Review"
+        title="Task Review"
         props={
           <>
             <SearchBox
@@ -111,10 +111,11 @@ export default function TaskReview() {
           {...dummyJson.meta}
         ></Pagination>
       </div>
-      {/* ===== account verification preview======= */}
+      {/* ===== preview======= */}
       <Modal2
         open={state.isPreview}
         setIsOpen={(v) => updateState("isPreview", v)}
+        style={`${state.isReject || state.isReport ? "!opacity-0" : ""}`}
       >
         <div className="space-y-5">
           <div className="flex justify-between items-center">

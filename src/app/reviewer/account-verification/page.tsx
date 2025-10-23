@@ -116,6 +116,7 @@ export default function AccountVarificaton() {
   });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
+  const [value, setIsValue] = useState("");
   const headers = [
     "User",
     "Role",
@@ -125,7 +126,10 @@ export default function AccountVarificaton() {
     "Contact",
     "Action",
   ];
-  console.log(isPage);
+
+  const handleRejection = () => {
+    console.log(value);
+  };
 
   const isLoading = false;
   return (
@@ -214,6 +218,7 @@ export default function AccountVarificaton() {
       <Modal2
         open={state.isPreview}
         setIsOpen={(v) => updateState("isPreview", v)}
+        style={`${state.isReject ? "!opacity-0" : ""}`}
       >
         <div>
           <ImgBox
@@ -276,9 +281,14 @@ export default function AccountVarificaton() {
           <Textarea
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
+            onChange={(e) => setIsValue(e.target.value)}
           />
           <CloseBtn onClose={() => updateState("isReject", false)} />
-          <Button variant="primary" className="w-full">
+          <Button
+            onClick={() => handleRejection()}
+            variant="primary"
+            className="w-full"
+          >
             Send
           </Button>
         </div>

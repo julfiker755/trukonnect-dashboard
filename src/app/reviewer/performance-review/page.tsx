@@ -12,7 +12,6 @@ import { Button, TableCell, TableRow, Textarea } from "@/components/ui";
 import Navber from "@/components/view/common/dash/navber";
 import SearchBox from "@/components/view/common/search-box";
 import FavIcon from "@/icon/favIcon";
-import { Files } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import calendar from "@/assets/calendar.svg";
@@ -116,6 +115,9 @@ export default function PerformanceReview() {
       <Modal2
         open={state.isPreview}
         setIsOpen={(v) => updateState("isPreview", v)}
+        style={`${
+          state.isSocail || state.isReject || state.isReport ? "!opacity-0" : ""
+        }`}
       >
         <div className="space-y-5">
           <div className="flex justify-between items-center">

@@ -33,12 +33,12 @@ export default function HomePage() {
       if (res.status) {
         const userRole = res?.user?.role;
         helpers.setAuthCookie(authKey, res.token);
-        if (userRole === role.performer) {
-          router.push("/performer");
+        if (userRole === role.reviewer) {
+          router.push("/reviewer");
         } else if (userRole === role.admin) {
           router.push("/admin");
-        } else if (userRole == role.user) {
-          setIsError("User doesn't have permission");
+        } else if (userRole == role.user || role.performer) {
+          setIsError("Doesn't have permission");
         }
       }
     } catch (err: any) {
