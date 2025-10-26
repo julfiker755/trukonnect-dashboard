@@ -1,120 +1,120 @@
-import Avatars from "@/components/reuseable/avater";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import UserManagementAction from "@/components/view/common/user-mange-action";
-import FavIcon from "@/icon/favIcon";
-import { PlaceholderImg } from "@/lib";
-import { IdParams } from "@/types";
-import Link from "next/link";
-import React from "react";
-import ReactCountryFlag from "react-country-flag";
+import Avatars from '@/components/reuseable/avater';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import UserManagementAction from '@/components/view/common/user-mange-action';
+import FavIcon from '@/icon/favIcon';
+import { PlaceholderImg } from '@/lib';
+import { IdParams } from '@/types';
+import Link from 'next/link';
+import React from 'react';
+import ReactCountryFlag from 'react-country-flag';
 
 const item = [
   {
-    user: "Abir",
-    role: "performer",
-    email: "abid32@gmail.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Abir',
+    role: 'performer',
+    email: 'abid32@gmail.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Maksud",
-    role: "creator",
-    email: "user123@example.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Maksud',
+    role: 'creator',
+    email: 'user123@example.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Arjun",
-    role: "performer",
-    email: "hello@creativeoutlook.com",
-    account: "Tik Tok",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Arjun',
+    role: 'performer',
+    email: 'hello@creativeoutlook.com',
+    account: 'Tik Tok',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Sita",
-    role: "creator",
-    email: "info@innovativeideas.com",
-    account: "Twitter",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Sita',
+    role: 'creator',
+    email: 'info@innovativeideas.com',
+    account: 'Twitter',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
   {
-    user: "Kiran",
-    role: "performer",
-    email: "support@techsolutions.com",
-    account: "Youtube",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Kiran',
+    role: 'performer',
+    email: 'support@techsolutions.com',
+    account: 'Youtube',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Ravi",
-    role: "creator",
-    email: "contact@brightfuture.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Ravi',
+    role: 'creator',
+    email: 'contact@brightfuture.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Anita",
-    role: "performer",
-    email: "admin@yourdomain.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Anita',
+    role: 'performer',
+    email: 'admin@yourdomain.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Deepak",
-    role: "creator",
-    email: "reachus@smartsolutions.com",
-    account: "Twitter",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Deepak',
+    role: 'creator',
+    email: 'reachus@smartsolutions.com',
+    account: 'Twitter',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Deepak",
-    role: "performer",
-    email: "reachus@smartsolutions.com",
-    account: "Tik Tok",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Deepak',
+    role: 'performer',
+    email: 'reachus@smartsolutions.com',
+    account: 'Tik Tok',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
 ];
 const overviewItem = [
   {
     icon: <FavIcon name="coin" />,
-    title: "Total earned tokens",
+    title: 'Total earned tokens',
     count: 265,
-    bg: "rgba(194, 255, 212, 0.10)",
-    circle: "rgba(255, 218, 45, 0.10)",
+    bg: 'rgba(194, 255, 212, 0.10)',
+    circle: 'rgba(255, 218, 45, 0.10)',
   },
   {
     icon: <FavIcon name="withdrawals" />,
-    title: "Total withdrawals",
+    title: 'Total withdrawals',
     count: 6531.0,
-    bg: "rgba(251, 190, 254, 0.10)",
-    circle: "rgba(124, 179, 66, 0.10)",
+    bg: 'rgba(251, 190, 254, 0.10)',
+    circle: 'rgba(124, 179, 66, 0.10)',
   },
   {
     icon: <FavIcon name="totaltask" />,
-    title: "Total Perform Task",
+    title: 'Total Perform Task',
     count: 458,
-    bg: "rgba(190, 223, 254, 0.10)",
-    circle: "rgba(255, 172, 48, 0.10)",
+    bg: 'rgba(190, 223, 254, 0.10)',
+    circle: 'rgba(255, 172, 48, 0.10)',
   },
 ];
 
@@ -127,10 +127,7 @@ export default async function UserDetail({ params }: IdParams) {
         className="py-4"
         backbtn={
           <div className="flex items-center">
-            <BackBtn
-              className="hidden lg:grid"
-              iconStyle="text-figma-primary"
-            />
+            <BackBtn className="hidden lg:grid" iconStyle="text-figma-primary" />
             <h1 className="text-xl font-medium">Performer Details</h1>
           </div>
         }
@@ -204,10 +201,7 @@ export default async function UserDetail({ params }: IdParams) {
       <ul className="flex justify-between items-center">
         <li className="text-2xl font-medium">Referred Users</li>
         <li>
-          <Link
-            className="text-sm text-figma-primary"
-            href={`/admin/user-management/88`}
-          >
+          <Link className="text-sm text-figma-primary" href={`/admin/user-management/88`}>
             See All
           </Link>
         </li>
@@ -238,8 +232,8 @@ export default async function UserDetail({ params }: IdParams) {
                     countryCode={item.countryFlag}
                     svg
                     style={{
-                      width: "2em",
-                      height: "1em",
+                      width: '2em',
+                      height: '1em',
                     }}
                     title={item.region}
                   />

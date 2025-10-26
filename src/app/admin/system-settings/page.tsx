@@ -1,34 +1,31 @@
-"use client";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import ImgUpload from "@/components/reuseable/img-uplod";
-import { Button, Table } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
+'use client';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import ImgUpload from '@/components/reuseable/img-uplod';
+import { Button, Table } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
 import {
   useDeleteCountryMutation,
   useGetCountryQuery,
   useStoreCountryMutation,
   useUpdateCountryMutation,
-} from "@/redux/api/admin/countryApi";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleAlert, Upload } from "lucide-react";
-import { FieldValues, useForm } from "react-hook-form";
-import React, { useState } from "react";
-import { countryEdit, countrystore } from "@/schema";
-import { ResponseApiErrors } from "@/lib/api-response";
-import useConfirmation from "@/components/context/delete-modal";
-import Image from "next/image";
-import FavIcon from "@/icon/favIcon";
-import { helpers } from "@/lib";
-import {
-  TableNoItem2,
-  TableSkeleton2,
-} from "@/components/reuseable/table-skeleton2";
-import FlagBox from "@/components/reuseable/flag-box";
-import { DialInput } from "@/components/reuseable/diaing-input";
+} from '@/redux/api/admin/countryApi';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CircleAlert, Upload } from 'lucide-react';
+import { FieldValues, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { countryEdit, countrystore } from '@/schema';
+import { ResponseApiErrors } from '@/lib/api-response';
+import useConfirmation from '@/components/context/delete-modal';
+import Image from 'next/image';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
+import { TableNoItem2, TableSkeleton2 } from '@/components/reuseable/table-skeleton2';
+import FlagBox from '@/components/reuseable/flag-box';
+import { DialInput } from '@/components/reuseable/diaing-input';
 
 const intFlag = {
-  preview: "",
+  preview: '',
 };
 
 export default function SystemSettings() {
@@ -39,17 +36,16 @@ export default function SystemSettings() {
   const { data: country, isLoading } = useGetCountryQuery({});
   const [deleteCountry] = useDeleteCountryMutation();
   const [storeCountry, { isLoading: storeLoading }] = useStoreCountryMutation();
-  const [updateCountry, { isLoading: updateLoading }] =
-    useUpdateCountryMutation();
+  const [updateCountry, { isLoading: updateLoading }] = useUpdateCountryMutation();
 
   const from = useForm({
     resolver: zodResolver(isSchema),
     defaultValues: {
       flag: null,
-      name: "",
-      dial_code: "",
-      currency: "",
-      rate: "",
+      name: '',
+      dial_code: '',
+      currency: '',
+      rate: '',
     },
   });
 
@@ -61,7 +57,7 @@ export default function SystemSettings() {
       currency: values.currency,
       rate: values.rate,
       ...(values.flag && { flag: values.flag }),
-      ...(selectedCountry?.id && { _method: "put" }),
+      ...(selectedCountry?.id && { _method: 'put' }),
     };
 
     const data = helpers.fromData(value);
@@ -84,10 +80,10 @@ export default function SystemSettings() {
   const handleEdit = (item: any) => {
     setIsSchema(countryEdit as any);
     setSelectedCountry(item);
-    from.setValue("name", item.name);
-    from.setValue("dial_code", item.dial_code);
-    from.setValue("currency", item.currency_code);
-    from.setValue("rate", item.token_rate);
+    from.setValue('name', item.name);
+    from.setValue('dial_code', item.dial_code);
+    from.setValue('currency', item.currency_code);
+    from.setValue('rate', item.token_rate);
     setIsFlag({ preview: helpers.imgSource(item.flag) });
   };
 
@@ -102,9 +98,8 @@ export default function SystemSettings() {
   // hanlde delete
   const handleDelete = async (id: string) => {
     const con = await confirm({
-      title: "You are going to delete this Country",
-      description:
-        "After deleting, users wont be able to find this Country in your app",
+      title: 'You are going to delete this Country',
+      description: 'After deleting, users wont be able to find this Country in your app',
     });
     if (con) {
       await deleteCountry(id).unwrap();
@@ -118,7 +113,7 @@ export default function SystemSettings() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-card p-4 rounded-lg pb-6">
           <h1 className="text-2xl font-semibold mb-4">
-            {selectedCountry ? "Edit Country" : "Add New Country"}
+            {selectedCountry ? 'Edit Country' : 'Add New Country'}
           </h1>
           <Form from={from} onSubmit={handleSubmit}>
             <div className="space-y-6">
@@ -127,18 +122,13 @@ export default function SystemSettings() {
                 <ImgUpload
                   onFileSelect={(file: File) => {
                     setIsFlag({ ...flag, preview: URL.createObjectURL(file) });
-                    from.setValue("flag", file as any);
+                    from.setValue('flag', file as any);
                   }}
                 >
                   <div className="h-22 bg-figma-chart rounded-md flex flex-col justify-center items-center">
                     {flag.preview ? (
                       <div className="w-[60px] relative h-full my-3">
-                        <Image
-                          src={flag.preview || "/blur.png"}
-                          alt={"alt"}
-                          fill
-                          loading="lazy"
-                        />
+                        <Image src={flag.preview || '/blur.png'} alt={'alt'} fill loading="lazy" />
                       </div>
                     ) : (
                       <div>
@@ -183,11 +173,7 @@ export default function SystemSettings() {
                 placeholder="Write the currency"
                 className="h-10"
               />
-              <div
-                className={`grid grid-cols-1 ${
-                  selectedCountry && "lg:grid-cols-2"
-                } gap-5`}
-              >
+              <div className={`grid grid-cols-1 ${selectedCountry && 'lg:grid-cols-2'} gap-5`}>
                 {selectedCountry && (
                   <Button
                     type="button"
@@ -203,16 +189,14 @@ export default function SystemSettings() {
                   className="w-full"
                   variant="primary"
                 >
-                  {selectedCountry ? "Update" : "Add"}
+                  {selectedCountry ? 'Update' : 'Add'}
                 </Button>
               </div>
             </div>
           </Form>
         </div>
         <div className="bg-figma-card p-4 rounded-lg h-fit">
-          <h1 className="text-2xl font-semibold mb-4">
-            Current Supported Countries
-          </h1>
+          <h1 className="text-2xl font-semibold mb-4">Current Supported Countries</h1>
 
           <Table>
             {/* Table Header */}
@@ -244,26 +228,16 @@ export default function SystemSettings() {
                     <td className="px-6 py-4 table-cell text-sm">
                       <FlagBox href={item.flag} name={item.name} />
                     </td>
-                    <td className="px-6 py-4  table-cell text-sm text-center">
-                      {item?.dial_code}
-                    </td>
-                    <td className="px-6 py-4 table-cell text-sm text-center">
-                      {item?.token_rate}
-                    </td>
+                    <td className="px-6 py-4  table-cell text-sm text-center">{item?.dial_code}</td>
+                    <td className="px-6 py-4 table-cell text-sm text-center">{item?.token_rate}</td>
                     <td className="px-6 py-4 table-cell text-sm text-center">
                       {item?.currency_code}
                     </td>
                     <td className="px-6 py-4 table-cell text-center">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="mr-2 cursor-pointer"
-                      >
+                      <button onClick={() => handleEdit(item)} className="mr-2 cursor-pointer">
                         <FavIcon name="edit2" />
                       </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="cursor-pointer"
-                      >
+                      <button onClick={() => handleDelete(item.id)} className="cursor-pointer">
                         <FavIcon name="delete" />
                       </button>
                     </td>

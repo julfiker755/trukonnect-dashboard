@@ -1,18 +1,18 @@
-"use client";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { useForgotPasswordMutation } from "@/redux/api/authApi";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import FavIcon from "@/icon/favIcon";
-import React from "react";
-import { authSchema } from "@/schema";
-import { helpers } from "@/lib";
-import { toast } from "sonner";
-import { ResponseApiErrors } from "@/lib/api-response";
-import { Loader } from "lucide-react";
+'use client';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { useForgotPasswordMutation } from '@/redux/api/authApi';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FieldValues, useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import FavIcon from '@/icon/favIcon';
+import React from 'react';
+import { authSchema } from '@/schema';
+import { helpers } from '@/lib';
+import { toast } from 'sonner';
+import { ResponseApiErrors } from '@/lib/api-response';
+import { Loader } from 'lucide-react';
 
 export default function VerifyOtp() {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
@@ -20,7 +20,7 @@ export default function VerifyOtp() {
   const from = useForm({
     resolver: zodResolver(authSchema.partial()),
     defaultValues: {
-      email: "",
+      email: '',
     },
   });
 
@@ -31,8 +31,8 @@ export default function VerifyOtp() {
       if (res.status) {
         router.push(`/verify-otp/?email=${res.email}`);
         from.reset();
-        toast.success("OTP sent Successfully", {
-          description: "Please check your email",
+        toast.success('OTP sent Successfully', {
+          description: 'Please check your email',
         });
       }
     } catch (err: any) {
@@ -59,11 +59,7 @@ export default function VerifyOtp() {
             placeholder="Enter your email"
             icon={<FavIcon name="mail" className="size-4" color="#777777" />}
           />
-          <Button
-            variant="secondary"
-            onClick={() => router.back()}
-            className="w-full"
-          >
+          <Button variant="secondary" onClick={() => router.back()} className="w-full">
             Back to log in
           </Button>
           <Button disabled={isLoading} variant="primary" className="w-full">
@@ -73,7 +69,7 @@ export default function VerifyOtp() {
                 Waiting...
               </span>
             ) : (
-              "Submit"
+              'Submit'
             )}
           </Button>
         </Form>

@@ -1,12 +1,12 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui";
-import { cn } from "@/lib";
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui';
+import { cn } from '@/lib';
 
 // Define a generic type for PeriodToggleProps
 interface RadioToggleProps<T> {
   value: T;
   onValueChange: (value: T) => void;
-  options: { label: string; value: T }[]; 
+  options: { label: string; value: T }[];
   className?: string;
 }
 
@@ -29,10 +29,7 @@ function RadioToggle<T extends string | number>({
             id={String(option.value)}
             className="data-[state=checked]:border-figma-primary cursor-pointer data-[state=checked]:bg-figma-primary data-[state=checked]:text-figma-primary"
           />
-          <Label
-            htmlFor={String(option.value)}
-            className="text-sm text-slate-300"
-          >
+          <Label htmlFor={String(option.value)} className="text-sm text-slate-300">
             {option.label}
           </Label>
         </div>

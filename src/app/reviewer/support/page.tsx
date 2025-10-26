@@ -1,107 +1,99 @@
-"use client";
-import useSuccessModal from "@/components/context/sucess-box";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import { CloseIcon } from "@/components/reuseable/btn";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Badge, Button, TableCell, TableRow, Textarea } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import FavIcon from "@/icon/favIcon";
-import { helpers } from "@/lib";
-import React, { useState } from "react";
+'use client';
+import useSuccessModal from '@/components/context/sucess-box';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import { CloseIcon } from '@/components/reuseable/btn';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Badge, Button, TableCell, TableRow, Textarea } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
+import React, { useState } from 'react';
 
 const item = [
   {
-    user: "Abir",
-    role: "performer",
-    email: "abid32@gmail.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
+    user: 'Abir',
+    role: 'performer',
+    email: 'abid32@gmail.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
   },
   {
-    user: "Maksud",
-    role: "creator",
-    email: "user123@example.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
+    user: 'Maksud',
+    role: 'creator',
+    email: 'user123@example.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
   },
   {
-    user: "Arjun",
-    role: "performer",
-    email: "hello@creativeoutlook.com",
-    account: "Tik Tok",
-    region: "Ghana",
-    contact: "+233 5487542",
+    user: 'Arjun',
+    role: 'performer',
+    email: 'hello@creativeoutlook.com',
+    account: 'Tik Tok',
+    region: 'Ghana',
+    contact: '+233 5487542',
   },
   {
-    user: "Sita",
-    role: "creator",
-    email: "info@innovativeideas.com",
-    account: "Twitter",
-    region: "Nigeria",
-    contact: "+234 5485684",
+    user: 'Sita',
+    role: 'creator',
+    email: 'info@innovativeideas.com',
+    account: 'Twitter',
+    region: 'Nigeria',
+    contact: '+234 5485684',
   },
   {
-    user: "Kiran",
-    role: "performer",
-    email: "support@techsolutions.com",
-    account: "Youtube",
-    region: "Ghana",
-    contact: "+233 5487542",
+    user: 'Kiran',
+    role: 'performer',
+    email: 'support@techsolutions.com',
+    account: 'Youtube',
+    region: 'Ghana',
+    contact: '+233 5487542',
   },
   {
-    user: "Ravi",
-    role: "creator",
-    email: "contact@brightfuture.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
+    user: 'Ravi',
+    role: 'creator',
+    email: 'contact@brightfuture.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
   },
   {
-    user: "Anita",
-    role: "performer",
-    email: "admin@yourdomain.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
+    user: 'Anita',
+    role: 'performer',
+    email: 'admin@yourdomain.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
   },
   {
-    user: "Deepak",
-    role: "creator",
-    email: "reachus@smartsolutions.com",
-    account: "Twitter",
-    region: "Ghana",
-    contact: "+233 5487542",
+    user: 'Deepak',
+    role: 'creator',
+    email: 'reachus@smartsolutions.com',
+    account: 'Twitter',
+    region: 'Ghana',
+    contact: '+233 5487542',
   },
   {
-    user: "Deepak",
-    role: "performer",
-    email: "reachus@smartsolutions.com",
-    account: "Tik Tok",
-    region: "Nigeria",
-    contact: "+234 5485684",
+    user: 'Deepak',
+    role: 'performer',
+    email: 'reachus@smartsolutions.com',
+    account: 'Tik Tok',
+    region: 'Nigeria',
+    contact: '+234 5485684',
   },
 ];
 
 export default function Support() {
   const [isPreview, setIsPreview] = useState(false);
   const [isPage, setIsPage] = useState(1);
-  const headers = [
-    "User",
-    "Role",
-    "Email",
-    "Account",
-    "Region",
-    "Contact",
-    "Action",
-  ];
+  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
   console.log(isPage);
 
   const isLoading = false;
@@ -111,10 +103,7 @@ export default function Support() {
         title="Support"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
@@ -156,7 +145,7 @@ export default function Support() {
                     onClick={() => setIsPreview(!isPreview)}
                     className="flex justify-center cursor-pointer"
                   >
-                    {" "}
+                    {' '}
                     <FavIcon name="eye" />
                   </h1>
                 </TableCell>
@@ -170,10 +159,7 @@ export default function Support() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2 open={isPreview} setIsOpen={setIsPreview}>
@@ -183,8 +169,8 @@ export default function Support() {
             <CloseIcon className="static" onClose={() => setIsPreview(false)} />
           </div>
           <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-            instantly for showing your support!
+            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+            your support!
           </p>
           <ul className="*:text-lg *:leading-6 *:text-figma-gray">
             <li>- Tap in the link.</li>

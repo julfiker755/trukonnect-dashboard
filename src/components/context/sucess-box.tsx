@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Dialog,
@@ -6,12 +6,12 @@ import {
   DialogTitle,
   DialogDescription,
   DialogHeader,
-} from "@/components/ui";
-import { cn } from "@/lib/utils";
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { CloseBtn } from "../reuseable/btn";
-import sucessImg from "@/assets/sucess.gif";
-import { ImgBox } from "../reuseable/Img-box";
+} from '@/components/ui';
+import { cn } from '@/lib/utils';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { CloseBtn } from '../reuseable/btn';
+import sucessImg from '@/assets/sucess.gif';
+import { ImgBox } from '../reuseable/Img-box';
 
 /* =======================
    ✅ Types
@@ -27,7 +27,7 @@ interface SuccessModalState {
   descriptionStyle?: string;
 }
 
-type SuccessModalOptions = Partial<Omit<SuccessModalState, "open">>;
+type SuccessModalOptions = Partial<Omit<SuccessModalState, 'open'>>;
 
 interface SuccessModalContextType {
   openSucc: (options?: SuccessModalOptions) => Promise<boolean>;
@@ -42,28 +42,23 @@ interface SuccessModalProviderProps {
 ======================= */
 const initialModalState: SuccessModalState = {
   open: false,
-  title: "Successfull!",
-  description: "Operation completed successfully.",
-  className: "",
-  titleStyle: "",
-  descriptionStyle: "",
+  title: 'Successfull!',
+  description: 'Operation completed successfully.',
+  className: '',
+  titleStyle: '',
+  descriptionStyle: '',
 };
 
 /* =======================
    ✅ Context
 ======================= */
-const SuccessModalContext = createContext<SuccessModalContextType | undefined>(
-  undefined
-);
+const SuccessModalContext = createContext<SuccessModalContextType | undefined>(undefined);
 
 /* =======================
    ✅ Provider
 ======================= */
-export const SuccessModalProvider = ({
-  children,
-}: SuccessModalProviderProps) => {
-  const [modalState, setModalState] =
-    useState<SuccessModalState>(initialModalState);
+export const SuccessModalProvider = ({ children }: SuccessModalProviderProps) => {
+  const [modalState, setModalState] = useState<SuccessModalState>(initialModalState);
 
   const openSucc = (options: SuccessModalOptions = {}): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -82,36 +77,20 @@ export const SuccessModalProvider = ({
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           className={cn(
-            "sm:max-w-xs p-4  gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none",
+            'sm:max-w-xs p-4  gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none',
             modalState.className
           )}
         >
           <DialogHeader className="hidden">
             <DialogTitle>{modalState.title}</DialogTitle>
           </DialogHeader>
-          <DialogDescription className="hidden">
-            {modalState.description}
-          </DialogDescription>
+          <DialogDescription className="hidden">{modalState.description}</DialogDescription>
           <div className="space-y-2">
-            <ImgBox
-              src={sucessImg}
-              alt="sucessImg"
-              className="w-[110px] h-[100px] mx-auto"
-            />
-            <h1
-              className={cn(
-                "text-2xl font-medium text-center",
-                modalState.titleStyle
-              )}
-            >
+            <ImgBox src={sucessImg} alt="sucessImg" className="w-[110px] h-[100px] mx-auto" />
+            <h1 className={cn('text-2xl font-medium text-center', modalState.titleStyle)}>
               {modalState.title}
             </h1>
-            <h2
-              className={cn(
-                "text-figma-gray text-center",
-                modalState.descriptionStyle
-              )}
-            >
+            <h2 className={cn('text-figma-gray text-center', modalState.descriptionStyle)}>
               {modalState.description}
             </h2>
             <CloseBtn onClose={close} />
@@ -128,9 +107,7 @@ export const SuccessModalProvider = ({
 export default function useSuccessModal(): SuccessModalContextType {
   const context = useContext(SuccessModalContext);
   if (!context) {
-    throw new Error(
-      "useSuccessModal must be used within a SuccessModalProvider"
-    );
+    throw new Error('useSuccessModal must be used within a SuccessModalProvider');
   }
   return context;
 }

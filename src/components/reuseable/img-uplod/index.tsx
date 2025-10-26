@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useRef, ChangeEvent, ReactNode } from "react";
+import React, { useRef, ChangeEvent, ReactNode } from 'react';
 
 interface ImageUploaderProps {
   onFileSelect: (file: File) => void;
@@ -8,11 +8,7 @@ interface ImageUploaderProps {
   className?: string;
 }
 
-const ImgUpload: React.FC<ImageUploaderProps> = ({
-  onFileSelect,
-  children,
-  className,
-}) => {
+const ImgUpload: React.FC<ImageUploaderProps> = ({ onFileSelect, children, className }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // This function is triggered when a file is selected
@@ -28,13 +24,13 @@ const ImgUpload: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div onClick={handleClick} className={className} style={{ cursor: "pointer" }}>
+    <div onClick={handleClick} className={className} style={{ cursor: 'pointer' }}>
       {/* Hidden file input */}
       <input
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         accept="image/*" // Restrict to image files
       />
       {/* The visible trigger element (e.g., an icon or button) */}

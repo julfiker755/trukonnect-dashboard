@@ -1,15 +1,15 @@
-import { BackBtn } from "@/components/reuseable/back-btn";
-import Navber from "@/components/view/common/dash/navber";
-import FavIcon from "@/icon/favIcon";
-import { getSocial } from "@/icon/utils";
-import { IdParams } from "@/types";
-import Image from "next/image";
-import React from "react";
-import ReactCountryFlag from "react-country-flag";
-import calendar from "@/assets/calendar.svg";
-import { PlaceholderImg } from "@/lib";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import CopyBox from "@/components/reuseable/copy-box";
+import { BackBtn } from '@/components/reuseable/back-btn';
+import Navber from '@/components/view/common/dash/navber';
+import FavIcon from '@/icon/favIcon';
+import { getSocial } from '@/icon/utils';
+import { IdParams } from '@/types';
+import Image from 'next/image';
+import React from 'react';
+import ReactCountryFlag from 'react-country-flag';
+import calendar from '@/assets/calendar.svg';
+import { PlaceholderImg } from '@/lib';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import CopyBox from '@/components/reuseable/copy-box';
 
 export default async function RejectedTaskDetails({ params }: IdParams) {
   const { id } = await params;
@@ -32,8 +32,8 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
               <h1 className="text-xl">Instagram Likes</h1>
             </div>
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-              instantly for showing your support!
+              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+              your support!
             </p>
             <ul className="*:text-lg *:text-figma-gray">
               <li>- Tap in the link.</li>
@@ -49,13 +49,13 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
                 <span>Selected Audience</span>
                 <span>
                   <ReactCountryFlag
-                    countryCode={"GH"}
+                    countryCode={'GH'}
                     svg
                     style={{
-                      width: "2em",
-                      height: "1em",
+                      width: '2em',
+                      height: '1em',
                     }}
-                    title={"item.region"}
+                    title={'item.region'}
                   />
                   Ghana
                 </span>
@@ -69,7 +69,7 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
               <li className="flex justify-between items-center">
                 <span>Platform</span>
                 <span className="flex items-center">
-                  {getSocial("instagram")}
+                  {getSocial('instagram')}
                   <span className="ml-2">Instagram</span>
                 </span>
               </li>
@@ -130,9 +130,7 @@ export default async function RejectedTaskDetails({ params }: IdParams) {
           {/* Issue condition apply for the web */}
           <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
             <h1 className="text-lg mb-2">Issue</h1>
-            <p className="text-figma-gray">
-              I can not find the link which given by task creator.
-            </p>
+            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
           </div>
         </div>
       </div>

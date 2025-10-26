@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 type BooleanState = Record<string, boolean>;
 type BooleanStateUpdater<T extends BooleanState> = <K extends keyof T>(

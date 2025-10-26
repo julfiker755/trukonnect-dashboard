@@ -1,10 +1,10 @@
-import { cn } from "@/lib";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { cn } from '@/lib';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 const chartData = [
-  { name: "Orders Reviewed", value: 43, color: "#FF6B9D" },
-  { name: "Task Reviewed", value: 64, color: "#4ECDC4" },
-  { name: "Accounts Reviewed", value: 13, color: "#6366F1" },
+  { name: 'Orders Reviewed', value: 43, color: '#FF6B9D' },
+  { name: 'Task Reviewed', value: 64, color: '#4ECDC4' },
+  { name: 'Accounts Reviewed', value: 13, color: '#6366F1' },
 ];
 
 const CustomLegend = ({ payload }: any) => {
@@ -12,10 +12,7 @@ const CustomLegend = ({ payload }: any) => {
     <div className="flex justify-center gap-6 mt-4">
       {payload.map((entry: any, index: number) => (
         <div key={index} className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: entry.color }}
-          />
+          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
           <span className="text-sm text-muted-foreground">{entry.value}</span>
         </div>
       ))}
@@ -23,8 +20,7 @@ const CustomLegend = ({ payload }: any) => {
   );
 };
 
-
-export default function AnalyticChart({ className, show=true, heightStyle }: any) {
+export default function AnalyticChart({ className, show = true, heightStyle }: any) {
   return (
     <div className={cn(`bg-[#575757]/10 rounded-xl p-5`, className)}>
       {show && <h1 className="font-medium text-2xl">Analytics Chart</h1>}
@@ -63,7 +59,7 @@ export default function AnalyticChart({ className, show=true, heightStyle }: any
                     style={{
                       left: `calc(50% + ${x}px)`,
                       top: `calc(50% + ${y}px)`,
-                      transform: "translate(-50%, -50%)",
+                      transform: 'translate(-50%, -50%)',
                     }}
                   >
                     {item.value}
@@ -82,9 +78,7 @@ export default function AnalyticChart({ className, show=true, heightStyle }: any
         />
 
         <div className="mt-6 text-center">
-          <p className="text-foreground font-semibold">
-            Overall Performance: 72%
-          </p>
+          <p className="text-foreground font-semibold">Overall Performance: 72%</p>
         </div>
       </div>
     </div>

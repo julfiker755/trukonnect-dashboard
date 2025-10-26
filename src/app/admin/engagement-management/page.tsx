@@ -1,28 +1,25 @@
-"use client";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import ImgUpload from "@/components/reuseable/img-uplod";
-import Modal2 from "@/components/reuseable/modal2";
-import { RepeatCount } from "@/components/reuseable/repeat-count";
-import { NoItemData } from "@/components/reuseable/table-no-item";
-import { Button, Skeleton } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import { useModalState } from "@/hooks/useModalState";
-import {
-  useGetSoMediaQuery,
-  useStoreSoMediaMutation,
-} from "@/redux/api/admin/engagementApi";
-import { platformSchema } from "@/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleAlert, Upload } from "lucide-react";
-import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import Image from "next/image";
-import Link from "next/link";
-import { helpers } from "@/lib";
-import { ResponseApiErrors } from "@/lib/api-response";
+'use client';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import ImgUpload from '@/components/reuseable/img-uplod';
+import Modal2 from '@/components/reuseable/modal2';
+import { RepeatCount } from '@/components/reuseable/repeat-count';
+import { NoItemData } from '@/components/reuseable/table-no-item';
+import { Button, Skeleton } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import { useModalState } from '@/hooks/useModalState';
+import { useGetSoMediaQuery, useStoreSoMediaMutation } from '@/redux/api/admin/engagementApi';
+import { platformSchema } from '@/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CircleAlert, Upload } from 'lucide-react';
+import React, { useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import Image from 'next/image';
+import Link from 'next/link';
+import { helpers } from '@/lib';
+import { ResponseApiErrors } from '@/lib/api-response';
 
 const intAva = {
   preview: null,
@@ -34,13 +31,12 @@ export default function Engagement() {
     isStore: false,
   });
   const { data: socialMedia, isLoading } = useGetSoMediaQuery({});
-  const [storeSoMedia, { isLoading: isStoreLoading }] =
-    useStoreSoMediaMutation();
+  const [storeSoMedia, { isLoading: isStoreLoading }] = useStoreSoMediaMutation();
   const from = useForm({
     resolver: zodResolver(platformSchema),
     defaultValues: {
-      name: "",
-      icon: "",
+      name: '',
+      icon: '',
     },
   });
 
@@ -67,22 +63,21 @@ export default function Engagement() {
   const handleReset = () => {
     from.reset();
     setPlatform(intAva);
-    updateState("isStore", false);
+    updateState('isStore', false);
   };
-
 
   return (
     <div className="mb-10">
       <Navber title="Engagement Management" />
       <ul className="flex flex-wrap space-y-2 lg:space-y-0 justify-center lg:justify-between mt-10 mb-4">
         <li>
-          {" "}
+          {' '}
           <h1 className="text-2xl font-medium">Available Platform</h1>
         </li>
         <li>
-          {" "}
+          {' '}
           <Button
-            onClick={() => updateState("isStore", true)}
+            onClick={() => updateState('isStore', true)}
             variant="primary"
             className="rounded-md"
           >
@@ -116,13 +111,11 @@ export default function Engagement() {
         )}
       </div>
       {/* =========== Add the Platform Modal========== */}
-      <Modal2 open={state.isStore} setIsOpen={(v) => updateState("isStore", v)}>
+      <Modal2 open={state.isStore} setIsOpen={(v) => updateState('isStore', v)}>
         <ul className="flex items-center pt-1 justify-between">
           <li className="opacity-0">0</li>
           <li>
-            <h1 className="text-xl font-medium text-center">
-              Add New Platform
-            </h1>
+            <h1 className="text-xl font-medium text-center">Add New Platform</h1>
             <h1 className="text-figma-gray text-center">
               You have to provide the logo & name of the platform
             </h1>
@@ -132,7 +125,7 @@ export default function Engagement() {
               className="top-4 right-3"
               onClose={() => {
                 handleReset();
-                updateState("isStore", false);
+                updateState('isStore', false);
               }}
             />
           </li>
@@ -147,15 +140,15 @@ export default function Engagement() {
                     ...platform,
                     preview: URL.createObjectURL(file),
                   });
-                  from.setValue("icon", file);
+                  from.setValue('icon', file);
                 }}
               >
                 <div className="h-22 bg-figma-chart rounded-md flex flex-col justify-center items-center">
                   {platform.preview ? (
                     <div className="w-[60px] relative h-full my-3">
                       <Image
-                        src={platform.preview || "/blur.png"}
-                        alt={"alt"}
+                        src={platform.preview || '/blur.png'}
+                        alt={'alt'}
                         fill
                         loading="lazy"
                       />
@@ -187,14 +180,10 @@ export default function Engagement() {
               <CloseBtn
                 onClose={() => {
                   handleReset();
-                  updateState("isStore", false);
+                  updateState('isStore', false);
                 }}
               />
-              <Button
-                disabled={isStoreLoading}
-                className="w-full"
-                variant="primary"
-              >
+              <Button disabled={isStoreLoading} className="w-full" variant="primary">
                 Add
               </Button>
             </div>

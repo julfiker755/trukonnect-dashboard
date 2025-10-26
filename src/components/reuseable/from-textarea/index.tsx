@@ -1,14 +1,13 @@
-"use client";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { CircleAlert } from "lucide-react";
-import { Controller, useFormContext } from "react-hook-form";
-import { TextareaHTMLAttributes } from "react";
+'use client';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { CircleAlert } from 'lucide-react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { TextareaHTMLAttributes } from 'react';
 
 // Props interface
-interface FromTextAreaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface FromTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label?: string;
   placeholder?: string;
@@ -32,15 +31,11 @@ export function FromTextArea({
       name={name}
       render={({ field, fieldState: { error } }) => (
         <div>
-          {label && (
-            <Label className={cn("mb-1 text-base", stylelabel)}>
-              {label}
-            </Label>
-          )}
+          {label && <Label className={cn('mb-1 text-base', stylelabel)}>{label}</Label>}
           <div className="relative">
             <Textarea
               className={cn(
-                "min-h-16 w-full border-none resize-none rounded-sm bg-figma-input  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm",
+                'min-h-16 w-full border-none resize-none rounded-sm bg-figma-input  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm',
                 className
               )}
               placeholder={placeholder}

@@ -1,8 +1,8 @@
-import relativeTime from "dayjs/plugin/relativeTime";
-import { authKey } from "./constants";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { authKey } from './constants';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import dayjs from 'dayjs';
 dayjs.extend(relativeTime);
 
 export class helpers {
@@ -28,16 +28,16 @@ export class helpers {
   }
 
   // ===== Dates =====
-  static formatDate(date: string | Date, type = "DD MMM YYYY"): string {
+  static formatDate(date: string | Date, type = 'DD MMM YYYY'): string {
     return dayjs(date).format(type);
   }
 
   static formatTime(date: string | Date): string {
-    return dayjs(date).format("h:s A");
+    return dayjs(date).format('h:s A');
   }
 
   static formatDateTime(date: string | Date): string {
-    return dayjs(date).format("h:s A - DD MMM YYYY");
+    return dayjs(date).format('h:s A - DD MMM YYYY');
   }
   static timeAgoDiff(date: string | Date): string {
     return dayjs(date).fromNow();
@@ -55,16 +55,16 @@ export class helpers {
 
   // ===== Strings =====
   static capitalize(text: string): string {
-    if (!text) return "";
+    if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
   static lowerCase(text: string): string {
-    return text ? text.toLowerCase() : "";
+    return text ? text.toLowerCase() : '';
   }
 
   static upperCase(text: string): string {
-    return text ? text.toUpperCase() : "";
+    return text ? text.toUpperCase() : '';
   }
   static randomString(): string {
     return crypto.randomUUID();
@@ -82,9 +82,9 @@ export class helpers {
         }
       } else if (value instanceof File) {
         formData.append(key, value);
-      } else if (typeof value === "object" && value !== null) {
+      } else if (typeof value === 'object' && value !== null) {
         formData.append(key, JSON.stringify(value));
-      } else if (value === "array") {
+      } else if (value === 'array') {
         formData.append(key, JSON.stringify(value));
       } else {
         formData.append(key, value);
@@ -94,8 +94,7 @@ export class helpers {
   }
 
   static imgSource(href: string): string {
-    if (href?.startsWith("https://") || href?.startsWith("http://"))
-      return href;
-    return href ? `${process.env.NEXT_PUBLIC_IMG_URL}/${href}` : "";
+    if (href?.startsWith('https://') || href?.startsWith('http://')) return href;
+    return href ? `${process.env.NEXT_PUBLIC_IMG_URL}/${href}` : '';
   }
 }

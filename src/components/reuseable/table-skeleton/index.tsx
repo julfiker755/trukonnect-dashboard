@@ -1,5 +1,5 @@
-import { Skeleton, TableCell, TableRow } from "@/components/ui";
-import { cn } from "@/lib";
+import { Skeleton, TableCell, TableRow } from '@/components/ui';
+import { cn } from '@/lib';
 
 interface SkeletonProps {
   colSpan: number;
@@ -8,12 +8,7 @@ interface SkeletonProps {
   tdStyle?: string;
 }
 
-export function TableSkeleton({
-  colSpan,
-  length = 10,
-  className,
-  tdStyle,
-}: SkeletonProps) {
+export function TableSkeleton({ colSpan, length = 10, className, tdStyle }: SkeletonProps) {
   return (
     <TableRow>
       <TableCell className={tdStyle} colSpan={colSpan}>
@@ -21,10 +16,7 @@ export function TableSkeleton({
           {[...Array(length)].map((_, index) => (
             <Skeleton
               key={index}
-              className={cn(
-                "h-[53px] w-full rounded-md bg-[#F2F2F2]/20",
-                className
-              )}
+              className={cn('h-[53px] w-full rounded-md bg-[#F2F2F2]/20', className)}
             />
           ))}
         </div>

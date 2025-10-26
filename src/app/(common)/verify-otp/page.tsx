@@ -1,33 +1,25 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/components/ui";
-import FavIcon from "@/icon/favIcon";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useOtpVarifyMutation } from "@/redux/api/authApi";
-import { helpers } from "@/lib";
+'use client';
+import { Button } from '@/components/ui/button';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Input } from '@/components/ui';
+import FavIcon from '@/icon/favIcon';
+import React, { ChangeEvent, KeyboardEvent, Suspense, useEffect, useRef, useState } from 'react';
+import { useOtpVarifyMutation } from '@/redux/api/authApi';
+import { helpers } from '@/lib';
 
 function ForgotPasswordChild() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email");
-  const [code, setCode] = useState<string[]>(Array(6).fill(""));
-  const [error, setError] = useState<string>("");
-  const [isError, setIsError] = useState<string>("");
+  const email = searchParams.get('email');
+  const [code, setCode] = useState<string[]>(Array(6).fill(''));
+  const [error, setError] = useState<string>('');
+  const [isError, setIsError] = useState<string>('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otpVarify] = useOtpVarifyMutation();
 
-
   useEffect(() => {
     if (!email) {
-      router.push("/forgot-password");
+      router.push('/forgot-password');
     }
   }, [email, router]);
 
@@ -48,39 +40,37 @@ function ForgotPasswordChild() {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, i: number) => {
     // Backspace focuses previous input if current is empty
-    if (e.key === "Backspace" && !code[i] && i > 0) {
+    if (e.key === 'Backspace' && !code[i] && i > 0) {
       inputRefs.current[i - 1]?.focus();
     }
   };
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData("text/plain").slice(0, 6);
+    const pastedData = e.clipboardData.getData('text/plain').slice(0, 6);
     if (!/^\d{6}$/.test(pastedData)) {
-      setError("Please paste a 6-digit number.");
+      setError('Please paste a 6-digit number.');
       return;
     }
-    setError("");
-    setCode(pastedData.split(""));
+    setError('');
+    setCode(pastedData.split(''));
   };
 
   const handleVerify = async () => {
-    setIsError("");
+    setIsError('');
     try {
-      const joinedCode = code.join("");
+      const joinedCode = code.join('');
       if (joinedCode.length < 6) {
-        setError("Please enter all 6 digits.");
+        setError('Please enter all 6 digits.');
       } else {
-        const values = { email, otp: code.join("") };
+        const values = { email, otp: code.join('') };
         const value = helpers.fromData(values);
         const res = await otpVarify(value).unwrap();
         if (res.status) {
-          router.push(
-            `/new-password?id=${res?.data?.user_id}&email=${res?.data?.email}`
-          );
+          router.push(`/new-password?id=${res?.data?.user_id}&email=${res?.data?.email}`);
         }
 
-        setError("");
+        setError('');
       }
     } catch (err: any) {
       if (err) {
@@ -94,9 +84,7 @@ function ForgotPasswordChild() {
       <div className="md:m-0 w-11/12 lg:w-0 lg:min-w-lg px-4 pt-4 pb-6 rounded-2xl bg-[#A7A7A7]/10 backdrop-blur-2xl">
         <div className="mb-6 space-y-2">
           <FavIcon className="w-[80px] h-[66px] mx-auto" name="logo" />
-          <h1 className="text-2xl font-bold text-center">
-            Verify Your Identity
-          </h1>
+          <h1 className="text-2xl font-bold text-center">Verify Your Identity</h1>
           <h1 className="text-figma-gray text-center">
             Please provide valid information to access your account
           </h1>
@@ -120,15 +108,11 @@ function ForgotPasswordChild() {
           ))}
         </div>
 
-        {error && (
-          <p className="text-red-500 text-sm text-center mb-4">{error}</p>
-        )}
-        {isError && (
-          <p className="text-red-500 text-sm text-center mb-4">{isError}</p>
-        )}
+        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+        {isError && <p className="text-red-500 text-sm text-center mb-4">{isError}</p>}
 
         <div className="flex justify-center">
-          <Button variant={"primary"} className="w-full" onClick={handleVerify}>
+          <Button variant={'primary'} className="w-full" onClick={handleVerify}>
             Verify code
           </Button>
         </div>

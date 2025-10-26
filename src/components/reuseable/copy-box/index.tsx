@@ -1,7 +1,7 @@
-"use client"
-import { cn } from "@/lib";
-import { Files } from "lucide-react";
-import React, { useState } from "react";
+'use client';
+import { cn } from '@/lib';
+import { Files } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface CopyProps {
   value: string;
@@ -25,16 +25,12 @@ export default function CopyBox({ value, className, iconStyle }: CopyProps) {
         className
       )}
     >
-      <span className="truncate w-[100px] text-sm text-figma-gray">
-        {value}
-      </span>
+      <span className="truncate w-[100px] text-sm text-figma-gray">{value}</span>
 
       <Files
         onClick={handleCopy}
         className={cn(
-          `text-[#575757]/60 ${
-            copied && "text-green-600"
-          } cursor-pointer ml-3 size-5 transition`,
+          `text-[#575757]/60 ${copied && 'text-green-600'} cursor-pointer ml-3 size-5 transition`,
           iconStyle
         )}
       />

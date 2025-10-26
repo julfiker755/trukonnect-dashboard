@@ -1,14 +1,14 @@
-"use client";
-import React from "react";
-import { Button } from "@/components/ui";
-import { adminLinks, reviewerlinks } from "./navdata";
-import FavIcon from "@/icon/favIcon";
-import NavItem from "./navitem";
-import Avatars from "@/components/reuseable/avater";
-import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
-import { useSignOutMutation } from "@/redux/api/authApi";
-import { authKey, helpers } from "@/lib";
+'use client';
+import React from 'react';
+import { Button } from '@/components/ui';
+import { adminLinks, reviewerlinks } from './navdata';
+import FavIcon from '@/icon/favIcon';
+import NavItem from './navitem';
+import Avatars from '@/components/reuseable/avater';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useSignOutMutation } from '@/redux/api/authApi';
+import { authKey, helpers } from '@/lib';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -18,13 +18,13 @@ interface SidebarProps {
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const links = pathname.includes("/admin") ? adminLinks : reviewerlinks;
+  const links = pathname.includes('/admin') ? adminLinks : reviewerlinks;
   const [signOut] = useSignOutMutation();
 
   async function hanldeSignOut() {
     await signOut({}).unwrap();
     helpers.removeAuthCookie(authKey);
-    router.push("/");
+    router.push('/');
   }
 
   return (
@@ -34,7 +34,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         <div
           className="fixed inset-0 z-20 bg-black/40 opacity-50"
           onClick={() => {
-            document.body.classList.remove("overflow-hidden");
+            document.body.classList.remove('overflow-hidden');
             setSidebarOpen(false);
           }}
         />
@@ -45,14 +45,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           h-screen lg:h-fit bg-[#424242]/20  lg:!rounded-md p-4  backdrop-blur-[70px]
            flex  transition-transform transform duration-300 ease-linear flex-col  
            text-white ${
-             pathname.includes("admin") ? "w-fit" : "w-[250px]"
+             pathname.includes('admin') ? 'w-fit' : 'w-[250px]'
            } lg:sticky lg:top-[20px] lg:pb-2 lg:ml-(--sideber-margin)  lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+           }`}
       >
         <div>
           <div className="flex justify-center h-[60px]">
-            <Link href={(links && links[0]?.to) || ""}>
+            <Link href={(links && links[0]?.to) || ''}>
               <ul className="flex justify-center space-x-2 items-center">
                 <li>
                   <FavIcon className="w-[72px] h-[60px]" name="logo" />
@@ -84,7 +84,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     <span className="font-medium text-base ml-1">Log Out</span>
                   </span>
                   <span>
-                    {" "}
+                    {' '}
                     <FavIcon className="size-6" name="signOut" />
                   </span>
                 </div>

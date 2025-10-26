@@ -1,4 +1,4 @@
-import type React from "react";
+import type React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogDescription,
   DialogHeader,
-} from "@/components/ui";
-import { cn } from "@/lib/utils";
+} from '@/components/ui';
+import { cn } from '@/lib/utils';
 
 interface ModalProps {
   open: boolean;
@@ -36,17 +36,15 @@ export default function Modal({
         onPointerDownOutside={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
         className={cn(
-          "sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-y-auto  max-h-[95vh] h-fit scrollbar-hide border-none",
+          'sm:max-w-md p-0 gap-0 bg-background modal-shadow1 rounded-2xl overflow-y-auto  max-h-[95vh] h-fit scrollbar-hide border-none',
           className
         )}
       >
         <DialogHeader className="bg-black text-white p-4">
-          <DialogTitle className={cn("text-white font-medium", titleStyle)}>
-            {title}
-          </DialogTitle>
+          <DialogTitle className={cn('text-white font-medium', titleStyle)}>{title}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="hidden"></DialogDescription>
-        <div className={cn("p-4", mainStyle)}>{children}</div>
+        <div className={cn('p-4', mainStyle)}>{children}</div>
       </DialogContent>
     </Dialog>
   );

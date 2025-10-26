@@ -1,12 +1,12 @@
-"use client";
-import React from "react";
-import dynamic from "next/dynamic";
-import "react-quill-new/dist/quill.snow.css";
-import { cn } from "@/lib/utils";
-import { Loader } from "lucide-react";
+'use client';
+import React from 'react';
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+import { cn } from '@/lib/utils';
+import { Loader } from 'lucide-react';
 
 // Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import("react-quill-new"), {
+const ReactQuill = dynamic(() => import('react-quill-new'), {
   ssr: false,
   loading: () => (
     <div className="mx-auto min-h-[280px] flex items-center justify-center">
@@ -21,45 +21,38 @@ interface TextEditorProps {
   className?: string;
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({
-  value,
-  onChange,
-  className,
-}) => {
+const TextEditor: React.FC<TextEditorProps> = ({ value, onChange, className }) => {
   const modules = {
     toolbar: [
-      [
-        { header: [1, 2, 3, false] },
-        { size: ["small", false, "large", "huge"] },
-      ],
-      ["bold", "italic", "underline", "strike"],
+      [{ header: [1, 2, 3, false] }, { size: ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline', 'strike'],
       [{ color: [] }, { background: [] }],
-      [{ script: "sub" }, { script: "super" }],
+      [{ script: 'sub' }, { script: 'super' }],
       [{ align: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      ["blockquote", "code-block"],
-      ["link"],
-      ["clean"],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ indent: '-1' }, { indent: '+1' }],
+      ['blockquote', 'code-block'],
+      ['link'],
+      ['clean'],
     ],
   };
 
   const formats = [
-    "header",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "color",
-    "background",
-    "script",
-    "align",
-    "list",
-    "indent",
-    "blockquote",
-    "code-block",
-    "link",
+    'header',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'color',
+    'background',
+    'script',
+    'align',
+    'list',
+    'indent',
+    'blockquote',
+    'code-block',
+    'link',
   ];
 
   return (

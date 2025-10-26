@@ -1,10 +1,10 @@
 export enum tagTypes {
-  profile = "profile",
-  engagement = "engagement",
-  socialMedia = "socialMedia",
-  country = "country",
-  a_reviewer = "a_reviewer",
-  a_sin_reviewer ="a_sin_reviewer",
+  profile = 'profile',
+  engagement = 'engagement',
+  socialMedia = 'socialMedia',
+  country = 'country',
+  a_reviewer = 'a_reviewer',
+  a_sin_reviewer = 'a_sin_reviewer',
 }
 
 export const tagTypesList = [

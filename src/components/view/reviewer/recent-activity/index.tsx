@@ -1,6 +1,6 @@
-import Avatars from "@/components/reuseable/avater";
-import { ScrollArea } from "@/components/ui";
-import React from "react";
+import Avatars from '@/components/reuseable/avater';
+import { ScrollArea } from '@/components/ui';
+import React from 'react';
 
 interface Task {
   user: string;
@@ -8,26 +8,26 @@ interface Task {
 }
 
 const tasks: Task[] = [
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
-  { user: "Marks", action: "added a task." },
-  { user: "Daniel", action: "submitted a task for proof." },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
+  { user: 'Marks', action: 'added a task.' },
+  { user: 'Daniel', action: 'submitted a task for proof.' },
 ];
 
 const RecentActivity: React.FC = () => {

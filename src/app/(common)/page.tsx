@@ -1,32 +1,32 @@
-"use client";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { FieldValues, useForm } from "react-hook-form";
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { authSchema } from "@/schema";
-import { useSignInMutation } from "@/redux/api/authApi";
-import { authKey, helpers, role } from "@/lib";
-import { ResponseApiErrors } from "@/lib/api-response";
-import FavIcon from "@/icon/favIcon";
-import Link from "next/link";
+'use client';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { FieldValues, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { authSchema } from '@/schema';
+import { useSignInMutation } from '@/redux/api/authApi';
+import { authKey, helpers, role } from '@/lib';
+import { ResponseApiErrors } from '@/lib/api-response';
+import FavIcon from '@/icon/favIcon';
+import Link from 'next/link';
 
 export default function HomePage() {
   const [signIn, { isLoading }] = useSignInMutation();
-  const [isError, setIsError] = useState("");
+  const [isError, setIsError] = useState('');
   const router = useRouter();
   const from = useForm({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const handleSubmit = async (values: FieldValues) => {
-    setIsError("");
+    setIsError('');
     try {
       const value = helpers.fromData(values);
       const res = await signIn(value).unwrap();
@@ -34,9 +34,9 @@ export default function HomePage() {
         const userRole = res?.user?.role;
         helpers.setAuthCookie(authKey, res.token);
         if (userRole === role.reviewer) {
-          router.push("/reviewer");
+          router.push('/reviewer');
         } else if (userRole === role.admin) {
-          router.push("/admin");
+          router.push('/admin');
         } else if (userRole == role.user || role.performer) {
           setIsError("Doesn't have permission");
         }
@@ -74,28 +74,22 @@ export default function HomePage() {
               label="Password"
               placeholder="Password"
               eye={true}
-              icon={
-                <FavIcon name="password" className="size-5" color="#777777" />
-              }
+              icon={<FavIcon name="password" className="size-5" color="#777777" />}
             />
 
             <Link
               className="text-figma-primary mt-2 flex justify-end underline"
               href="/forgot-password"
             >
-              {" "}
+              {' '}
               <h1 className="text-sm">Forgot password ?</h1>
             </Link>
           </div>
 
           <div>
-            {isError && (
-              <h1 className="text-red-500 mb-2 flex justify-center">
-                {isError}
-              </h1>
-            )}
+            {isError && <h1 className="text-red-500 mb-2 flex justify-center">{isError}</h1>}
             <Button disabled={isLoading} variant="primary" className="w-full">
-              {" "}
+              {' '}
               Sign in
             </Button>
           </div>

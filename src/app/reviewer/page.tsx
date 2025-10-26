@@ -1,39 +1,38 @@
-"use client";
-import { Button } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import AnalyticChart from "@/components/view/reviewer/chart/analytic-chart";
-import RecentActivity from "@/components/view/reviewer/recent-activity";
-import FavIcon from "@/icon/favIcon";
-import Link from "next/link";
-import React from "react";
+'use client';
+import { Button } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import AnalyticChart from '@/components/view/reviewer/chart/analytic-chart';
+import RecentActivity from '@/components/view/reviewer/recent-activity';
+import FavIcon from '@/icon/favIcon';
+import Link from 'next/link';
+import React from 'react';
 
 const overviewItem = [
   {
     icon: <FavIcon className="size-12" name="review_acounts" />,
-    title: "Pending Accounts",
+    title: 'Pending Accounts',
     count: 10,
-    btn_name: "Review accounts",
-    href: "/reviewer/account-verification",
-    bg: "rgba(130, 255, 167, 0.10)",
+    btn_name: 'Review accounts',
+    href: '/reviewer/account-verification',
+    bg: 'rgba(130, 255, 167, 0.10)',
   },
   {
     icon: <FavIcon className="size-12" name="review_task" />,
-    title: "Pending Orders",
+    title: 'Pending Orders',
     count: 45,
-    btn_name: "Review task",
-    href: "/reviewer/task-review",
-    bg: "rgba(245, 131, 255, 0.10)",
+    btn_name: 'Review task',
+    href: '/reviewer/task-review',
+    bg: 'rgba(245, 131, 255, 0.10)',
   },
   {
     icon: <FavIcon className="size-12" name="review_performance" />,
-    title: "Pending Task",
+    title: 'Pending Task',
     count: 45,
-    btn_name: "Review performance",
-    href: "/reviewer/performance-review",
-    bg: "rgba(145, 137, 255, 0.10)",
+    btn_name: 'Review performance',
+    href: '/reviewer/performance-review',
+    bg: 'rgba(145, 137, 255, 0.10)',
   },
 ];
-
 
 export default function ReviewerHome() {
   return (

@@ -1,16 +1,16 @@
-"use client";
-import { useEffect, useState } from "react";
-import { CircleAlert } from "lucide-react";
+'use client';
+import { useEffect, useState } from 'react';
+import { CircleAlert } from 'lucide-react';
 import {
   Controller,
   useFormContext,
   type FieldValues,
   type ControllerRenderProps,
   type ControllerFieldState,
-} from "react-hook-form";
-import { Input, Label } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import { useGetCountryQuery } from "@/redux/api/admin/countryApi";
+} from 'react-hook-form';
+import { Input, Label } from '@/components/ui';
+import { cn } from '@/lib/utils';
+import { useGetCountryQuery } from '@/redux/api/admin/countryApi';
 import {
   Select,
   SelectContent,
@@ -18,8 +18,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import FlagBox from "../flag-box";
+} from '@/components/ui/select';
+import FlagBox from '../flag-box';
 
 interface PhoneInputProps {
   stylelabel?: string;
@@ -33,7 +33,7 @@ interface PhoneInputProps {
 export function PhoneInput({
   name,
   label,
-  placeholder = "Enter phone number",
+  placeholder = 'Enter phone number',
   stylelabel,
   className,
   onChange,
@@ -78,9 +78,7 @@ export function PhoneInput({
       }) => (
         <div>
           {label && (
-            <Label
-              className={cn("text-blacks text-base font-medium mb-1", stylelabel)}
-            >
+            <Label className={cn('text-blacks text-base font-medium mb-1', stylelabel)}>
               {label}
             </Label>
           )}
@@ -88,7 +86,7 @@ export function PhoneInput({
           <div className="relative flex space-x-2">
             {/* Country Select */}
             <Select
-              value={selectedCountry?.id?.toString() || ""}
+              value={selectedCountry?.id?.toString() || ''}
               onValueChange={handleCountryChange}
             >
               <SelectTrigger className="!h-10 bg-figma-input w-20 border-none rounded-md">
@@ -115,14 +113,8 @@ export function PhoneInput({
                         className="hover:bg-transparent"
                       >
                         <div className="flex items-center gap-2">
-                          <FlagBox
-                            href={item.flag}
-                            nameStyle="text-white"
-                            name={item.name}
-                          />
-                          <span className="text-xs text-gray-500 ml-2">
-                            {item.dial_code}
-                          </span>
+                          <FlagBox href={item.flag} nameStyle="text-white" name={item.name} />
+                          <span className="text-xs text-gray-500 ml-2">{item.dial_code}</span>
                         </div>
                       </SelectItem>
                     ))
@@ -137,10 +129,7 @@ export function PhoneInput({
               {...rest}
               type="tel"
               placeholder={placeholder}
-              className={cn(
-                "rounded-md bg-figma-input h-10 border-none flex-1",
-                className
-              )}
+              className={cn('rounded-md bg-figma-input h-10 border-none flex-1', className)}
             />
           </div>
 

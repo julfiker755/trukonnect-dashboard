@@ -1,20 +1,20 @@
-"use client";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import Navber from "@/components/view/common/dash/navber";
-import FavIcon from "@/icon/favIcon";
-import { getSocial } from "@/icon/utils";
-import Image from "next/image";
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
-import calendar from "@/assets/calendar.svg";
-import { PlaceholderImg } from "@/lib";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import { useParams } from "next/navigation";
-import CopyBox from "@/components/reuseable/copy-box";
-import { Button, Textarea } from "@/components/ui";
-import Modal2 from "@/components/reuseable/modal2";
-import { CloseBtn } from "@/components/reuseable/btn";
-import useSuccessModal from "@/components/context/sucess-box";
+'use client';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import Navber from '@/components/view/common/dash/navber';
+import FavIcon from '@/icon/favIcon';
+import { getSocial } from '@/icon/utils';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
+import calendar from '@/assets/calendar.svg';
+import { PlaceholderImg } from '@/lib';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import { useParams } from 'next/navigation';
+import CopyBox from '@/components/reuseable/copy-box';
+import { Button, Textarea } from '@/components/ui';
+import Modal2 from '@/components/reuseable/modal2';
+import { CloseBtn } from '@/components/reuseable/btn';
+import useSuccessModal from '@/components/context/sucess-box';
 
 export default function TaskDetails() {
   const [isReject, setIsReject] = useState(false);
@@ -39,8 +39,8 @@ export default function TaskDetails() {
               <h1 className="text-lg">Instagram Likes</h1>
             </div>
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-              instantly for showing your support!
+              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+              your support!
             </p>
             <ul className="*:text-lg *:text-figma-gray">
               <li>- Tap in the link.</li>
@@ -56,13 +56,13 @@ export default function TaskDetails() {
                 <span>Selected Audience</span>
                 <span>
                   <ReactCountryFlag
-                    countryCode={"GH"}
+                    countryCode={'GH'}
                     svg
                     style={{
-                      width: "2em",
-                      height: "1em",
+                      width: '2em',
+                      height: '1em',
                     }}
-                    title={"item.region"}
+                    title={'item.region'}
                   />
                   Ghana
                 </span>
@@ -76,7 +76,7 @@ export default function TaskDetails() {
               <li className="flex justify-between items-center">
                 <span>Platform</span>
                 <span className="flex items-center">
-                  {getSocial("instagram")}
+                  {getSocial('instagram')}
                   <span className="ml-2">Instagram</span>
                 </span>
               </li>
@@ -100,8 +100,8 @@ export default function TaskDetails() {
             <Button
               onClick={async () => {
                 await openSucc({
-                  title: "Successfully",
-                  description: "Task approved successfully",
+                  title: 'Successfully',
+                  description: 'Task approved successfully',
                 });
               }}
               variant="primary"
@@ -113,9 +113,7 @@ export default function TaskDetails() {
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <div>
             <h1 className="text-xl">Issue</h1>
-            <p className="text-figma-gray">
-              I can not find the link which given by task creator.
-            </p>
+            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
           </div>
           <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">

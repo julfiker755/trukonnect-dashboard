@@ -1,13 +1,13 @@
-import { tagTypes } from "../tag-types";
-import { baseApi } from "./baseApi";
+import { tagTypes } from '../tag-types';
+import { baseApi } from './baseApi';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     signIn: build.mutation({
       query: (data) => {
         return {
-          url: "/auth/signin",
-          method: "POST",
+          url: '/auth/signin',
+          method: 'POST',
           body: data,
         };
       },
@@ -15,39 +15,39 @@ export const authApi = baseApi.injectEndpoints({
     }),
     forgotPassword: build.mutation({
       query: (data) => ({
-        url: "/auth/forgot-password",
-        method: "POST",
+        url: '/auth/forgot-password',
+        method: 'POST',
         body: data,
       }),
     }),
     otpVarify: build.mutation({
       query: (data) => ({
-        url: "/auth/verify-otp",
-        method: "POST",
+        url: '/auth/verify-otp',
+        method: 'POST',
         body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
     newPassword: build.mutation({
       query: (data) => ({
-        url: "/auth/set-new-password",
-        method: "POST",
+        url: '/auth/set-new-password',
+        method: 'POST',
         body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
     changePassword: build.mutation({
       query: (data) => ({
-        url: "/auth/set-new-password",
-        method: "POST",
+        url: '/auth/set-new-password',
+        method: 'POST',
         body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),
     signOut: build.mutation({
       query: () => ({
-        url: "/auth/signout",
-        method: "POST",
+        url: '/auth/signout',
+        method: 'POST',
       }),
       invalidatesTags: [tagTypes.profile],
     }),

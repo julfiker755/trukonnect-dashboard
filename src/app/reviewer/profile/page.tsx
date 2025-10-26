@@ -1,38 +1,38 @@
-"use client";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import ImgUpload from "@/components/reuseable/img-uplod";
-import Modal2 from "@/components/reuseable/modal2";
-import { Button } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import UpdatePassword from "@/components/view/common/update-password";
-import FavIcon from "@/icon/favIcon";
-import { PlaceholderImg } from "@/lib";
-import Image from "next/image";
-import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+'use client';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import ImgUpload from '@/components/reuseable/img-uplod';
+import Modal2 from '@/components/reuseable/modal2';
+import { Button } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import UpdatePassword from '@/components/view/common/update-password';
+import FavIcon from '@/icon/favIcon';
+import { PlaceholderImg } from '@/lib';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
 const overviewItem = [
   {
     icon: <FavIcon className="size-12" name="review_acounts" />,
-    title: "Pending Accounts",
+    title: 'Pending Accounts',
     count: 10,
-    bg: "rgba(130, 255, 167, 0.10)",
+    bg: 'rgba(130, 255, 167, 0.10)',
   },
   {
     icon: <FavIcon className="size-12" name="review_task" />,
-    title: "Pending Orders",
+    title: 'Pending Orders',
     count: 45,
-    bg: "rgba(245, 131, 255, 0.10)",
+    bg: 'rgba(245, 131, 255, 0.10)',
   },
   {
     icon: <FavIcon className="size-12" name="review_performance" />,
-    title: "Pending Task",
+    title: 'Pending Task',
     count: 45,
-    bg: "rgba(145, 137, 255, 0.10)",
+    bg: 'rgba(145, 137, 255, 0.10)',
   },
 ];
 
@@ -47,9 +47,9 @@ export default function Profile() {
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
   const from = useForm({
     defaultValues: {
-      name: "Suuu Ronaldo",
+      name: 'Suuu Ronaldo',
       thumbnail: null,
-      contact:"850948305"
+      contact: '850948305',
     },
   });
 
@@ -71,10 +71,7 @@ export default function Profile() {
         className="py-3"
         backbtn={
           <div className="items-center flex">
-            <BackBtn
-              className="hidden lg:grid"
-              iconStyle="text-figma-primary"
-            />
+            <BackBtn className="hidden lg:grid" iconStyle="text-figma-primary" />
             <h1 className="text-xl relative -ml-2"> My Profile</h1>
           </div>
         }
@@ -82,7 +79,7 @@ export default function Profile() {
       <div className="bg-[#5E5E5E]/20 p-5 rounded-xl mb-5 py-9">
         <ImgBox
           className="size-30 mx-auto rounded-full"
-          src={PlaceholderImg() || "/blur.png"}
+          src={PlaceholderImg() || '/blur.png'}
           alt="img1"
         />
         <div>
@@ -160,10 +157,10 @@ export default function Profile() {
           <div className="space-y-6 pt-5">
             <div className="relative mx-auto size-28 rounded-full">
               <Image
-                src={avatar.preview || PlaceholderImg() || "/blur.png"}
-                alt={"title"}
+                src={avatar.preview || PlaceholderImg() || '/blur.png'}
+                alt={'title'}
                 fill
-                className={"object-cover rounded-full"}
+                className={'object-cover rounded-full'}
               />
               <ImgUpload
                 className="grid place-items-center shadow-md  rounded-full absolute bottom-[6px] -right-1 cursor-pointer"

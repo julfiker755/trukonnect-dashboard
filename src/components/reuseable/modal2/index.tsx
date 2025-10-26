@@ -1,4 +1,4 @@
-import type React from "react";
+import type React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogTitle,
   DialogDescription,
   DialogHeader,
-} from "@/components/ui";
-import clsx from "clsx"; // For better dynamic class management
+} from '@/components/ui';
+import clsx from 'clsx'; // For better dynamic class management
 
 interface ModalProps {
   open: boolean;
@@ -45,7 +45,7 @@ export default function Modal2({
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <DialogDescription className="hidden"></DialogDescription>
-        <div className={clsx("p-4", mainStyle)}>{children}</div>
+        <div className={clsx('p-4', mainStyle)}>{children}</div>
       </DialogContent>
     </Dialog>
   );
