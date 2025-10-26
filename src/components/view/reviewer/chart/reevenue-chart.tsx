@@ -1,30 +1,23 @@
-import { useState } from "react";
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import RadioToggle from "@/components/reuseable/radio-toggle";
+import { useState } from 'react';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import RadioToggle from '@/components/reuseable/radio-toggle';
 
 // Weekly and Monthly Data
 const weeklyData = [
-  { day: "Mon", value: 1800, date: "22 Apr, 2024" },
-  { day: "Tue", value: 3200, date: "23 Apr, 2024" },
-  { day: "Wed", value: 2800, date: "24 Apr, 2024" },
-  { day: "Thu", value: 4200, date: "25 Apr, 2024" },
-  { day: "Fri", value: 3800, date: "26 Apr, 2024" },
-  { day: "Sat", value: 4400, date: "27 Apr, 2024" },
-  { day: "Sun", value: 2600, date: "28 Apr, 2024" },
+  { day: 'Mon', value: 1800, date: '22 Apr, 2024' },
+  { day: 'Tue', value: 3200, date: '23 Apr, 2024' },
+  { day: 'Wed', value: 2800, date: '24 Apr, 2024' },
+  { day: 'Thu', value: 4200, date: '25 Apr, 2024' },
+  { day: 'Fri', value: 3800, date: '26 Apr, 2024' },
+  { day: 'Sat', value: 4400, date: '27 Apr, 2024' },
+  { day: 'Sun', value: 2600, date: '28 Apr, 2024' },
 ];
 
 const monthlyData = [
-  { day: "1-7 Apr, 2024", value: 12000 },
-  { day: "8-14 Apr, 2024", value: 18000 },
-  { day: "15-21 Apr, 2024", value: 15000 },
-  { day: "22-28 Apr, 2024", value: 22000 },
+  { day: '1-7 Apr, 2024', value: 12000 },
+  { day: '8-14 Apr, 2024', value: 18000 },
+  { day: '15-21 Apr, 2024', value: 15000 },
+  { day: '22-28 Apr, 2024', value: 22000 },
 ];
 
 interface CustomTooltipProps {
@@ -44,7 +37,7 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     const value = payload[0].value;
     const prevValue = 2000; // Mock previous value for calculation
     const change = value - prevValue;
-    const sign = change >= 0 ? "+" : "";
+    const sign = change >= 0 ? '+' : '';
 
     return (
       <div className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 shadow-lg">
@@ -60,10 +53,10 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
 };
 
 export default function RevenueChart() {
-  const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
+  const [period, setPeriod] = useState<'weekly' | 'monthly'>('weekly');
 
-  const data = period === "weekly" ? weeklyData : monthlyData;
-  const maxValue = period === "weekly" ? 5000 : 25000;
+  const data = period === 'weekly' ? weeklyData : monthlyData;
+  const maxValue = period === 'weekly' ? 5000 : 25000;
 
   return (
     <div className="space-y-6 bg-figma-chart rounded-xl p-4 mt-10">
@@ -77,10 +70,10 @@ export default function RevenueChart() {
         {/* Period Toggle */}
         <RadioToggle
           value={period}
-          onValueChange={(value) => setPeriod(value as "weekly" | "monthly")}
+          onValueChange={(value) => setPeriod(value as 'weekly' | 'monthly')}
           options={[
-            { label: "Weekly", value: "weekly" },
-            { label: "Monthly", value: "monthly" },
+            { label: 'Weekly', value: 'weekly' },
+            { label: 'Monthly', value: 'monthly' },
           ]}
         />
       </div>
@@ -98,13 +91,7 @@ export default function RevenueChart() {
                 <stop offset="50%" stopColor="#3b82f6" stopOpacity={0.6} />
                 <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.4} />
               </linearGradient>
-              <linearGradient
-                id="revenueGradientFill"
-                x1="0"
-                y1="0"
-                x2="1"
-                y2="0"
-              >
+              <linearGradient id="revenueGradientFill" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#14b8a6" stopOpacity={0.3} />
                 <stop offset="50%" stopColor="#3b82f6" stopOpacity={0.2} />
                 <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.1} />
@@ -115,31 +102,25 @@ export default function RevenueChart() {
               dataKey="day"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#94a3b8", fontSize: 12 }}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
               dy={10}
             />
 
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#94a3b8", fontSize: 12 }}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
               tickFormatter={(value) => `${value / 1000}k`}
               domain={[0, maxValue]}
-              ticks={[
-                0,
-                maxValue * 0.4,
-                maxValue * 0.6,
-                maxValue * 0.8,
-                maxValue,
-              ]}
+              ticks={[0, maxValue * 0.4, maxValue * 0.6, maxValue * 0.8, maxValue]}
             />
 
             <Tooltip
               content={<CustomTooltip />}
               cursor={{
-                stroke: "#475569",
+                stroke: '#475569',
                 strokeWidth: 1,
-                strokeDasharray: "4 4",
+                strokeDasharray: '4 4',
               }}
             />
 
@@ -149,12 +130,12 @@ export default function RevenueChart() {
               stroke="url(#revenueGradient)"
               strokeWidth={2}
               fill="url(#revenueGradientFill)"
-              dot={{ fill: "#14b8a6", strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#14b8a6', strokeWidth: 2, r: 4 }}
               activeDot={{
                 r: 6,
-                fill: "#14b8a6",
+                fill: '#14b8a6',
                 strokeWidth: 2,
-                stroke: "#1e293b",
+                stroke: '#1e293b',
               }}
             />
           </AreaChart>

@@ -1,21 +1,21 @@
-"use client";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { FromTextArea } from "@/components/reuseable/from-textarea";
-import { Button, Textarea } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import { bulkSchema } from "@/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { FieldValues, useForm } from "react-hook-form";
+'use client';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { FromTextArea } from '@/components/reuseable/from-textarea';
+import { Button, Textarea } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import { bulkSchema } from '@/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function Communication() {
   const from = useForm({
     // resolver: zodResolver(bulkSchema),
     defaultValues: {
-      subject: "",
-      message: "",
+      subject: '',
+      message: '',
     },
   });
 
@@ -43,7 +43,7 @@ export default function Communication() {
             />
 
             <Button variant="primary" className="w-full">
-              {" "}
+              {' '}
               Send
             </Button>
           </Form>
@@ -60,7 +60,7 @@ export default function Communication() {
               />
             </div>
             <Button variant="primary" className="w-full">
-              {" "}
+              {' '}
               Send
             </Button>
           </div>

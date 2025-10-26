@@ -1,33 +1,32 @@
-"use client";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import Navber from "@/components/view/common/dash/navber";
-import React, { useState } from "react";
-import { PlaceholderImg } from "@/lib";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import { useParams } from "next/navigation";
-import { Button, Textarea } from "@/components/ui";
-
+'use client';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import Navber from '@/components/view/common/dash/navber';
+import React, { useState } from 'react';
+import { PlaceholderImg } from '@/lib';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import { useParams } from 'next/navigation';
+import { Button, Textarea } from '@/components/ui';
 
 export default function UsersDetails() {
   const { id } = useParams();
   return (
     <div className="mb-10">
       <Navber
-         className="py-3"
-         backbtn={
-           <div className="items-center hidden lg:flex">
-             <BackBtn iconStyle="text-figma-primary" />
-             <h1 className="text-lg relative -ml-2 mb-[2px]">Back</h1>
-           </div>
-         }
+        className="py-3"
+        backbtn={
+          <div className="items-center hidden lg:flex">
+            <BackBtn iconStyle="text-figma-primary" />
+            <h1 className="text-lg relative -ml-2 mb-[2px]">Back</h1>
+          </div>
+        }
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="bg-figma-chart p-6 rounded-xl">
           <h1 className="text-xl mb-4">Issue</h1>
           <div className="space-y-4">
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-              instantly for showing your support!
+              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+              your support!
             </p>
             <ul className="*:text-lg *:text-figma-gray">
               <li>- Tap in the link.</li>

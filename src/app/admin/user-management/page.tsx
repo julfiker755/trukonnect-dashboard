@@ -1,116 +1,108 @@
-"use client";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import { Pagination } from "@/components/reuseable/pagination";
-import RadioToggle from "@/components/reuseable/radio-toggle";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Badge, TableCell, TableRow } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import FavIcon from "@/icon/favIcon";
-import { helpers } from "@/lib";
-import Link from "next/link";
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
+'use client';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import { Pagination } from '@/components/reuseable/pagination';
+import RadioToggle from '@/components/reuseable/radio-toggle';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Badge, TableCell, TableRow } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 
 const item = [
   {
-    user: "Abir",
-    role: "performer",
-    email: "abid32@gmail.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Abir',
+    role: 'performer',
+    email: 'abid32@gmail.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Maksud",
-    role: "creator",
-    email: "user123@example.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Maksud',
+    role: 'creator',
+    email: 'user123@example.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Arjun",
-    role: "performer",
-    email: "hello@creativeoutlook.com",
-    account: "Tik Tok",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Arjun',
+    role: 'performer',
+    email: 'hello@creativeoutlook.com',
+    account: 'Tik Tok',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Sita",
-    role: "creator",
-    email: "info@innovativeideas.com",
-    account: "Twitter",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Sita',
+    role: 'creator',
+    email: 'info@innovativeideas.com',
+    account: 'Twitter',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
   {
-    user: "Kiran",
-    role: "performer",
-    email: "support@techsolutions.com",
-    account: "Youtube",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Kiran',
+    role: 'performer',
+    email: 'support@techsolutions.com',
+    account: 'Youtube',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Ravi",
-    role: "creator",
-    email: "contact@brightfuture.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Ravi',
+    role: 'creator',
+    email: 'contact@brightfuture.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Anita",
-    role: "performer",
-    email: "admin@yourdomain.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Anita',
+    role: 'performer',
+    email: 'admin@yourdomain.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Deepak",
-    role: "creator",
-    email: "reachus@smartsolutions.com",
-    account: "Twitter",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Deepak',
+    role: 'creator',
+    email: 'reachus@smartsolutions.com',
+    account: 'Twitter',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Deepak",
-    role: "performer",
-    email: "reachus@smartsolutions.com",
-    account: "Tik Tok",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Deepak',
+    role: 'performer',
+    email: 'reachus@smartsolutions.com',
+    account: 'Tik Tok',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
 ];
 
 export default function UserManagement() {
-  const [isValue, setIsValue] = useState("not_banned");
+  const [isValue, setIsValue] = useState('not_banned');
   const [isPage, setIsPage] = useState(1);
-  const headers = [
-    "User",
-    "Role",
-    "Email",
-    "Account",
-    "Region",
-    "Contact",
-    "Action",
-  ];
+  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
 
   const isLoading = false;
   return (
@@ -119,10 +111,7 @@ export default function UserManagement() {
         title="User Management"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
@@ -132,8 +121,8 @@ export default function UserManagement() {
           value={isValue}
           onValueChange={(value) => setIsValue(value as any)}
           options={[
-            { label: "Not Banned", value: "not_banned" },
-            { label: "Banned Users", value: "banned_users" },
+            { label: 'Not Banned', value: 'not_banned' },
+            { label: 'Banned Users', value: 'banned_users' },
           ]}
         />
       </div>
@@ -171,8 +160,8 @@ export default function UserManagement() {
                     countryCode={item.countryFlag}
                     svg
                     style={{
-                      width: "2em",
-                      height: "1em",
+                      width: '2em',
+                      height: '1em',
                     }}
                     title={item.region}
                   />
@@ -183,13 +172,13 @@ export default function UserManagement() {
                 <TableCell>
                   <Link
                     href={
-                      item.role === "creator"
+                      item.role === 'creator'
                         ? `/admin/user-management/creator/5`
                         : `/admin/user-management/performer/7`
                     }
                   >
                     <h1 className="flex justify-center cursor-pointer">
-                      {" "}
+                      {' '}
                       <FavIcon name="eye" />
                     </h1>
                   </Link>
@@ -204,10 +193,7 @@ export default function UserManagement() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
       </div>
     </div>
   );

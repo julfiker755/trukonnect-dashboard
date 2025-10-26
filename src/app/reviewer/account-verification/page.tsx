@@ -1,111 +1,104 @@
-"use client";
-import useSuccessModal from "@/components/context/sucess-box";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import {
-  Badge,
-  Button,
-  Checkbox,
-  TableCell,
-  TableRow,
-  Textarea,
-} from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import { useModalState } from "@/hooks/useModalState";
-import FavIcon from "@/icon/favIcon";
-import { helpers, PlaceholderImg } from "@/lib";
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
+'use client';
+import useSuccessModal from '@/components/context/sucess-box';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Badge, Button, Checkbox, TableCell, TableRow, Textarea } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import { useModalState } from '@/hooks/useModalState';
+import FavIcon from '@/icon/favIcon';
+import { helpers, PlaceholderImg } from '@/lib';
+import React, { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 
 const item = [
   {
-    user: "Abir",
-    role: "performer",
-    email: "abid32@gmail.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Abir',
+    role: 'performer',
+    email: 'abid32@gmail.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Maksud",
-    role: "creator",
-    email: "user123@example.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Maksud',
+    role: 'creator',
+    email: 'user123@example.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Arjun",
-    role: "performer",
-    email: "hello@creativeoutlook.com",
-    account: "Tik Tok",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Arjun',
+    role: 'performer',
+    email: 'hello@creativeoutlook.com',
+    account: 'Tik Tok',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Sita",
-    role: "creator",
-    email: "info@innovativeideas.com",
-    account: "Twitter",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Sita',
+    role: 'creator',
+    email: 'info@innovativeideas.com',
+    account: 'Twitter',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
   {
-    user: "Kiran",
-    role: "performer",
-    email: "support@techsolutions.com",
-    account: "Youtube",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Kiran',
+    role: 'performer',
+    email: 'support@techsolutions.com',
+    account: 'Youtube',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Ravi",
-    role: "creator",
-    email: "contact@brightfuture.com",
-    account: "Facebook",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Ravi',
+    role: 'creator',
+    email: 'contact@brightfuture.com',
+    account: 'Facebook',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Anita",
-    role: "performer",
-    email: "admin@yourdomain.com",
-    account: "Instagram",
-    region: "Italy",
-    contact: "+234 5485684",
-    countryFlag: "IT",
+    user: 'Anita',
+    role: 'performer',
+    email: 'admin@yourdomain.com',
+    account: 'Instagram',
+    region: 'Italy',
+    contact: '+234 5485684',
+    countryFlag: 'IT',
   },
   {
-    user: "Deepak",
-    role: "creator",
-    email: "reachus@smartsolutions.com",
-    account: "Twitter",
-    region: "Ghana",
-    contact: "+233 5487542",
-    countryFlag: "GH",
+    user: 'Deepak',
+    role: 'creator',
+    email: 'reachus@smartsolutions.com',
+    account: 'Twitter',
+    region: 'Ghana',
+    contact: '+233 5487542',
+    countryFlag: 'GH',
   },
   {
-    user: "Deepak",
-    role: "performer",
-    email: "reachus@smartsolutions.com",
-    account: "Tik Tok",
-    region: "Nigeria",
-    contact: "+234 5485684",
-    countryFlag: "NG",
+    user: 'Deepak',
+    role: 'performer',
+    email: 'reachus@smartsolutions.com',
+    account: 'Tik Tok',
+    region: 'Nigeria',
+    contact: '+234 5485684',
+    countryFlag: 'NG',
   },
 ];
 
@@ -116,16 +109,8 @@ export default function AccountVarificaton() {
   });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
-  const [value, setIsValue] = useState("");
-  const headers = [
-    "User",
-    "Role",
-    "Email",
-    "Account",
-    "Region",
-    "Contact",
-    "Action",
-  ];
+  const [value, setIsValue] = useState('');
+  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
 
   const handleRejection = () => {
     console.log(value);
@@ -138,10 +123,7 @@ export default function AccountVarificaton() {
         title="Account Verification"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
@@ -167,9 +149,7 @@ export default function AccountVarificaton() {
 
                 {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>
-                    {helpers.capitalize(item.role)}
-                  </Badge>
+                  <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
                 </TableCell>
                 {/* Email */}
                 <TableCell>{item.email}</TableCell>
@@ -181,8 +161,8 @@ export default function AccountVarificaton() {
                     countryCode={item.countryFlag}
                     svg
                     style={{
-                      width: "2em",
-                      height: "1em",
+                      width: '2em',
+                      height: '1em',
                     }}
                     title={item.region}
                   />
@@ -192,10 +172,10 @@ export default function AccountVarificaton() {
                 {/* Action Buttons */}
                 <TableCell>
                   <h1
-                    onClick={() => updateState("isPreview", true)}
+                    onClick={() => updateState('isPreview', true)}
                     className="flex justify-center cursor-pointer"
                   >
-                    {" "}
+                    {' '}
                     <FavIcon name="eye" />
                   </h1>
                 </TableCell>
@@ -209,34 +189,25 @@ export default function AccountVarificaton() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2
         open={state.isPreview}
-        setIsOpen={(v) => updateState("isPreview", v)}
-        style={`${state.isReject ? "!opacity-0" : ""}`}
+        setIsOpen={(v) => updateState('isPreview', v)}
+        style={`${state.isReject ? '!opacity-0' : ''}`}
       >
         <div>
-          <ImgBox
-            src={PlaceholderImg()}
-            className="w-full h-[250px]"
-            alt="imgbox1"
-          >
-            <CloseIcon onClose={() => updateState("isPreview", false)} />
+          <ImgBox src={PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1">
+            <CloseIcon onClose={() => updateState('isPreview', false)} />
           </ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>Sourov Das
-              Mithun
+              <span className="text-figma-gray">Username: </span>Sourov Das Mithun
             </li>
             <li>
-              {" "}
-              <span className="text-figma-gray">Notes: </span>This is my
-              facebook account
+              {' '}
+              <span className="text-figma-gray">Notes: </span>This is my facebook account
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}
@@ -245,10 +216,10 @@ export default function AccountVarificaton() {
             <span className="text-figma-gray">Approve for withdrawal</span>
           </div>
           <div className="space-y-3 pt-4">
-            <CloseBtn onClose={() => updateState("isPreview", false)} />
+            <CloseBtn onClose={() => updateState('isPreview', false)} />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => updateState("isReject", true)}
+                onClick={() => updateState('isReject', true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -257,7 +228,7 @@ export default function AccountVarificaton() {
               </Button>
               <Button
                 onClick={async () => {
-                  updateState("isPreview", false);
+                  updateState('isPreview', false);
                   await openSucc();
                 }}
                 size="lg"
@@ -273,7 +244,7 @@ export default function AccountVarificaton() {
       {/* ===== account varification reject======= */}
       <Modal2
         open={state.isReject}
-        setIsOpen={(v) => updateState("isReject", v)}
+        setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -283,12 +254,8 @@ export default function AccountVarificaton() {
             placeholder="Write additional note"
             onChange={(e) => setIsValue(e.target.value)}
           />
-          <CloseBtn onClose={() => updateState("isReject", false)} />
-          <Button
-            onClick={() => handleRejection()}
-            variant="primary"
-            className="w-full"
-          >
+          <CloseBtn onClose={() => updateState('isReject', false)} />
+          <Button onClick={() => handleRejection()} variant="primary" className="w-full">
             Send
           </Button>
         </div>

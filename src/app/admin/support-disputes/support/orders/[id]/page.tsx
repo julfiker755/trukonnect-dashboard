@@ -1,22 +1,22 @@
-"use client";
-import Avatars from "@/components/reuseable/avater";
-import { ImageGallery } from "@/components/reuseable/image-gallery";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import Navber from "@/components/view/common/dash/navber";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import CopyBox from "@/components/reuseable/copy-box";
-import calendar from "@/assets/calendar.svg";
-import { PlaceholderImg } from "@/lib";
-import FavIcon from "@/icon/favIcon";
-import { getSocial } from "@/icon/utils";
-import Image from "next/image";
-import React from "react";
-import { useParams } from "next/navigation";
-import { Button, Textarea } from "@/components/ui";
-import useSuccessModal from "@/components/context/sucess-box";
-import { useModalState } from "@/hooks/useModalState";
-import Modal2 from "@/components/reuseable/modal2";
-import { CloseBtn } from "@/components/reuseable/btn";
+'use client';
+import Avatars from '@/components/reuseable/avater';
+import { ImageGallery } from '@/components/reuseable/image-gallery';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import Navber from '@/components/view/common/dash/navber';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import CopyBox from '@/components/reuseable/copy-box';
+import calendar from '@/assets/calendar.svg';
+import { PlaceholderImg } from '@/lib';
+import FavIcon from '@/icon/favIcon';
+import { getSocial } from '@/icon/utils';
+import Image from 'next/image';
+import React from 'react';
+import { useParams } from 'next/navigation';
+import { Button, Textarea } from '@/components/ui';
+import useSuccessModal from '@/components/context/sucess-box';
+import { useModalState } from '@/hooks/useModalState';
+import Modal2 from '@/components/reuseable/modal2';
+import { CloseBtn } from '@/components/reuseable/btn';
 
 export default function TaskDetails() {
   const { openSucc } = useSuccessModal();
@@ -25,7 +25,7 @@ export default function TaskDetails() {
     isReject: false,
     isSocial: false,
   });
-  const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
+  const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
   return (
     <div className="mb-10">
       <Navber
@@ -44,12 +44,7 @@ export default function TaskDetails() {
           <div className="space-y-5">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
-                <Avatars
-                  src={""}
-                  fallback="Star Bucks"
-                  alt="Star Bucks"
-                  fallbackStyle="avatar"
-                />
+                <Avatars src={''} fallback="Star Bucks" alt="Star Bucks" fallbackStyle="avatar" />
                 <ul className="*:leading-5">
                   <li className="text-xl">Star Bucks</li>
                   <li className="text-sm text-figma-gray">13 Aug, 2025</li>
@@ -58,8 +53,8 @@ export default function TaskDetails() {
             </div>
             <h1 className="text-lg font-medium mb-2">Instagram Likes</h1>
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-              instantly for showing your support!
+              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+              your support!
             </p>
             <ul className="*:text-lg *:text-figma-gray">
               <li>- Tap in the link.</li>
@@ -67,7 +62,7 @@ export default function TaskDetails() {
               <li>- React on this link</li>
             </ul>
             <Button
-              onClick={() => updateState("isSocial", true)}
+              onClick={() => updateState('isSocial', true)}
               variant="secondary"
               className="w-full  text-figma-primary"
             >
@@ -83,7 +78,7 @@ export default function TaskDetails() {
               <li className="flex justify-between items-center">
                 <span>Task from</span>
                 <span className="flex items-center">
-                  {getSocial("instagram")}
+                  {getSocial('instagram')}
                   <span className="ml-2">Instagram</span>
                 </span>
               </li>
@@ -103,32 +98,32 @@ export default function TaskDetails() {
                 <ImageGallery images={images}>
                   <div className="flex flex-wrap gap-5 items-center justify-between">
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
@@ -137,17 +132,14 @@ export default function TaskDetails() {
               </li>
             </ul>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-10 mt-5">
-              <Button
-                onClick={() => updateState("isReject", true)}
-                variant="secondary"
-              >
+              <Button onClick={() => updateState('isReject', true)} variant="secondary">
                 Reject
               </Button>
               <Button
                 onClick={async () => {
                   await openSucc({
-                    title: "Successfully",
-                    description: "You approved the order",
+                    title: 'Successfully',
+                    description: 'You approved the order',
                   });
                 }}
                 variant="primary"
@@ -160,9 +152,7 @@ export default function TaskDetails() {
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <div>
             <h1 className="text-xl">Issue</h1>
-            <p className="text-figma-gray">
-              I can not find the link which given by task creator.
-            </p>
+            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
           </div>
           <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">
@@ -199,7 +189,7 @@ export default function TaskDetails() {
       {/* ===== account varification reject======= */}
       <Modal2
         open={state.isReject}
-        setIsOpen={(v) => updateState("isReject", v)}
+        setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -208,7 +198,7 @@ export default function TaskDetails() {
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn onClose={() => updateState("isReject", false)} />
+          <CloseBtn onClose={() => updateState('isReject', false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
@@ -217,31 +207,22 @@ export default function TaskDetails() {
       {/* ========User social======== */}
       <Modal2
         open={state.isSocial}
-        setIsOpen={(v) => updateState("isSocial", v)}
+        setIsOpen={(v) => updateState('isSocial', v)}
         className="sm:max-w-sm"
       >
         <div>
-          <ImgBox
-            src={PlaceholderImg()}
-            className="w-full h-[250px]"
-            alt="imgbox1"
-          ></ImgBox>
+          <ImgBox src={PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>Sourov Das
-              Mithun
+              <span className="text-figma-gray">Username: </span>Sourov Das Mithun
             </li>
             <li>
-              {" "}
-              <span className="text-figma-gray">Notes: </span>This is my
-              facebook account
+              {' '}
+              <span className="text-figma-gray">Notes: </span>This is my facebook account
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}
-          <CloseBtn
-            className="bg-figma-primary"
-            onClose={() => updateState("isSocial", false)}
-          />
+          <CloseBtn className="bg-figma-primary" onClose={() => updateState('isSocial', false)} />
         </div>
       </Modal2>
     </div>

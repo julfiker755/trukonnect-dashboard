@@ -1,15 +1,15 @@
-"use client";
-import { useState } from "react";
-import { CircleAlert, Eye, EyeOff } from "lucide-react";
+'use client';
+import { useState } from 'react';
+import { CircleAlert, Eye, EyeOff } from 'lucide-react';
 import {
   Controller,
   useFormContext,
   type FieldValues,
   type ControllerRenderProps,
   type ControllerFieldState,
-} from "react-hook-form";
-import { Input, Label } from "@/components/ui";
-import { cn } from "@/lib/utils";
+} from 'react-hook-form';
+import { Input, Label } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
 interface formInputProps {
   stylelabel?: string;
@@ -26,7 +26,7 @@ interface formInputProps {
 
 export function DialInput({
   name,
-  type = "text",
+  type = 'text',
   eye = false,
   label,
   placeholder,
@@ -37,7 +37,7 @@ export function DialInput({
 }: formInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const { control } = useFormContext();
-  const inputType = eye ? (isPasswordVisible ? "text" : "password") : type;
+  const inputType = eye ? (isPasswordVisible ? 'text' : 'password') : type;
   const inputId = `input-${name}`;
 
   return (
@@ -54,7 +54,7 @@ export function DialInput({
         <div>
           <Label
             htmlFor={inputId}
-            className={cn("text-blacks text-base font-medium mb-1", stylelabel)}
+            className={cn('text-blacks text-base font-medium mb-1', stylelabel)}
           >
             {label}
           </Label>
@@ -64,16 +64,14 @@ export function DialInput({
               {...field}
               {...rest}
               // ✅ Use text type when "number" is passed, so "+" can be typed
-              type={type === "number" ? "text" : inputType}
-              inputMode={type === "number" ? "numeric" : undefined}
+              type={type === 'number' ? 'text' : inputType}
+              inputMode={type === 'number' ? 'numeric' : undefined}
               placeholder={placeholder}
               className={cn(
                 `h-13 w-full border-none bg-figma-input rounded-sm 
                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none 
                 [&::-webkit-inner-spin-button]:appearance-none 
-                ${icon ? "pl-10" : "pl-4"} ${
-                  eye ? "pr-10" : "pr-3"
-                } text-blacks`,
+                ${icon ? 'pl-10' : 'pl-4'} ${eye ? 'pr-10' : 'pr-3'} text-blacks`,
                 className
               )}
               onChange={(e) => {
@@ -82,7 +80,7 @@ export function DialInput({
                   field.onChange(val);
                 }
               }}
-              value={field.value || ""}
+              value={field.value || ''}
             />
 
             {icon && (

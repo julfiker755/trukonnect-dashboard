@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { tagTypesList } from "../tag-types";
-import { authKey, helpers } from "@/lib";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { tagTypesList } from '../tag-types';
+import { authKey, helpers } from '@/lib';
 
 let refreshingTokenPromise: Promise<string | null> | null = null;
 
@@ -9,8 +9,8 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     const token = helpers.getAuthCookie(authKey);
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-      headers.set("accept", "application/json");
+      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('accept', 'application/json');
     }
     return headers;
   },
@@ -52,7 +52,7 @@ const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
 };
 
 export const baseApi = createApi({
-  reducerPath: "api",
+  reducerPath: 'api',
   baseQuery: customBaseQuery,
   tagTypes: tagTypesList,
   endpoints: () => ({}),
@@ -61,16 +61,13 @@ export const baseApi = createApi({
 // === Token Refresh Function ===
 async function refreshAuthToken() {
   const token = helpers.getAuthCookie(authKey);
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await res.json();
   return data?.token;
 }

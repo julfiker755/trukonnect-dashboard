@@ -1,92 +1,92 @@
-"use client";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import RadioToggle from "@/components/reuseable/radio-toggle";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Badge, Button, Label, TableCell, TableRow } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import FavIcon from "@/icon/favIcon";
-import { PlaceholderImg } from "@/lib";
-import Link from "next/link";
-import React, { useState } from "react";
-import ReactCountryFlag from "react-country-flag";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+'use client';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import RadioToggle from '@/components/reuseable/radio-toggle';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Badge, Button, Label, TableCell, TableRow } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import FavIcon from '@/icon/favIcon';
+import { PlaceholderImg } from '@/lib';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const item = [
   {
-    user: "Abir Hossain",
-    email: "abid32@gmail.com",
-    purchasedTask: "Instagram Follows",
-    status: "Pending",
+    user: 'Abir Hossain',
+    email: 'abid32@gmail.com',
+    purchasedTask: 'Instagram Follows',
+    status: 'Pending',
   },
   {
-    user: "Maksud Bhuiya",
-    email: "user123@example.com",
-    purchasedTask: "TikTok Shares",
-    status: "Blocked",
+    user: 'Maksud Bhuiya',
+    email: 'user123@example.com',
+    purchasedTask: 'TikTok Shares',
+    status: 'Blocked',
   },
   {
-    user: "Arjun Patel",
-    email: "hello@creativeoutlook.com",
-    purchasedTask: "Facebook Post Likes",
-    status: "Pending",
+    user: 'Arjun Patel',
+    email: 'hello@creativeoutlook.com',
+    purchasedTask: 'Facebook Post Likes',
+    status: 'Pending',
   },
   {
-    user: "Sita Sharma",
-    email: "info@innovativeideas.com",
-    purchasedTask: "Twitter Retweets",
-    status: "Completed",
+    user: 'Sita Sharma',
+    email: 'info@innovativeideas.com',
+    purchasedTask: 'Twitter Retweets',
+    status: 'Completed',
   },
   {
-    user: "Kiran Mehta",
-    email: "support@techsolutions.com",
-    purchasedTask: "YouTube Comments",
-    status: "Blocked",
+    user: 'Kiran Mehta',
+    email: 'support@techsolutions.com',
+    purchasedTask: 'YouTube Comments',
+    status: 'Blocked',
   },
   {
-    user: "Deepak Joshi",
-    email: "reachus@smartsolutions.com",
-    purchasedTask: "YouTube Shares",
-    status: "Completed",
+    user: 'Deepak Joshi',
+    email: 'reachus@smartsolutions.com',
+    purchasedTask: 'YouTube Shares',
+    status: 'Completed',
   },
   {
-    user: "Ravi Kumar",
-    email: "contact@brightfuture.com",
-    purchasedTask: "Instagram Shares",
-    status: "Pending",
+    user: 'Ravi Kumar',
+    email: 'contact@brightfuture.com',
+    purchasedTask: 'Instagram Shares',
+    status: 'Pending',
   },
   {
-    user: "Anita Desai",
-    email: "admin@yourdomain.com",
-    purchasedTask: "YouTube Video Views",
-    status: "Completed",
+    user: 'Anita Desai',
+    email: 'admin@yourdomain.com',
+    purchasedTask: 'YouTube Video Views',
+    status: 'Completed',
   },
   {
-    user: "Deepak Singh",
-    email: "reachus@smartsolutions.com",
-    purchasedTask: "TikTok Comments",
-    status: "Blocked",
+    user: 'Deepak Singh',
+    email: 'reachus@smartsolutions.com',
+    purchasedTask: 'TikTok Comments',
+    status: 'Blocked',
   },
   {
-    user: "Deepak Verma",
-    email: "reachus@smartsolutions.com",
-    purchasedTask: "Twitter Follows",
-    status: "Blocked",
+    user: 'Deepak Verma',
+    email: 'reachus@smartsolutions.com',
+    purchasedTask: 'Twitter Follows',
+    status: 'Blocked',
   },
 ];
 
 export default function FinancialControls() {
   const [isPreview, setIsPreview] = useState(false);
-  const [isValue, setIsValue] = useState("pending");
-  const headers = ["User", "Email", "Purchased Task", "Status", "Action"];
-  const [isAction, setIsAction] = useState("");
+  const [isValue, setIsValue] = useState('pending');
+  const headers = ['User', 'Email', 'Purchased Task', 'Status', 'Action'];
+  const [isAction, setIsAction] = useState('');
   const isLoading = false;
   return (
     <div>
@@ -94,10 +94,7 @@ export default function FinancialControls() {
         title="Financial Controls"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
@@ -107,9 +104,9 @@ export default function FinancialControls() {
           value={isValue}
           onValueChange={(value) => setIsValue(value as any)}
           options={[
-            { label: "Pending approval", value: "pending" },
-            { label: "Completed", value: "completed" },
-            { label: "Blocked", value: "blocked" },
+            { label: 'Pending approval', value: 'pending' },
+            { label: 'Completed', value: 'completed' },
+            { label: 'Blocked', value: 'blocked' },
           ]}
         />
       </div>
@@ -139,9 +136,7 @@ export default function FinancialControls() {
                 <TableCell>{item.purchasedTask}</TableCell>
                 {/* Contact */}
                 <TableCell>
-                  <Badge variant={item.status.toLowerCase()}>
-                    {item.status}
-                  </Badge>
+                  <Badge variant={item.status.toLowerCase()}>{item.status}</Badge>
                 </TableCell>
                 {/* Action Buttons */}
                 <TableCell>
@@ -162,22 +157,12 @@ export default function FinancialControls() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => console.log(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => console.log(v)} {...dummyJson.meta}></Pagination>
       </div>
       {/* ================== details Modal ========== */}
-      <Modal2
-        open={isPreview}
-        setIsOpen={(v) => setIsPreview(v)}
-        className="sm:max-w-md"
-      >
+      <Modal2 open={isPreview} setIsOpen={(v) => setIsPreview(v)} className="sm:max-w-md">
         <div className="space-y-4">
-          <CloseIcon
-            className="top-3 right-3"
-            onClose={() => setIsPreview(false)}
-          />
+          <CloseIcon className="top-3 right-3" onClose={() => setIsPreview(false)} />
           <div className="mb-10">
             <ImgBox
               className="size-30 rounded-xl mx-auto"
@@ -202,13 +187,13 @@ export default function FinancialControls() {
                 <div className="space-y-2">
                   <div className="flex items-center">
                     <ReactCountryFlag
-                      countryCode={"CH"}
+                      countryCode={'CH'}
                       svg
                       style={{
-                        width: "1em",
-                        height: "1em",
+                        width: '1em',
+                        height: '1em',
                       }}
-                      title={"Ghana"}
+                      title={'Ghana'}
                     />
                     <span className="text-figma-gray ml-2">Ghana</span>
                   </div>
@@ -241,25 +226,17 @@ export default function FinancialControls() {
                   className="flex items-center space-x-2"
                 >
                   {[
-                    { label: "Completed", value: "completed" },
-                    { label: "Blocked", value: "blocked" },
+                    { label: 'Completed', value: 'completed' },
+                    { label: 'Blocked', value: 'blocked' },
                   ].map((option) => (
-                    <div
-                      key={String(option.value)}
-                      className="flex items-center gap-3"
-                    >
+                    <div key={String(option.value)} className="flex items-center gap-3">
                       <RadioGroupItem
                         value={String(option.value)}
                         id={String(option.value)}
                         className="data-[state=checked]:border-figma-primary cursor-pointer data-[state=checked]:bg-figma-primary data-[state=checked]:text-figma-primary"
                       />
-                      <Label
-                        htmlFor={String(option.value)}
-                        className="text-sm text-slate-300"
-                      >
-                        <Badge variant={option.value as any}>
-                          {option.label}
-                        </Badge>
+                      <Label htmlFor={String(option.value)} className="text-sm text-slate-300">
+                        <Badge variant={option.value as any}>{option.label}</Badge>
                       </Label>
                     </div>
                   ))}

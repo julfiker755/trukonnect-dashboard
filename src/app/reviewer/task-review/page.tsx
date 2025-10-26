@@ -1,38 +1,38 @@
-"use client";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import useSuccessModal from "@/components/context/sucess-box";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Button, TableCell, TableRow, Textarea } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import { useModalState } from "@/hooks/useModalState";
-import React, { useState } from "react";
-import calendar from "@/assets/calendar.svg";
-import { getSocial } from "@/icon/utils";
-import FavIcon from "@/icon/favIcon";
-import { Files } from "lucide-react";
-import Image from "next/image";
-import ReactCountryFlag from "react-country-flag";
-import CopyBox from "@/components/reuseable/copy-box";
+'use client';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import useSuccessModal from '@/components/context/sucess-box';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Button, TableCell, TableRow, Textarea } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import { useModalState } from '@/hooks/useModalState';
+import React, { useState } from 'react';
+import calendar from '@/assets/calendar.svg';
+import { getSocial } from '@/icon/utils';
+import FavIcon from '@/icon/favIcon';
+import { Files } from 'lucide-react';
+import Image from 'next/image';
+import ReactCountryFlag from 'react-country-flag';
+import CopyBox from '@/components/reuseable/copy-box';
 
 const item = [
-  { creator: "Abir", taskType: "Instagram Follows", quantity: 150 },
-  { creator: "Maksud", taskType: "TikTok Shares", quantity: 100 },
-  { creator: "Arjun", taskType: "Facebook Post Likes", quantity: 250 },
-  { creator: "Sita", taskType: "Twitter Retweets", quantity: 100 },
-  { creator: "Kiran", taskType: "YouTube Comments", quantity: 250 },
-  { creator: "Ravi", taskType: "Instagram Shares", quantity: 300 },
-  { creator: "Anita", taskType: "YouTube Video Views", quantity: 50 },
-  { creator: "Deepak", taskType: "TikTok Comments", quantity: 150 },
-  { creator: "Deepak", taskType: "Twitter Follows", quantity: 350 },
-  { creator: "Deepak", taskType: "YouTube Shares", quantity: 400 },
-  { creator: "Anita", taskType: "Instagram Likes", quantity: 600 },
+  { creator: 'Abir', taskType: 'Instagram Follows', quantity: 150 },
+  { creator: 'Maksud', taskType: 'TikTok Shares', quantity: 100 },
+  { creator: 'Arjun', taskType: 'Facebook Post Likes', quantity: 250 },
+  { creator: 'Sita', taskType: 'Twitter Retweets', quantity: 100 },
+  { creator: 'Kiran', taskType: 'YouTube Comments', quantity: 250 },
+  { creator: 'Ravi', taskType: 'Instagram Shares', quantity: 300 },
+  { creator: 'Anita', taskType: 'YouTube Video Views', quantity: 50 },
+  { creator: 'Deepak', taskType: 'TikTok Comments', quantity: 150 },
+  { creator: 'Deepak', taskType: 'Twitter Follows', quantity: 350 },
+  { creator: 'Deepak', taskType: 'YouTube Shares', quantity: 400 },
+  { creator: 'Anita', taskType: 'Instagram Likes', quantity: 600 },
 ];
 
 export default function TaskReview() {
@@ -44,7 +44,7 @@ export default function TaskReview() {
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
 
-  const headers = ["Creator", "Task Type", "Quantity", "Action"];
+  const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
 
   const isLoading = false;
   return (
@@ -53,20 +53,14 @@ export default function TaskReview() {
         title="Task Review"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
       <div>
         <CustomTable headers={headers}>
           {isLoading ? (
-            <TableSkeleton
-              colSpan={headers?.length}
-              tdStyle="!pl-0 !bg-background"
-            />
+            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0 !bg-background" />
           ) : item.length > 0 ? (
             item.map((item: any, index: any) => (
               <TableRow key={index}>
@@ -74,7 +68,7 @@ export default function TaskReview() {
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={""}
+                      src={''}
                       fallback={item.creator}
                       alt={item.creator}
                       fallbackStyle="avatar"
@@ -90,7 +84,7 @@ export default function TaskReview() {
                 {/* Action Buttons */}
                 <TableCell>
                   <h1
-                    onClick={() => updateState("isPreview", true)}
+                    onClick={() => updateState('isPreview', true)}
                     className="flex justify-center cursor-pointer"
                   >
                     <FavIcon name="eye" />
@@ -106,30 +100,24 @@ export default function TaskReview() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
       </div>
       {/* ===== preview======= */}
       <Modal2
         open={state.isPreview}
-        setIsOpen={(v) => updateState("isPreview", v)}
-        style={`${state.isReject || state.isReport ? "!opacity-0" : ""}`}
+        setIsOpen={(v) => updateState('isPreview', v)}
+        style={`${state.isReject || state.isReport ? '!opacity-0' : ''}`}
       >
         <div className="space-y-5">
           <div className="flex justify-between items-center">
             <h1 className="font-semibold text-xl">Instagram Likes</h1>
             <h1>
-              <CloseIcon
-                className="static"
-                onClose={() => updateState("isPreview", false)}
-              />
+              <CloseIcon className="static" onClose={() => updateState('isPreview', false)} />
             </h1>
           </div>
           <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-            instantly for showing your support!
+            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+            your support!
           </p>
           <ul className="*:text-lg *:text-figma-gray">
             <li>- Tap in the link.</li>
@@ -145,13 +133,13 @@ export default function TaskReview() {
               <span>Selected Audience</span>
               <span>
                 <ReactCountryFlag
-                  countryCode={"GH"}
+                  countryCode={'GH'}
                   svg
                   style={{
-                    width: "2em",
-                    height: "1em",
+                    width: '2em',
+                    height: '1em',
                   }}
-                  title={"item.region"}
+                  title={'item.region'}
                 />
                 Ghana
               </span>
@@ -165,7 +153,7 @@ export default function TaskReview() {
             <li className="flex justify-between items-center">
               <span>Platform</span>
               <span className="flex items-center">
-                {getSocial("instagram")}
+                {getSocial('instagram')}
                 <span className="ml-2">Instagram</span>
               </span>
             </li>
@@ -185,7 +173,7 @@ export default function TaskReview() {
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => updateState("isReport", true)}
+                onClick={() => updateState('isReport', true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -193,7 +181,7 @@ export default function TaskReview() {
                 Report User to Admin
               </Button>
               <Button
-                onClick={() => updateState("isReject", true)}
+                onClick={() => updateState('isReject', true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -203,7 +191,7 @@ export default function TaskReview() {
             </div>
             <Button
               onClick={async () => {
-                updateState("isPreview", false);
+                updateState('isPreview', false);
                 await openSucc();
               }}
               size="lg"
@@ -219,7 +207,7 @@ export default function TaskReview() {
       {/* ===== Cause of report======= */}
       <Modal2
         open={state.isReport}
-        setIsOpen={(v) => updateState("isReport", v)}
+        setIsOpen={(v) => updateState('isReport', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -228,7 +216,7 @@ export default function TaskReview() {
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn onClose={() => updateState("isReport", false)} />
+          <CloseBtn onClose={() => updateState('isReport', false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
@@ -238,7 +226,7 @@ export default function TaskReview() {
       {/* ===== Cause of rejection======= */}
       <Modal2
         open={state.isReject}
-        setIsOpen={(v) => updateState("isReject", v)}
+        setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -247,7 +235,7 @@ export default function TaskReview() {
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn onClose={() => updateState("isReject", false)} />
+          <CloseBtn onClose={() => updateState('isReject', false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>

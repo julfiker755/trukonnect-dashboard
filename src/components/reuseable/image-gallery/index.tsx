@@ -1,28 +1,20 @@
-"use client";
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  ChevronLeft,
-  ChevronRight,
-  X,
-  ZoomIn,
-  ZoomOut,
-  Download,
-  ListRestart,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ImgBox } from "../Img-box";
+} from '@/components/ui/dialog';
+import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, Download, ListRestart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ImgBox } from '../Img-box';
 
 interface ImageGalleryProps {
   images: string[];
-  aspectRatio?: "square" | "video" | "portrait" | "landscape";
+  aspectRatio?: 'square' | 'video' | 'portrait' | 'landscape';
   showThumbnails?: boolean;
   autoPlay?: boolean;
   autoPlayInterval?: number;
@@ -31,7 +23,7 @@ interface ImageGalleryProps {
 
 export function ImageGallery({
   images,
-  aspectRatio = "landscape",
+  aspectRatio = 'landscape',
   showThumbnails = true,
   autoPlay = false,
   autoPlayInterval = 5000,
@@ -40,13 +32,13 @@ export function ImageGallery({
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [origin, setOrigin] = useState("center center");
+  const [origin, setOrigin] = useState('center center');
 
   const aspectRatioClasses = {
-    square: "aspect-square",
-    video: "aspect-video",
-    portrait: "aspect-[3/4]",
-    landscape: "aspect-[4/3]",
+    square: 'aspect-square',
+    video: 'aspect-video',
+    portrait: 'aspect-[3/4]',
+    landscape: 'aspect-[4/3]',
   };
 
   const currentImage = images[currentIndex];
@@ -68,16 +60,16 @@ export function ImageGallery({
 
   const resetZoom = () => {
     setZoomLevel(1);
-    setOrigin("center center");
+    setOrigin('center center');
   };
 
   const downloadImage = async (imageUrl: string, fileName: string) => {
     const response = await fetch(imageUrl);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = fileName || "image.jpg";
+    link.download = fileName || 'image.jpg';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -134,15 +126,10 @@ export function ImageGallery({
                 className="text-gray-400 size-6 cursor-pointer"
               />
               <Download
-                onClick={() =>
-                  downloadImage(currentImage, `image-${currentIndex + 1}.jpg`)
-                }
+                onClick={() => downloadImage(currentImage, `image-${currentIndex + 1}.jpg`)}
                 className="text-gray-400 size-5 cursor-pointer"
               />
-              <X
-                onClick={() => setIsGalleryOpen(false)}
-                className="text-gray-400 cursor-pointer"
-              />
+              <X onClick={() => setIsGalleryOpen(false)} className="text-gray-400 cursor-pointer" />
             </div>
           </div>
 
@@ -150,18 +137,18 @@ export function ImageGallery({
           <div className="flex items-center justify-center h-[calc(100vh-80px)]">
             <div
               className={cn(
-                "relative overflow-hidden border border-gray-500/50 bg-figma-gray/2 rounded-lg w-fit lg:max-w-4xl  lg:h-[70vh]",
+                'relative overflow-hidden border border-gray-500/50 bg-figma-gray/2 rounded-lg w-fit lg:max-w-4xl  lg:h-[70vh]',
                 aspectRatioClasses[aspectRatio]
               )}
               onMouseMove={handleMouseMove}
             >
               <picture>
                 <img
-                  src={currentImage || "/placeholder.svg"}
+                  src={currentImage || '/placeholder.svg'}
                   alt="image"
                   className={cn(
-                    "w-full h-full object-contain transition-transform duration-300 select-none",
-                    zoomLevel > 1 ? "cursor-move" : "cursor-zoom-in"
+                    'w-full h-full object-contain transition-transform duration-300 select-none',
+                    zoomLevel > 1 ? 'cursor-move' : 'cursor-zoom-in'
                   )}
                   style={{
                     transform: `scale(${zoomLevel})`,
@@ -200,10 +187,8 @@ export function ImageGallery({
                 <button
                   key={index}
                   className={cn(
-                    "w-20 h-16 rounded-md border-2 flex-shrink-0",
-                    index === currentIndex
-                      ? "border-figma-primary"
-                      : "border-transparent"
+                    'w-20 h-16 rounded-md border-2 flex-shrink-0',
+                    index === currentIndex ? 'border-figma-primary' : 'border-transparent'
                   )}
                   onClick={() => goToSlide(index)}
                 >

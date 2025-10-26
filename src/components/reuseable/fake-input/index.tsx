@@ -1,20 +1,20 @@
-"use client";
+'use client';
 import {
   Controller,
   useFormContext,
   type FieldValues,
   type ControllerRenderProps,
   type ControllerFieldState,
-} from "react-hook-form";
+} from 'react-hook-form';
 
 export function FakeInput({
   name,
-  type = "text",
+  type = 'text',
   ...rest
 }: {
   name: string;
   type?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "ref">) {
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'ref'>) {
   const { control } = useFormContext();
 
   return (

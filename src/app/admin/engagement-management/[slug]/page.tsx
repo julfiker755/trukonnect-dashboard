@@ -1,35 +1,32 @@
-"use client";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import { FromTextArea } from "@/components/reuseable/from-textarea";
-import Modal2 from "@/components/reuseable/modal2";
-import { Button, Table } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import { useModalState } from "@/hooks/useModalState";
-import { engagementSchema } from "@/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams } from "next/navigation";
-import { FieldValues, useForm } from "react-hook-form";
-import FavIcon from "@/icon/favIcon";
-import React, { useState } from "react";
-import useConfirmation from "@/components/context/delete-modal";
-import {
-  TableNoItem2,
-  TableSkeleton2,
-} from "@/components/reuseable/table-skeleton2";
-import { useGetCountryQuery } from "@/redux/api/admin/countryApi";
-import FlagBox from "@/components/reuseable/flag-box";
+'use client';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import { FromTextArea } from '@/components/reuseable/from-textarea';
+import Modal2 from '@/components/reuseable/modal2';
+import { Button, Table } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import { useModalState } from '@/hooks/useModalState';
+import { engagementSchema } from '@/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'next/navigation';
+import { FieldValues, useForm } from 'react-hook-form';
+import FavIcon from '@/icon/favIcon';
+import React, { useState } from 'react';
+import useConfirmation from '@/components/context/delete-modal';
+import { TableNoItem2, TableSkeleton2 } from '@/components/reuseable/table-skeleton2';
+import { useGetCountryQuery } from '@/redux/api/admin/countryApi';
+import FlagBox from '@/components/reuseable/flag-box';
 import {
   useDeleteEngmentMutation,
   useGetEngmentQuery,
   useStoreEngmentMutation,
   useUpdateEngmentMutation,
-} from "@/redux/api/admin/engagementApi";
-import { ResponseApiErrors } from "@/lib/api-response";
-import { helpers } from "@/lib";
-import { FakeInput } from "@/components/reuseable/fake-input";
+} from '@/redux/api/admin/engagementApi';
+import { ResponseApiErrors } from '@/lib/api-response';
+import { helpers } from '@/lib';
+import { FakeInput } from '@/components/reuseable/fake-input';
 
 export default function PlatformSingle() {
   const { confirm } = useConfirmation();
@@ -42,16 +39,15 @@ export default function PlatformSingle() {
   const { data: engagement, isLoading } = useGetEngmentQuery(slug);
   const { data: country } = useGetCountryQuery({});
   const [storeEngment, { isLoading: storeLoading }] = useStoreEngmentMutation();
-  const [updateEngment, { isLoading: updateLoading }] =
-    useUpdateEngmentMutation();
+  const [updateEngment, { isLoading: updateLoading }] = useUpdateEngmentMutation();
   const [deleteEngment] = useDeleteEngmentMutation();
   const addFrom = useForm({
     resolver: zodResolver(engagementSchema.partial()),
     defaultValues: {
-      name: "",
-      minimum_qty: "",
-      price: "",
-      description: "",
+      name: '',
+      minimum_qty: '',
+      price: '',
+      description: '',
     },
   });
 
@@ -80,25 +76,25 @@ export default function PlatformSingle() {
 
   const handleAddReset = () => {
     addFrom.reset();
-    updateState("isAdd", false);
+    updateState('isAdd', false);
   };
 
   // == editFrom ==
   const editFrom = useForm({
     resolver: zodResolver(engagementSchema.partial()),
     defaultValues: {
-      id: "",
-      name: "",
-      minimum_qty: "",
-      price: "",
-      description: "",
+      id: '',
+      name: '',
+      minimum_qty: '',
+      price: '',
+      description: '',
     },
   });
 
   const handleEditSubmit = async (values: FieldValues) => {
     try {
       const value = {
-        _method: "put",
+        _method: 'put',
         engagement_name: values.name,
         description: values.description,
         min_quantity: values.minimum_qty,
@@ -117,24 +113,23 @@ export default function PlatformSingle() {
   };
 
   const handleEdit = (item: any) => {
-    updateState("isEdit", true);
-    editFrom.setValue("name", item?.engagement_name);
-    editFrom.setValue("minimum_qty", item?.min_quantity?.toString());
-    editFrom.setValue("price", item?.unit_price?.toString());
-    editFrom.setValue("description", item?.description);
-    editFrom.setValue("id", item?.id?.toString());
+    updateState('isEdit', true);
+    editFrom.setValue('name', item?.engagement_name);
+    editFrom.setValue('minimum_qty', item?.min_quantity?.toString());
+    editFrom.setValue('price', item?.unit_price?.toString());
+    editFrom.setValue('description', item?.description);
+    editFrom.setValue('id', item?.id?.toString());
   };
 
   const handleEditReset = () => {
     editFrom.reset();
-    updateState("isEdit", false);
+    updateState('isEdit', false);
   };
 
   const handleDelete = async (id: string) => {
     const con = await confirm({
-      title: "You are going to delete this engagement",
-      description:
-        "After deleting, users wont be able to find this engagement in your app",
+      title: 'You are going to delete this engagement',
+      description: 'After deleting, users wont be able to find this engagement in your app',
     });
     if (con) {
       await deleteEngment(id).unwrap();
@@ -142,9 +137,7 @@ export default function PlatformSingle() {
   };
 
   //  == filter by country wase data ==
-  const engItem = engagement?.data?.filter(
-    (cty: any) => cty?.country?.id == countryId
-  );
+  const engItem = engagement?.data?.filter((cty: any) => cty?.country?.id == countryId);
 
   return (
     <div>
@@ -166,7 +159,7 @@ export default function PlatformSingle() {
             {country?.data?.map((item: any) => (
               <FlagBox
                 className={`border-1 cursor-pointer p-1 ${
-                  item.id == countryId && "btn-shadow"
+                  item.id == countryId && 'btn-shadow'
                 } rounded-md`}
                 key={item.id}
                 href={item.flag}
@@ -205,26 +198,16 @@ export default function PlatformSingle() {
               engItem?.length > 0 ? (
                 engItem.map((item: any) => (
                   <tr key={item.id} className="transition-colors table-row">
-                    <td className="px-6 py-4 table-cell text-sm">
-                      {item.engagement_name}
-                    </td>
+                    <td className="px-6 py-4 table-cell text-sm">{item.engagement_name}</td>
                     <td className="px-6 py-4  table-cell text-sm text-center">
                       {item.min_quantity}
                     </td>
-                    <td className="px-6 py-4 table-cell text-sm text-center">
-                      {item?.unit_price}
-                    </td>
+                    <td className="px-6 py-4 table-cell text-sm text-center">{item?.unit_price}</td>
                     <td className="px-6 py-4 table-cell text-center">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="mr-2 cursor-pointer"
-                      >
+                      <button onClick={() => handleEdit(item)} className="mr-2 cursor-pointer">
                         <FavIcon name="edit2" />
                       </button>
-                      <button
-                        className="cursor-pointer"
-                        onClick={() => handleDelete(item.id)}
-                      >
+                      <button className="cursor-pointer" onClick={() => handleDelete(item.id)}>
                         <FavIcon name="delete" />
                       </button>
                     </td>
@@ -241,7 +224,7 @@ export default function PlatformSingle() {
 
         <div className="p-4 flex justify-center mt-10">
           <Button
-            onClick={() => updateState("isAdd", true)}
+            onClick={() => updateState('isAdd', true)}
             variant="primary"
             className="w-fit lg:w-1/2"
           >
@@ -251,19 +234,14 @@ export default function PlatformSingle() {
       </div>
 
       {/* =========== Add New Engagement ========== */}
-      <Modal2 open={state.isAdd} setIsOpen={(v) => updateState("isAdd", v)}>
+      <Modal2 open={state.isAdd} setIsOpen={(v) => updateState('isAdd', v)}>
         <ul className="flex items-center pt-1 justify-between">
           <li className="opacity-0">0</li>
           <li>
-            <h1 className="text-xl font-medium text-center">
-              Add New Engagement
-            </h1>
+            <h1 className="text-xl font-medium text-center">Add New Engagement</h1>
           </li>
           <li>
-            <CloseIcon
-              className="top-4 right-3"
-              onClose={() => handleAddReset()}
-            />
+            <CloseIcon className="top-4 right-3" onClose={() => handleAddReset()} />
           </li>
         </ul>
         <Form from={addFrom} onSubmit={handleAddSubmit}>
@@ -296,11 +274,7 @@ export default function PlatformSingle() {
             />
             <div className="space-y-2">
               <CloseBtn onClose={() => handleAddReset()} />
-              <Button
-                disabled={storeLoading}
-                className="w-full"
-                variant="primary"
-              >
+              <Button disabled={storeLoading} className="w-full" variant="primary">
                 Add
               </Button>
             </div>
@@ -308,17 +282,14 @@ export default function PlatformSingle() {
         </Form>
       </Modal2>
       {/* =========== Edit New Engagement ========== */}
-      <Modal2 open={state.isEdit} setIsOpen={(v) => updateState("isEdit", v)}>
+      <Modal2 open={state.isEdit} setIsOpen={(v) => updateState('isEdit', v)}>
         <ul className="flex items-center pt-1 justify-between">
           <li className="opacity-0">0</li>
           <li>
             <h1 className="text-xl font-medium text-center">Edit Engagement</h1>
           </li>
           <li>
-            <CloseIcon
-              className="top-4 right-3"
-              onClose={() => handleEditReset()}
-            />
+            <CloseIcon className="top-4 right-3" onClose={() => handleEditReset()} />
           </li>
         </ul>
         <Form from={editFrom} onSubmit={handleEditSubmit}>
@@ -351,11 +322,7 @@ export default function PlatformSingle() {
             />
             <div className="space-y-2">
               <CloseBtn onClose={() => handleEditReset()} />
-              <Button
-                disabled={updateLoading}
-                className="w-full"
-                variant="primary"
-              >
+              <Button disabled={updateLoading} className="w-full" variant="primary">
                 Edit
               </Button>
             </div>

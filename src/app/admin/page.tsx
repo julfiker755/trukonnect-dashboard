@@ -1,28 +1,28 @@
-"use client";
-import assets from "@/assets";
-import Navber from "@/components/view/common/dash/navber";
-import RevenueChart from "@/components/view/reviewer/chart/reevenue-chart";
-import Image from "next/image";
-import React from "react";
+'use client';
+import assets from '@/assets';
+import Navber from '@/components/view/common/dash/navber';
+import RevenueChart from '@/components/view/reviewer/chart/reevenue-chart';
+import Image from 'next/image';
+import React from 'react';
 
 const overviewItem = [
   {
     icon: assets.admin.overview.performance,
-    title: "Total Performers",
+    title: 'Total Performers',
     count: 10,
-    bg: "rgba(130, 255, 167, 0.10)",
+    bg: 'rgba(130, 255, 167, 0.10)',
   },
   {
     icon: assets.admin.overview.brands,
-    title: "Total Brands",
+    title: 'Total Brands',
     count: 45,
-    bg: "rgba(245, 131, 255, 0.10)",
+    bg: 'rgba(245, 131, 255, 0.10)',
   },
   {
     icon: assets.admin.overview.revenue,
-    title: "Total Revenue",
+    title: 'Total Revenue',
     count: 45,
-    bg: "rgba(145, 137, 255, 0.10)",
+    bg: 'rgba(145, 137, 255, 0.10)',
   },
 ];
 

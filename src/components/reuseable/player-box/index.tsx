@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   VideoPlayer,
   VideoPlayerContent,
@@ -10,8 +10,8 @@ import {
   VideoPlayerTimeDisplay,
   VideoPlayerTimeRange,
   VideoPlayerVolumeRange,
-} from "@/components/ui/shadcn-io/video-player";
-import { cn } from "@/lib";
+} from '@/components/ui/shadcn-io/video-player';
+import { cn } from '@/lib';
 
 const PlayerBox = ({ className }: any) => (
   <VideoPlayer
@@ -32,7 +32,10 @@ const PlayerBox = ({ className }: any) => (
       <VideoPlayerSeekBackwardButton className="text-[#fd7701] hover:text-[#fd7701]" />
       <VideoPlayerSeekForwardButton className="text-[#fd7701] hover:text-[#fd7701]" />
       <VideoPlayerTimeRange />
-      <VideoPlayerTimeDisplay className="text-[#fd7701] hover:bg-transparent hover:text-[#fd7701]" showDuration />
+      <VideoPlayerTimeDisplay
+        className="text-[#fd7701] hover:bg-transparent hover:text-[#fd7701]"
+        showDuration
+      />
       <VideoPlayerMuteButton className="text-[#fd7701] hover:text-[#fd7701]" />
       <VideoPlayerVolumeRange className="text-[#fd7701] hover:text-[#fd7701]" />
     </VideoPlayerControlBar>

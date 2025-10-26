@@ -1,26 +1,20 @@
-import React from "react";
-import { TableCell, TableRow } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import FavIcon from "@/icon/favIcon";
-
+import React from 'react';
+import { TableCell, TableRow } from '@/components/ui';
+import { cn } from '@/lib/utils';
+import FavIcon from '@/icon/favIcon';
 
 export interface itemProps {
   title?: string;
   colSpan: number;
   className?: string;
-  tdStyle?:string
+  tdStyle?: string;
 }
 
-export function TableNoItem({
-  title = "No Data Found",
-  colSpan,
-  className,
-  tdStyle
-}: itemProps) {
+export function TableNoItem({ title = 'No Data Found', colSpan, className, tdStyle }: itemProps) {
   return (
     <TableRow>
-      <TableCell colSpan={colSpan} className={cn("text-center",tdStyle)}>
-        <div className={cn("py-24 2xl:py-40 text-center", className)}>
+      <TableCell colSpan={colSpan} className={cn('text-center', tdStyle)}>
+        <div className={cn('py-24 2xl:py-40 text-center', className)}>
           <div className="flex justify-center">
             <FavIcon color="#99a1af" name="svgFile" />
           </div>
@@ -31,9 +25,9 @@ export function TableNoItem({
   );
 }
 
-export function NoItemData({ title = "No Data Found", className }: any) {
+export function NoItemData({ title = 'No Data Found', className }: any) {
   return (
-    <div className={cn("py-24 2xl:py-40 text-center flex flex-col justify-center", className)}>
+    <div className={cn('py-24 2xl:py-40 text-center flex flex-col justify-center', className)}>
       <div className="flex justify-center">
         <FavIcon color="#99a1af" name="svgFile" />
       </div>

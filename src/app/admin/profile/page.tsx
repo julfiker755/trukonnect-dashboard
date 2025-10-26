@@ -1,35 +1,35 @@
-"use client";
-import Avatars from "@/components/reuseable/avater";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import { CloseIcon } from "@/components/reuseable/btn";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import ImgUpload from "@/components/reuseable/img-uplod";
-import Modal2 from "@/components/reuseable/modal2";
-import TextEditor from "@/components/reuseable/text-editor";
-import { Button } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import UpdatePassword from "@/components/view/common/update-password";
-import FavIcon from "@/icon/favIcon";
-import { PlaceholderImg } from "@/lib";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SquarePen } from "lucide-react";
-import Image from "next/image";
-import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+'use client';
+import Avatars from '@/components/reuseable/avater';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import { CloseIcon } from '@/components/reuseable/btn';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import ImgUpload from '@/components/reuseable/img-uplod';
+import Modal2 from '@/components/reuseable/modal2';
+import TextEditor from '@/components/reuseable/text-editor';
+import { Button } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import UpdatePassword from '@/components/view/common/update-password';
+import FavIcon from '@/icon/favIcon';
+import { PlaceholderImg } from '@/lib';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SquarePen } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function Profile() {
-  const [isTab, setIsTab] = useState("personal_information");
+  const [isTab, setIsTab] = useState('personal_information');
 
   const renderContent = () => {
     switch (isTab) {
-      case "personal_information":
+      case 'personal_information':
         return <PersonalInformation />;
-      case "privacy_policy":
+      case 'privacy_policy':
         return <PrivacyPolicy />;
-      case "terms_conditions":
+      case 'terms_conditions':
         return <TermsAndConditions />;
-      case "admin_list":
+      case 'admin_list':
         return <AdminList />;
       default:
         return <PersonalInformation />;
@@ -42,27 +42,22 @@ export default function Profile() {
         className="py-3"
         backbtn={
           <div className="items-center flex">
-            <BackBtn
-              className="hidden lg:grid"
-              iconStyle="text-figma-primary"
-            />
+            <BackBtn className="hidden lg:grid" iconStyle="text-figma-primary" />
             <h1 className="text-xl relative -ml-2"> My Profile</h1>
           </div>
         }
       />
       <ul className="flex flex-wrap space-x-5">
         {[
-          { label: "Personal Information", value: "personal_information" },
-          { label: "Privacy Policy", value: "privacy_policy" },
-          { label: "Terms & Conditions", value: "terms_conditions" },
-          { label: "Admin List", value: "admin_list" },
+          { label: 'Personal Information', value: 'personal_information' },
+          { label: 'Privacy Policy', value: 'privacy_policy' },
+          { label: 'Terms & Conditions', value: 'terms_conditions' },
+          { label: 'Admin List', value: 'admin_list' },
         ].map((item) => (
           <li
             key={item.label}
             className={`font-medium cursor-pointer border-b-3 border-b-transparent ${
-              isTab === item.value
-                ? "text-figma-primary !border-b-figma-primary"
-                : ""
+              isTab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
             }`}
             onClick={() => setIsTab(item.value)}
           >
@@ -86,8 +81,8 @@ const PersonalInformation = () => {
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
   const from = useForm({
     defaultValues: {
-      name: "Suuu Ronaldo",
-      contact_number: "01741703755",
+      name: 'Suuu Ronaldo',
+      contact_number: '01741703755',
       thumbnail: null,
     },
   });
@@ -111,10 +106,10 @@ const PersonalInformation = () => {
           <div className="space-y-6 pt-5">
             <div className="relative mx-auto size-28 rounded-full">
               <Image
-                src={avatar.preview || PlaceholderImg() || "/blur.png"}
-                alt={"title"}
+                src={avatar.preview || PlaceholderImg() || '/blur.png'}
+                alt={'title'}
                 fill
-                className={"object-cover rounded-full"}
+                className={'object-cover rounded-full'}
               />
               <ImgUpload
                 className="grid place-items-center shadow-md  rounded-full absolute bottom-[6px] -right-1 cursor-pointer"
@@ -170,7 +165,7 @@ const PersonalInformation = () => {
 };
 // ============== privacy policy ==============
 const PrivacyPolicy = () => {
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<string>('');
   return (
     <div className="bg-figma-card">
       {/* {termsLoading ? (
@@ -191,7 +186,7 @@ const PrivacyPolicy = () => {
 };
 // ===============Terms & Conditions============
 const TermsAndConditions = () => {
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<string>('');
   return (
     <div className="bg-figma-card">
       {/* {termsLoading ? (
@@ -213,16 +208,16 @@ const TermsAndConditions = () => {
 
 // ===============Admin List============
 const adminData = [
-  { name: "Abu Hossain", email: "abu123@gmail.com" },
-  { name: "Mukibul Bhuiya", email: "user123@example.com" },
-  { name: "Arjun Patel", email: "hello@smartfuturelabs.co" },
-  { name: "Gita Sharma", email: "info@innovativeworkdesk.com" },
-  { name: "Kiran Mehta", email: "support@smartsolutions.com" },
-  { name: "Ravi Kumar", email: "contact@agrifuture.com" },
-  { name: "Anita Desai", email: "admin@yourdomain.com" },
-  { name: "Deepak Singh", email: "reach@smartsolutions.com" },
-  { name: "Deepak Verma", email: "reach@smartsolutions.com" },
-  { name: "Deepak Joshi", email: "reach@smartsolutions.com" },
+  { name: 'Abu Hossain', email: 'abu123@gmail.com' },
+  { name: 'Mukibul Bhuiya', email: 'user123@example.com' },
+  { name: 'Arjun Patel', email: 'hello@smartfuturelabs.co' },
+  { name: 'Gita Sharma', email: 'info@innovativeworkdesk.com' },
+  { name: 'Kiran Mehta', email: 'support@smartsolutions.com' },
+  { name: 'Ravi Kumar', email: 'contact@agrifuture.com' },
+  { name: 'Anita Desai', email: 'admin@yourdomain.com' },
+  { name: 'Deepak Singh', email: 'reach@smartsolutions.com' },
+  { name: 'Deepak Verma', email: 'reach@smartsolutions.com' },
+  { name: 'Deepak Joshi', email: 'reach@smartsolutions.com' },
 ];
 
 const AdminList = () => {
@@ -230,9 +225,9 @@ const AdminList = () => {
   const from = useForm({
     // resolver: zodResolver(adminSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -245,11 +240,7 @@ const AdminList = () => {
   return (
     <div>
       <div className="flex justify-end">
-        <Button
-          onClick={() => setIsStore(true)}
-          variant="primary"
-          className="rounded-md"
-        >
+        <Button onClick={() => setIsStore(true)} variant="primary" className="rounded-md">
           Add New Admin
         </Button>
       </div>
@@ -273,18 +264,11 @@ const AdminList = () => {
               <div key={index} className="table-row transition-colors">
                 <div className="table-cell px-6 py-4 text-sm">
                   <div className="flex items-center space-x-2">
-                    <Avatars
-                      src={""}
-                      fallback={item.name}
-                      alt={item.name}
-                      fallbackStyle="avatar"
-                    />
+                    <Avatars src={''} fallback={item.name} alt={item.name} fallbackStyle="avatar" />
                     <span>{item.name}</span>
                   </div>
                 </div>
-                <div className="table-cell px-6 py-4 text-sm text-center">
-                  {item.email}
-                </div>
+                <div className="table-cell px-6 py-4 text-sm text-center">{item.email}</div>
               </div>
             ))}
           </div>
@@ -326,9 +310,7 @@ const AdminList = () => {
               name="password"
               placeholder="Enter Password"
               className="h-10"
-              icon={
-                <FavIcon name="password" className="size-5" color="#777777" />
-              }
+              icon={<FavIcon name="password" className="size-5" color="#777777" />}
               eye={true}
             />
 

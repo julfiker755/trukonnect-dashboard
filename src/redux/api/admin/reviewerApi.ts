@@ -1,13 +1,13 @@
-import { buildResponse } from "@/lib/api-response";
-import { tagTypes } from "../../tag-types";
-import { baseApi } from "../baseApi";
+import { buildResponse } from '@/lib/api-response';
+import { tagTypes } from '../../tag-types';
+import { baseApi } from '../baseApi';
 
 export const reviewerApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getReviewer: build.query({
       query: (arg?: Record<string, any>) => ({
         url: `/admin/reviewer/all`,
-        method: "GET",
+        method: 'GET',
         params: arg,
       }),
       providesTags: [tagTypes.a_reviewer],
@@ -17,8 +17,8 @@ export const reviewerApi = baseApi.injectEndpoints({
     }),
     storeReviewer: build.mutation({
       query: (data) => ({
-        url: "/admin/reviewer/add",
-        method: "POST",
+        url: '/admin/reviewer/add',
+        method: 'POST',
         body: data,
       }),
       invalidatesTags: [tagTypes.a_reviewer],
@@ -26,14 +26,14 @@ export const reviewerApi = baseApi.injectEndpoints({
     singleReviewer: build.query({
       query: (id) => ({
         url: `admin/reviewer/view/${id}`,
-        method: "GET",
+        method: 'GET',
       }),
       providesTags: [tagTypes.a_sin_reviewer],
     }),
     acReviewer: build.mutation({
       query: ({ id, data }: any) => ({
         url: `/admin/reviewer/action/${id}`,
-        method: "POST",
+        method: 'POST',
         body: data,
       }),
       invalidatesTags: [tagTypes.a_reviewer, tagTypes.a_sin_reviewer],

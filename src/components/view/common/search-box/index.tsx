@@ -1,8 +1,8 @@
-"use client";
-import { Input } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
-import React, { useState } from "react";
+'use client';
+import { Input } from '@/components/ui';
+import { cn } from '@/lib/utils';
+import { Search } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface searchBoxProps {
   placeholder?: string;
@@ -11,11 +11,11 @@ interface searchBoxProps {
 }
 
 export default function SearchBox({
-  placeholder = "Search hare",
+  placeholder = 'Search hare',
   className,
   onSearch,
 }: searchBoxProps) {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     setSearchText(text);

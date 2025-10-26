@@ -1,15 +1,10 @@
-"use client";
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import FavIcon from "@/icon/favIcon";
-import { helpers } from "@/lib";
-
+'use client';
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
 
 export function SingleCalendar({ onChange }: any) {
   const [open, setOpen] = React.useState(false);
@@ -48,7 +43,6 @@ export function SingleCalendar({ onChange }: any) {
     setEndDate(newEndDate);
 
     // Log the selected dates with proper formatting
- 
 
     // Update the parent component with the selected dates
     onChange({ startDate: newStartDate, endDate: newEndDate });
@@ -63,17 +57,14 @@ export function SingleCalendar({ onChange }: any) {
             id="date"
             className="w-fit cursor-pointer hover:!bg-transparent hover:text-white border-none btn-shadow justify-between font-normal"
           >
-            {startDate ? `${helpers.formatDate(startDate)}` : "Start Date"} - {" "}
-            {endDate ? `${helpers.formatDate(endDate)}` : "End Date"}
+            {startDate ? `${helpers.formatDate(startDate)}` : 'Start Date'} -{' '}
+            {endDate ? `${helpers.formatDate(endDate)}` : 'End Date'}
             <span className="bg-white p-[6px] rounded-full">
               <FavIcon name="calender" className="size-4" />
             </span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent
-          className="w-auto overflow-hidden bg-figma-chart p-0"
-          align="start"
-        >
+        <PopoverContent className="w-auto overflow-hidden bg-figma-chart p-0" align="start">
           <Calendar
             mode="single"
             selected={startDate}
@@ -81,9 +72,9 @@ export function SingleCalendar({ onChange }: any) {
             className="[[data-slot=popover-content]_&]:bg-background text-white"
             classNames={{
               button_previous:
-                "cursor-pointer size-8 grid place-items-center rounded-md bg-[#575757]/20 text-white ",
+                'cursor-pointer size-8 grid place-items-center rounded-md bg-[#575757]/20 text-white ',
               button_next:
-                "cursor-pointer size-8 grid place-items-center rounded-md bg-[#575757]/20 text-white",
+                'cursor-pointer size-8 grid place-items-center rounded-md bg-[#575757]/20 text-white',
             }}
             onSelect={handleSelectDate}
           />

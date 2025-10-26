@@ -1,58 +1,47 @@
-"use client";
-import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import Form from "@/components/reuseable/from";
-import { FromInput } from "@/components/reuseable/from-input";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import RadioToggle from "@/components/reuseable/radio-toggle";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Button, TableCell, TableRow } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import { SingleCalendar } from "@/components/view/common/single-calender";
-import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { reviewerSchema } from "@/schema";
-import { PhoneInput } from "@/components/reuseable/phone-input";
-import FavIcon from "@/icon/favIcon";
-import Link from "next/link";
-import {
-  useGetReviewerQuery,
-  useStoreReviewerMutation,
-} from "@/redux/api/admin/reviewerApi";
-import { helpers } from "@/lib";
-import { ResponseApiErrors } from "@/lib/api-response";
+'use client';
+import Avatars from '@/components/reuseable/avater';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import Form from '@/components/reuseable/from';
+import { FromInput } from '@/components/reuseable/from-input';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import RadioToggle from '@/components/reuseable/radio-toggle';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Button, TableCell, TableRow } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import { SingleCalendar } from '@/components/view/common/single-calender';
+import React, { useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { reviewerSchema } from '@/schema';
+import { PhoneInput } from '@/components/reuseable/phone-input';
+import FavIcon from '@/icon/favIcon';
+import Link from 'next/link';
+import { useGetReviewerQuery, useStoreReviewerMutation } from '@/redux/api/admin/reviewerApi';
+import { helpers } from '@/lib';
+import { ResponseApiErrors } from '@/lib/api-response';
 
 export default function ReviewerManagement() {
-  const [isValue, setIsValue] = useState("not_banned");
+  const [isValue, setIsValue] = useState('not_banned');
   const [isStore, setIsStore] = useState(false);
   const [isPage, setIsPage] = useState(1);
-  const { data: reviewer, isLoading } = useGetReviewerQuery({page:isPage});
-  const [counId, setIsCoun] = useState("");
-  const [storeReviewer, { isLoading: stIsLoading }] =
-    useStoreReviewerMutation();
+  const { data: reviewer, isLoading } = useGetReviewerQuery({ page: isPage });
+  const [counId, setIsCoun] = useState('');
+  const [storeReviewer, { isLoading: stIsLoading }] = useStoreReviewerMutation();
   const from = useForm({
     resolver: zodResolver(reviewerSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      phone: "",
+      name: '',
+      email: '',
+      password: '',
+      phone: '',
     },
   });
 
-  const headers = [
-    "Reviewer",
-    "Email",
-    "Account Re.",
-    "Task Re.",
-    "Performance Re.",
-    "Action",
-  ];
+  const headers = ['Reviewer', 'Email', 'Account Re.', 'Task Re.', 'Performance Re.', 'Action'];
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
@@ -80,18 +69,13 @@ export default function ReviewerManagement() {
     setIsStore(false);
   };
 
-
-
   return (
     <div>
       <Navber
         title="Reviewer Management"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
@@ -103,8 +87,8 @@ export default function ReviewerManagement() {
             onValueChange={(value) => setIsValue(value as any)}
             className="mt-1 lg:mt-0 "
             options={[
-              { label: "Not Banned", value: "not_banned" },
-              { label: "Banned Reviewer", value: "banned_reviewer" },
+              { label: 'Not Banned', value: 'not_banned' },
+              { label: 'Banned Reviewer', value: 'banned_reviewer' },
             ]}
           />
         </div>
@@ -113,11 +97,7 @@ export default function ReviewerManagement() {
             <span className="text-lg mr-2">Date: </span>
             <SingleCalendar onChange={(date: any) => console.log(date)} />
           </div>
-          <Button
-            onClick={() => setIsStore(!isStore)}
-            variant="primary"
-            className="rounded-md"
-          >
+          <Button onClick={() => setIsStore(!isStore)} variant="primary" className="rounded-md">
             Add Reviewer
           </Button>
         </div>
@@ -150,7 +130,7 @@ export default function ReviewerManagement() {
                 <TableCell>
                   <Link href={`/admin/reviewer-management/9`}>
                     <h1 className="flex justify-center cursor-pointer">
-                      {" "}
+                      {' '}
                       <FavIcon name="eye" />
                     </h1>
                   </Link>
@@ -166,17 +146,12 @@ export default function ReviewerManagement() {
           )}
         </CustomTable>
 
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...reviewer?.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...reviewer?.meta}></Pagination>
       </div>
       {/* ============= Add New Reviewer ========== */}
       <Modal2 open={isStore} setIsOpen={setIsStore}>
         <div className="mb-5">
-          <h1 className="text-2xl font-semibold text-center">
-            Add New Reviewer
-          </h1>
+          <h1 className="text-2xl font-semibold text-center">Add New Reviewer</h1>
           <h1 className="text-sm text-figma-gray text-center">
             Please provide reviewer email & name. Then create a password.
           </h1>
@@ -210,9 +185,7 @@ export default function ReviewerManagement() {
             label="Password"
             placeholder="Password"
             eye={true}
-            icon={
-              <FavIcon name="password" className="size-5" color="#777777" />
-            }
+            icon={<FavIcon name="password" className="size-5" color="#777777" />}
           />
 
           <CloseBtn onClose={() => handleStReset()} />

@@ -1,17 +1,12 @@
-import { Textarea } from "@/components/ui";
-import React from "react";
+import { Textarea } from '@/components/ui';
+import React from 'react';
 
-export default function TextareaBox({
-  hanldeClick,
-  className,
-  placeholder,
-}: any) {
-  const [isValue, setIsValue] = React.useState("");
+export default function TextareaBox({ hanldeClick, className, placeholder }: any) {
+  const [isValue, setIsValue] = React.useState('');
 
-   React.useEffect(() => {
+  React.useEffect(() => {
     hanldeClick(isValue);
   }, [isValue]);
-
 
   return (
     <Textarea

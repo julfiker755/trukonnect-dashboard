@@ -1,38 +1,38 @@
-"use client";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import Modal2 from "@/components/reuseable/modal2";
-import RadioToggle from "@/components/reuseable/radio-toggle";
-import { Button } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import AnalyticChart from "@/components/view/reviewer/chart/analytic-chart";
-import FavIcon from "@/icon/favIcon";
-import { PlaceholderImg } from "@/lib";
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
+'use client';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import Modal2 from '@/components/reuseable/modal2';
+import RadioToggle from '@/components/reuseable/radio-toggle';
+import { Button } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import AnalyticChart from '@/components/view/reviewer/chart/analytic-chart';
+import FavIcon from '@/icon/favIcon';
+import { PlaceholderImg } from '@/lib';
+import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
 
 const overviewItem = [
   {
-    title: "Total Verified Task",
+    title: 'Total Verified Task',
     count: 265,
-    bg: "rgba(194, 255, 212, 0.10)",
+    bg: 'rgba(194, 255, 212, 0.10)',
   },
   {
-    title: "Total Verified Orders",
+    title: 'Total Verified Orders',
     count: 6531.0,
-    bg: "rgba(251, 190, 254, 0.10)",
+    bg: 'rgba(251, 190, 254, 0.10)',
   },
   {
-    title: "Total Verified Accounts",
+    title: 'Total Verified Accounts',
     count: 458,
-    bg: "rgba(190, 223, 254, 0.10)",
+    bg: 'rgba(190, 223, 254, 0.10)',
   },
 ];
 
 export default function ReviewDetails() {
   const [isStatus, setIsStatus] = useState(false);
-  const [isValue, setIsValue] = useState("");
+  const [isValue, setIsValue] = useState('');
   const { id } = useParams();
   return (
     <div>
@@ -104,19 +104,15 @@ export default function ReviewDetails() {
                 }}
               >
                 <div>
-                  <div className="text-figma-gray text-center">
-                    {item.title}
-                  </div>
-                  <div className="text-2xl font-semibold text-center">
-                    {item.count}
-                  </div>
+                  <div className="text-figma-gray text-center">{item.title}</div>
+                  <div className="text-2xl font-semibold text-center">{item.count}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
         <div>
-          <AnalyticChart show={false}  className="bg-transparent p-0" />
+          <AnalyticChart show={false} className="bg-transparent p-0" />
         </div>
       </div>
       {/* ============== Change Status  ============== */}
@@ -125,18 +121,15 @@ export default function ReviewDetails() {
           <ul className="flex justify-between items-center">
             <li className="font-medium text-2xl">Select option</li>
             <li className="font-medium text-xl">
-              <CloseIcon
-                className="static"
-                onClose={() => setIsStatus(false)}
-              />
+              <CloseIcon className="static" onClose={() => setIsStatus(false)} />
             </li>
           </ul>
           <RadioToggle
             value={isValue}
             onValueChange={setIsValue}
             options={[
-              { label: "Ban User", value: "ban_user" },
-              { label: "Not Banned", value: "not_banned" },
+              { label: 'Ban User', value: 'ban_user' },
+              { label: 'Not Banned', value: 'not_banned' },
             ]}
             className="flex-col items-start"
           />

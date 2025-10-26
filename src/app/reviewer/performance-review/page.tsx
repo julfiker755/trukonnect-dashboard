@@ -1,39 +1,39 @@
-"use client";
-import useSuccessModal from "@/components/context/sucess-box";
-import { dummyJson } from "@/components/dummy-json";
-import Avatars from "@/components/reuseable/avater";
-import { CloseBtn, CloseIcon } from "@/components/reuseable/btn";
-import Modal2 from "@/components/reuseable/modal2";
-import { Pagination } from "@/components/reuseable/pagination";
-import { CustomTable } from "@/components/reuseable/table";
-import { TableNoItem } from "@/components/reuseable/table-no-item";
-import { TableSkeleton } from "@/components/reuseable/table-skeleton";
-import { Button, TableCell, TableRow, Textarea } from "@/components/ui";
-import Navber from "@/components/view/common/dash/navber";
-import SearchBox from "@/components/view/common/search-box";
-import FavIcon from "@/icon/favIcon";
-import Image from "next/image";
-import React, { useState } from "react";
-import calendar from "@/assets/calendar.svg";
-import { getSocial } from "@/icon/utils";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import { PlaceholderImg } from "@/lib";
-import { useModalState } from "@/hooks/useModalState";
-import { ImageGallery } from "@/components/reuseable/image-gallery";
-import CopyBox from "@/components/reuseable/copy-box";
+'use client';
+import useSuccessModal from '@/components/context/sucess-box';
+import { dummyJson } from '@/components/dummy-json';
+import Avatars from '@/components/reuseable/avater';
+import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
+import { CustomTable } from '@/components/reuseable/table';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
+import { Button, TableCell, TableRow, Textarea } from '@/components/ui';
+import Navber from '@/components/view/common/dash/navber';
+import SearchBox from '@/components/view/common/search-box';
+import FavIcon from '@/icon/favIcon';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import calendar from '@/assets/calendar.svg';
+import { getSocial } from '@/icon/utils';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import { PlaceholderImg } from '@/lib';
+import { useModalState } from '@/hooks/useModalState';
+import { ImageGallery } from '@/components/reuseable/image-gallery';
+import CopyBox from '@/components/reuseable/copy-box';
 
 const item = [
-  { performer: "Abir", taskType: "Instagram Follows" },
-  { performer: "Maksud", taskType: "TikTok Shares" },
-  { performer: "Arjun", taskType: "Facebook Post Likes" },
-  { performer: "Sita", taskType: "Twitter Retweets" },
-  { performer: "Kiran", taskType: "YouTube Comments" },
-  { performer: "Ravi", taskType: "Instagram Shares" },
-  { performer: "Anita", taskType: "YouTube Video Views" },
-  { performer: "Deepak", taskType: "TikTok Comments" },
-  { performer: "Deepak", taskType: "Twitter Follows" },
-  { performer: "Deepak", taskType: "YouTube Shares" },
-  { performer: "Anita", taskType: "Instagram Likes" },
+  { performer: 'Abir', taskType: 'Instagram Follows' },
+  { performer: 'Maksud', taskType: 'TikTok Shares' },
+  { performer: 'Arjun', taskType: 'Facebook Post Likes' },
+  { performer: 'Sita', taskType: 'Twitter Retweets' },
+  { performer: 'Kiran', taskType: 'YouTube Comments' },
+  { performer: 'Ravi', taskType: 'Instagram Shares' },
+  { performer: 'Anita', taskType: 'YouTube Video Views' },
+  { performer: 'Deepak', taskType: 'TikTok Comments' },
+  { performer: 'Deepak', taskType: 'Twitter Follows' },
+  { performer: 'Deepak', taskType: 'YouTube Shares' },
+  { performer: 'Anita', taskType: 'Instagram Likes' },
 ];
 
 export default function PerformanceReview() {
@@ -45,30 +45,24 @@ export default function PerformanceReview() {
   });
   const [isPage, setIsPage] = useState(1);
   const { openSucc } = useSuccessModal();
-  const headers = ["Performers", "Task Type", "Action"];
+  const headers = ['Performers', 'Task Type', 'Action'];
 
   const isLoading = false;
-  const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
+  const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
   return (
     <div>
       <Navber
         title="Performance Review"
         props={
           <>
-            <SearchBox
-              placeholder="Search here"
-              onSearch={(text: any) => console.log(text)}
-            />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
           </>
         }
       />
       <div>
         <CustomTable headers={headers}>
           {isLoading ? (
-            <TableSkeleton
-              colSpan={headers?.length}
-              tdStyle="!pl-0 !bg-background"
-            />
+            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0 !bg-background" />
           ) : item.length > 0 ? (
             item.map((item: any, index: any) => (
               <TableRow key={index}>
@@ -76,7 +70,7 @@ export default function PerformanceReview() {
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={""}
+                      src={''}
                       fallback={item.performer}
                       alt={item.performer}
                       fallbackStyle="avatar"
@@ -89,10 +83,10 @@ export default function PerformanceReview() {
                 <TableCell>{item.taskType}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => updateState("isPreview", true)}
+                    onClick={() => updateState('isPreview', true)}
                     className="flex justify-center cursor-pointer"
                   >
-                    {" "}
+                    {' '}
                     <FavIcon name="eye" />
                   </h1>
                 </TableCell>
@@ -106,28 +100,18 @@ export default function PerformanceReview() {
             />
           )}
         </CustomTable>
-        <Pagination
-          onClick={(v: any) => setIsPage(v)}
-          {...dummyJson.meta}
-        ></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2
         open={state.isPreview}
-        setIsOpen={(v) => updateState("isPreview", v)}
-        style={`${
-          state.isSocail || state.isReject || state.isReport ? "!opacity-0" : ""
-        }`}
+        setIsOpen={(v) => updateState('isPreview', v)}
+        style={`${state.isSocail || state.isReject || state.isReport ? '!opacity-0' : ''}`}
       >
         <div className="space-y-5">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <Avatars
-                src={""}
-                fallback="Star Bucks"
-                alt="Star Bucks"
-                fallbackStyle="avatar"
-              />
+              <Avatars src={''} fallback="Star Bucks" alt="Star Bucks" fallbackStyle="avatar" />
               <ul className="*:leading-5">
                 <li className="text-xl">Star Bucks</li>
                 <li className="text-sm text-figma-gray">13 Aug, 2025</li>
@@ -135,15 +119,12 @@ export default function PerformanceReview() {
             </div>
             {/* <h1 className="font-semibold text-xl">Instagram Likes</h1> */}
             <h1>
-              <CloseIcon
-                className="static"
-                onClose={() => updateState("isPreview", false)}
-              />
+              <CloseIcon className="static" onClose={() => updateState('isPreview', false)} />
             </h1>
           </div>
           <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-            instantly for showing your support!
+            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+            your support!
           </p>
           <ul className="*:text-lg *:text-figma-gray">
             <li>- Tap in the link.</li>
@@ -153,7 +134,7 @@ export default function PerformanceReview() {
           <Button
             className="w-full"
             variant="primary"
-            onClick={() => updateState("isSocail", true)}
+            onClick={() => updateState('isSocail', true)}
           >
             User Social
           </Button>
@@ -175,7 +156,7 @@ export default function PerformanceReview() {
             <li className="flex justify-between items-center">
               <span>Platform</span>
               <span className="flex items-center">
-                {getSocial("instagram")}
+                {getSocial('instagram')}
                 <span className="ml-2">Instagram</span>
               </span>
             </li>
@@ -193,26 +174,10 @@ export default function PerformanceReview() {
             <li>
               <ImageGallery images={images}>
                 <div className="grid grid-cols-4">
-                  <ImgBox
-                    src={"/photo.jpg"}
-                    alt="photo2"
-                    className="w-[70px] h-[100px] mx-auto"
-                  />
-                  <ImgBox
-                    src={"/photo.jpg"}
-                    alt="photo2"
-                    className="w-[70px] h-[100px] mx-auto"
-                  />
-                  <ImgBox
-                    src={"/photo.jpg"}
-                    alt="photo2"
-                    className="w-[70px] h-[100px] mx-auto"
-                  />
-                  <ImgBox
-                    src={"/photo.jpg"}
-                    alt="photo2"
-                    className="w-[70px] h-[100px] mx-auto"
-                  />
+                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
                 </div>
               </ImageGallery>
             </li>
@@ -222,7 +187,7 @@ export default function PerformanceReview() {
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Button
-                onClick={() => updateState("isReport", true)}
+                onClick={() => updateState('isReport', true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -230,7 +195,7 @@ export default function PerformanceReview() {
                 Report User to Admin
               </Button>
               <Button
-                onClick={() => updateState("isReject", true)}
+                onClick={() => updateState('isReject', true)}
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
@@ -240,7 +205,7 @@ export default function PerformanceReview() {
             </div>
             <Button
               onClick={async () => {
-                updateState("isPreview", false);
+                updateState('isPreview', false);
                 await openSucc();
               }}
               size="lg"
@@ -255,37 +220,28 @@ export default function PerformanceReview() {
       {/* ========User social======== */}
       <Modal2
         open={state.isSocail}
-        setIsOpen={(v) => updateState("isSocail", v)}
+        setIsOpen={(v) => updateState('isSocail', v)}
         className="sm:max-w-sm"
       >
         <div>
-          <ImgBox
-            src={PlaceholderImg()}
-            className="w-full h-[250px]"
-            alt="imgbox1"
-          ></ImgBox>
+          <ImgBox src={PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>Sourov Das
-              Mithun
+              <span className="text-figma-gray">Username: </span>Sourov Das Mithun
             </li>
             <li>
-              {" "}
-              <span className="text-figma-gray">Notes: </span>This is my
-              facebook account
+              {' '}
+              <span className="text-figma-gray">Notes: </span>This is my facebook account
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}
-          <CloseBtn
-            className="bg-figma-primary"
-            onClose={() => updateState("isSocail", false)}
-          />
+          <CloseBtn className="bg-figma-primary" onClose={() => updateState('isSocail', false)} />
         </div>
       </Modal2>
       {/* ===== Cause of report======= */}
       <Modal2
         open={state.isReport}
-        setIsOpen={(v) => updateState("isReport", v)}
+        setIsOpen={(v) => updateState('isReport', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -294,7 +250,7 @@ export default function PerformanceReview() {
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn onClose={() => updateState("isReport", false)} />
+          <CloseBtn onClose={() => updateState('isReport', false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>
@@ -303,7 +259,7 @@ export default function PerformanceReview() {
       {/* =====Cause of rejection======= */}
       <Modal2
         open={state.isReject}
-        setIsOpen={(v) => updateState("isReject", v)}
+        setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
         <div className="space-y-4">
@@ -312,7 +268,7 @@ export default function PerformanceReview() {
             className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
-          <CloseBtn onClose={() => updateState("isReject", false)} />
+          <CloseBtn onClose={() => updateState('isReject', false)} />
           <Button variant="primary" className="w-full">
             Send
           </Button>

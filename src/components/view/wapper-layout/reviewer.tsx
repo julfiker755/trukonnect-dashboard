@@ -1,16 +1,9 @@
-"use client";
-import { childrenProps } from "@/types";
-import {
-  createContext,
-  useContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from "react";
-import Sidebar from "../common/dash/sideber";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+'use client';
+import { childrenProps } from '@/types';
+import { createContext, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react';
+import Sidebar from '../common/dash/sideber';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 interface SidebarContextType {
   sidebarOpen: boolean;
@@ -26,7 +19,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
   // cleanup: always remove body overflow on unmount
   useEffect(() => {
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove('overflow-hidden');
     };
   }, []);
 
@@ -36,7 +29,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
         {/* Full-screen background image  className="min-h-screen flex relative"*/}
         <div className="fixed inset-0">
           <Image
-            src={pathname.includes("/admin") ? "/bg2.svg" : "/bg1.svg"}
+            src={pathname.includes('/admin') ? '/bg2.svg' : '/bg1.svg'}
             alt="title"
             fill
             className="object-cover z-0 md:rounded-md"
@@ -61,7 +54,7 @@ export function ReviewerWrapper({ children }: childrenProps) {
 export const useSidebarReviewer = () => {
   const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider");
+    throw new Error('useSidebar must be used within a SidebarProvider');
   }
   return context;
 };

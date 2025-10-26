@@ -1,20 +1,20 @@
-import Avatars from "@/components/reuseable/avater";
-import { ImageGallery } from "@/components/reuseable/image-gallery";
-import { ImgBox } from "@/components/reuseable/Img-box";
-import Navber from "@/components/view/common/dash/navber";
-import { BackBtn } from "@/components/reuseable/back-btn";
-import CopyBox from "@/components/reuseable/copy-box";
-import calendar from "@/assets/calendar.svg";
-import { PlaceholderImg } from "@/lib";
-import FavIcon from "@/icon/favIcon";
-import { getSocial } from "@/icon/utils";
-import { IdParams } from "@/types";
-import Image from "next/image";
-import React from "react";
+import Avatars from '@/components/reuseable/avater';
+import { ImageGallery } from '@/components/reuseable/image-gallery';
+import { ImgBox } from '@/components/reuseable/Img-box';
+import Navber from '@/components/view/common/dash/navber';
+import { BackBtn } from '@/components/reuseable/back-btn';
+import CopyBox from '@/components/reuseable/copy-box';
+import calendar from '@/assets/calendar.svg';
+import { PlaceholderImg } from '@/lib';
+import FavIcon from '@/icon/favIcon';
+import { getSocial } from '@/icon/utils';
+import { IdParams } from '@/types';
+import Image from 'next/image';
+import React from 'react';
 
 export default async function TaskDetails({ params }: IdParams) {
   const { id } = await params;
-  const images = ["/photo.jpg", "/photo.jpg", "/photo.jpg"];
+  const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
   return (
     <div className="mb-10">
       <Navber
@@ -33,12 +33,7 @@ export default async function TaskDetails({ params }: IdParams) {
           <div className="space-y-5">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
-                <Avatars
-                  src={""}
-                  fallback="Star Bucks"
-                  alt="Star Bucks"
-                  fallbackStyle="avatar"
-                />
+                <Avatars src={''} fallback="Star Bucks" alt="Star Bucks" fallbackStyle="avatar" />
                 <ul className="*:leading-5">
                   <li className="text-xl">Star Bucks</li>
                   <li className="text-sm text-figma-gray">13 Aug, 2025</li>
@@ -47,8 +42,8 @@ export default async function TaskDetails({ params }: IdParams) {
             </div>
             <h1 className="text-lg font-medium mb-2">Instagram Likes</h1>
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens
-              instantly for showing your support!
+              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
+              your support!
             </p>
             <ul className="*:text-lg *:text-figma-gray">
               <li>- Tap in the link.</li>
@@ -65,7 +60,7 @@ export default async function TaskDetails({ params }: IdParams) {
               <li className="flex justify-between items-center">
                 <span>Task from</span>
                 <span className="flex items-center">
-                  {getSocial("instagram")}
+                  {getSocial('instagram')}
                   <span className="ml-2">Instagram</span>
                 </span>
               </li>
@@ -85,32 +80,32 @@ export default async function TaskDetails({ params }: IdParams) {
                 <ImageGallery images={images}>
                   <div className="flex flex-wrap gap-5 items-center justify-between">
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
                     <ImgBox
-                      src={"/photo.jpg"}
+                      src={'/photo.jpg'}
                       alt="photo2"
                       className="w-[70px] h-[100px] mx-auto"
                     />
@@ -156,9 +151,7 @@ export default async function TaskDetails({ params }: IdParams) {
           {/* Issue condition apply for the web */}
           <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
             <h1 className="text-lg mb-2">Issue</h1>
-            <p className="text-figma-gray">
-              I can not find the link which given by task creator.
-            </p>
+            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
           </div>
         </div>
       </div>

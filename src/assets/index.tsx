@@ -1,17 +1,14 @@
-import performance from "@/assets/performance.svg";
-import brands from "@/assets/brands.svg"
-import revenue from "@/assets/revenue.svg"
-
-
-
+import performance from '@/assets/performance.svg';
+import brands from '@/assets/brands.svg';
+import revenue from '@/assets/revenue.svg';
 
 const assets = {
   admin: {
-    overview:{
+    overview: {
       performance,
       brands,
       revenue,
-    }
+    },
   },
 };
 

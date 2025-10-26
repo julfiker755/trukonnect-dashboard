@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,17 +8,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import FavIcon from "@/icon/favIcon";
-import { cn } from "@/lib/utils";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+} from '@/components/ui/alert-dialog';
+import FavIcon from '@/icon/favIcon';
+import { cn } from '@/lib/utils';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 /* =======================
    ✅ Types
 ======================= */
-type ConfirmDialogOptions = Partial<
-  Omit<ConfirmDialogState, "open" | "resolve">
->;
+type ConfirmDialogOptions = Partial<Omit<ConfirmDialogState, 'open' | 'resolve'>>;
 
 interface ConfirmDialogState {
   open: boolean;
@@ -48,14 +46,14 @@ interface ConfirmDialogProviderProps {
 ======================= */
 const initialDialogState: ConfirmDialogState = {
   open: false,
-  title: "Are you sure to delete this video?",
-  subTitle: "Delete Provider",
+  title: 'Are you sure to delete this video?',
+  subTitle: 'Delete Provider',
   description: "Users can't find your video anymore.",
-  confirmText: "Delete",
-  cancelText: "Cancel",
-  className: "",
-  titleStyle: "",
-  btnStyle: "",
+  confirmText: 'Delete',
+  cancelText: 'Cancel',
+  className: '',
+  titleStyle: '',
+  btnStyle: '',
   onConfirm: undefined,
   onCancel: undefined,
   resolve: undefined,
@@ -64,18 +62,13 @@ const initialDialogState: ConfirmDialogState = {
 /* =======================
    ✅ Context
 ======================= */
-const ConfirmDialogContext = createContext<
-  ConfirmDialogContextType | undefined
->(undefined);
+const ConfirmDialogContext = createContext<ConfirmDialogContextType | undefined>(undefined);
 
 /* =======================
    ✅ Provider
 ======================= */
-export const ConfirmDialogProvider = ({
-  children,
-}: ConfirmDialogProviderProps) => {
-  const [dialogState, setDialogState] =
-    useState<ConfirmDialogState>(initialDialogState);
+export const ConfirmDialogProvider = ({ children }: ConfirmDialogProviderProps) => {
+  const [dialogState, setDialogState] = useState<ConfirmDialogState>(initialDialogState);
 
   // Main confirm function
   const confirm = (options: ConfirmDialogOptions = {}): Promise<boolean> => {
@@ -124,7 +117,7 @@ export const ConfirmDialogProvider = ({
       >
         <AlertDialogContent
           className={cn(
-            "rounded-xl w-[420px] border-none modal-shadow1 px-3 py-10",
+            'rounded-xl w-[420px] border-none modal-shadow1 px-3 py-10',
             dialogState?.className
           )}
         >
@@ -132,15 +125,10 @@ export const ConfirmDialogProvider = ({
             <AlertDialogTitle>
               <ul>
                 <li className="flex justify-center mb-2">
-                   <FavIcon className="size-20" name="delete"/>
+                  <FavIcon className="size-20" name="delete" />
                 </li>
 
-                <li
-                  className={cn(
-                    "text-center text-reds text-2xl mb-2",
-                    dialogState.titleStyle
-                  )}
-                >
+                <li className={cn('text-center text-reds text-2xl mb-2', dialogState.titleStyle)}>
                   {dialogState.title}
                 </li>
               </ul>
@@ -157,7 +145,7 @@ export const ConfirmDialogProvider = ({
             <AlertDialogCancel
               onClick={handleCancel}
               className={cn(
-                "cursor-pointer bg-[#FFF1E6]/10 hover:bg-[#FFF1E6]/10 border-none hover:text-white rounded-xl py-5 px-8",
+                'cursor-pointer bg-[#FFF1E6]/10 hover:bg-[#FFF1E6]/10 border-none hover:text-white rounded-xl py-5 px-8',
                 dialogState?.btnStyle
               )}
             >
@@ -167,7 +155,7 @@ export const ConfirmDialogProvider = ({
             <AlertDialogAction
               onClick={handleConfirm}
               className={cn(
-                "cursor-pointer bg-figma-primary hover:bg-figma-primary border-none hover:text-white rounded-xl py-5 px-8",
+                'cursor-pointer bg-figma-primary hover:bg-figma-primary border-none hover:text-white rounded-xl py-5 px-8',
                 dialogState?.btnStyle
               )}
             >
@@ -186,9 +174,7 @@ export const ConfirmDialogProvider = ({
 export default function useConfirmation(): ConfirmDialogContextType {
   const context = useContext(ConfirmDialogContext);
   if (!context) {
-    throw new Error(
-      "useConfirmation must be used within a ConfirmDialogProvider"
-    );
+    throw new Error('useConfirmation must be used within a ConfirmDialogProvider');
   }
   return context;
 }

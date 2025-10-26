@@ -1,12 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui";
-import { cn } from "@/lib";
-import React, { ReactNode } from "react";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui';
+import { cn } from '@/lib';
+import React, { ReactNode } from 'react';
 
 interface TableProps {
   className?: string;
@@ -14,18 +8,9 @@ interface TableProps {
   children: ReactNode;
 }
 
-export const CustomTable = ({
-  className,
-  headers = [],
-  children,
-}: TableProps) => {
+export const CustomTable = ({ className, headers = [], children }: TableProps) => {
   return (
-    <div
-      className={cn(
-        "bg-[#575757]/20 backdrop-blur-2xl rounded-xl px-6 py-3",
-        className
-      )}
-    >
+    <div className={cn('bg-[#575757]/20 backdrop-blur-2xl rounded-xl px-6 py-3', className)}>
       <Table className="border-separate  border-spacing-y-3 my-0">
         {headers && headers.length > 0 && (
           <TableHeader>
@@ -35,8 +20,8 @@ export const CustomTable = ({
                   <h1
                     className={
                       index === headers.length - 1
-                        ? "w-max capitalize font-semibold inline-block"
-                        : "w-max capitalize font-semibold"
+                        ? 'w-max capitalize font-semibold inline-block'
+                        : 'w-max capitalize font-semibold'
                     }
                   >
                     {header}
