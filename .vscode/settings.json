@@ -2,7 +2,11 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
+<<<<<<< HEAD
     "source.fixAll.eslint": "explicit"
+=======
+    "source.fixAll.eslint": true
+>>>>>>> cf1faabe84c589c425d19cb0b96d14d81153faec
   },
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
   // "files.autoSave": "onFocusChange"
