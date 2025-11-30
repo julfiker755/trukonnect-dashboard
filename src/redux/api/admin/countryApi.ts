@@ -4,8 +4,8 @@ import { baseApi } from '../baseApi';
 export const countryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getCountry: build.query({
-      query: (arg?: Record<string, any>) => ({
-        url: `/admin/all-countrie`,
+      query: (arg: Record<string, any>) => ({
+        url: '/admin/all-country',
         method: 'GET',
         params: arg,
       }),
@@ -14,7 +14,7 @@ export const countryApi = baseApi.injectEndpoints({
     storeCountry: build.mutation({
       query: (data) => {
         return {
-          url: '/admin/add-countrie',
+          url: '/admin/add-country',
           method: 'POST',
           body: data,
         };
@@ -23,14 +23,14 @@ export const countryApi = baseApi.injectEndpoints({
     }),
     deleteCountry: build.mutation({
       query: (id) => ({
-        url: `/admin/delete-countrie/${id}`,
+        url: `/admin/delete-country/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: [tagTypes.country],
     }),
     updateCountry: build.mutation({
       query: ({ id, data }) => ({
-        url: `admin/edit-countrie/${id}`,
+        url: `/admin/edit-country/${id}`,
         method: 'POST',
         body: data,
       }),

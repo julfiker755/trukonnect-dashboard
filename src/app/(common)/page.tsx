@@ -27,12 +27,17 @@ export default function HomePage() {
 
   const handleSubmit = async (values: FieldValues) => {
     setIsError('');
+    const valueData = {
+      ...values,
+      type: 'email',
+    };
     try {
-      const value = helpers.fromData(values);
+      const value = helpers.fromData(valueData);
       const res = await signIn(value).unwrap();
+
       if (res.status) {
-        const userRole = res?.user?.role;
-        helpers.setAuthCookie(authKey, res.token);
+        const userRole = res?.data?.user?.role;
+        helpers.setAuthCookie(authKey, res?.data?.token);
         if (userRole === role.reviewer) {
           router.push('/reviewer');
         } else if (userRole === role.admin) {
