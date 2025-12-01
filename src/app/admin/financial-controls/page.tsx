@@ -1,7 +1,7 @@
 'use client';
 import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
-import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import { CloseIcon } from '@/components/reuseable/btn';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import Modal2 from '@/components/reuseable/modal2';
 import { Pagination } from '@/components/reuseable/pagination';
@@ -10,84 +10,89 @@ import { CustomTable } from '@/components/reuseable/table';
 import { TableNoItem } from '@/components/reuseable/table-no-item';
 import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Badge, Button, Label, TableCell, TableRow } from '@/components/ui';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useGetFinancialQuery } from '@/redux/api/admin/financialApi';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
-import FavIcon from '@/icon/favIcon';
-import { PlaceholderImg } from '@/lib';
-import Link from 'next/link';
-import React, { useState } from 'react';
 import ReactCountryFlag from 'react-country-flag';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import FavIcon from '@/icon/favIcon';
+import { helpers, PlaceholderImg } from '@/lib';
+import React, { useState } from 'react';
+import { buildResponse } from '@/lib/api-response';
 
-const item = [
-  {
-    user: 'Abir Hossain',
-    email: 'abid32@gmail.com',
-    purchasedTask: 'Instagram Follows',
-    status: 'Pending',
-  },
-  {
-    user: 'Maksud Bhuiya',
-    email: 'user123@example.com',
-    purchasedTask: 'TikTok Shares',
-    status: 'Blocked',
-  },
-  {
-    user: 'Arjun Patel',
-    email: 'hello@creativeoutlook.com',
-    purchasedTask: 'Facebook Post Likes',
-    status: 'Pending',
-  },
-  {
-    user: 'Sita Sharma',
-    email: 'info@innovativeideas.com',
-    purchasedTask: 'Twitter Retweets',
-    status: 'Completed',
-  },
-  {
-    user: 'Kiran Mehta',
-    email: 'support@techsolutions.com',
-    purchasedTask: 'YouTube Comments',
-    status: 'Blocked',
-  },
-  {
-    user: 'Deepak Joshi',
-    email: 'reachus@smartsolutions.com',
-    purchasedTask: 'YouTube Shares',
-    status: 'Completed',
-  },
-  {
-    user: 'Ravi Kumar',
-    email: 'contact@brightfuture.com',
-    purchasedTask: 'Instagram Shares',
-    status: 'Pending',
-  },
-  {
-    user: 'Anita Desai',
-    email: 'admin@yourdomain.com',
-    purchasedTask: 'YouTube Video Views',
-    status: 'Completed',
-  },
-  {
-    user: 'Deepak Singh',
-    email: 'reachus@smartsolutions.com',
-    purchasedTask: 'TikTok Comments',
-    status: 'Blocked',
-  },
-  {
-    user: 'Deepak Verma',
-    email: 'reachus@smartsolutions.com',
-    purchasedTask: 'Twitter Follows',
-    status: 'Blocked',
-  },
-];
+// const item = [
+//   {
+//     user: 'Abir Hossain',
+//     email: 'abid32@gmail.com',
+//     purchasedTask: 'Instagram Follows',
+//     status: 'Pending',
+//   },
+//   {
+//     user: 'Maksud Bhuiya',
+//     email: 'user123@example.com',
+//     purchasedTask: 'TikTok Shares',
+//     status: 'Blocked',
+//   },
+//   {
+//     user: 'Arjun Patel',
+//     email: 'hello@creativeoutlook.com',
+//     purchasedTask: 'Facebook Post Likes',
+//     status: 'Pending',
+//   },
+//   {
+//     user: 'Sita Sharma',
+//     email: 'info@innovativeideas.com',
+//     purchasedTask: 'Twitter Retweets',
+//     status: 'Completed',
+//   },
+//   {
+//     user: 'Kiran Mehta',
+//     email: 'support@techsolutions.com',
+//     purchasedTask: 'YouTube Comments',
+//     status: 'Blocked',
+//   },
+//   {
+//     user: 'Deepak Joshi',
+//     email: 'reachus@smartsolutions.com',
+//     purchasedTask: 'YouTube Shares',
+//     status: 'Completed',
+//   },
+//   {
+//     user: 'Ravi Kumar',
+//     email: 'contact@brightfuture.com',
+//     purchasedTask: 'Instagram Shares',
+//     status: 'Pending',
+//   },
+//   {
+//     user: 'Anita Desai',
+//     email: 'admin@yourdomain.com',
+//     purchasedTask: 'YouTube Video Views',
+//     status: 'Completed',
+//   },
+//   {
+//     user: 'Deepak Singh',
+//     email: 'reachus@smartsolutions.com',
+//     purchasedTask: 'TikTok Comments',
+//     status: 'Blocked',
+//   },
+//   {
+//     user: 'Deepak Verma',
+//     email: 'reachus@smartsolutions.com',
+//     purchasedTask: 'Twitter Follows',
+//     status: 'Blocked',
+//   },
+// ];
+
+type filterProps = 'Pending Approval' | 'Completed' | 'Blocked';
 
 export default function FinancialControls() {
+  const [isFilter, setIsFilter] = useState<filterProps>('Pending Approval');
   const [isPreview, setIsPreview] = useState(false);
-  const [isValue, setIsValue] = useState('pending');
   const headers = ['User', 'Email', 'Purchased Task', 'Status', 'Action'];
   const [isAction, setIsAction] = useState('');
-  const isLoading = false;
+  const { data, isLoading } = useGetFinancialQuery({});
+  const item = !isLoading && buildResponse(data[isFilter as keyof typeof data]);
+
   return (
     <div>
       <Navber
@@ -101,12 +106,12 @@ export default function FinancialControls() {
       <div className="flex items-center flex-wrap justify-between mb-4">
         <h1 className="text-lg font-medium">Select Option</h1>
         <RadioToggle
-          value={isValue}
-          onValueChange={(value) => setIsValue(value as any)}
+          value={isFilter as filterProps}
+          onValueChange={(value) => setIsFilter(value as filterProps)}
           options={[
-            { label: 'Pending approval', value: 'pending' },
-            { label: 'Completed', value: 'completed' },
-            { label: 'Blocked', value: 'blocked' },
+            { label: 'Pending Approval', value: 'Pending Approval' },
+            { label: 'Completed', value: 'Completed' },
+            { label: 'Blocked', value: 'Blocked' },
           ]}
         />
       </div>
@@ -114,24 +119,24 @@ export default function FinancialControls() {
         <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+          ) : item && item?.data && item?.data?.length > 0 ? (
+            item.data.map((item: any, index: any) => (
               <TableRow key={index}>
                 {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={item?.avatar}
-                      fallback={item.user}
-                      alt={item.user}
+                      src={helpers.imgSource(item.performer?.avatar)}
+                      fallback={item.performer.name}
+                      alt={item.performer.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.user}</span>
+                    <span>{item.performer.name}</span>
                   </div>
                 </TableCell>
 
                 {/* Email */}
-                <TableCell>{item.email}</TableCell>
+                <TableCell>{item.performer.email}</TableCell>
                 {/* Account */}
                 <TableCell>{item.purchasedTask}</TableCell>
                 {/* Contact */}

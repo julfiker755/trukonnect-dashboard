@@ -5,6 +5,7 @@ export enum tagTypes {
   country = 'country',
   a_reviewer = 'a_reviewer',
   a_sin_reviewer = 'a_sin_reviewer',
+  a_financial = 'a_financial',
 }
 
 export const tagTypesList = [
@@ -14,4 +15,5 @@ export const tagTypesList = [
   tagTypes.country,
   tagTypes.a_reviewer,
   tagTypes.a_sin_reviewer,
+  tagTypes.a_financial,
 ];

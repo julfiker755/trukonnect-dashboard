@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { tagTypesList } from '../tag-types';
-import { authKey, helpers } from '@/lib';
+import { authKey, envs, helpers } from '@/lib';
 
 let refreshingTokenPromise: Promise<string | null> | null = null;
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  baseUrl: envs.api_url,
   prepareHeaders: (headers) => {
     const token = helpers.getAuthCookie(authKey);
     if (token) {
@@ -17,7 +17,9 @@ const baseQuery = fetchBaseQuery({
 });
 
 const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
-  let result = await baseQuery(args, api, extraOptions);
+  const result = await baseQuery(args, api, extraOptions);
+
+  console.log(result);
 
   // If unauthorized, try refresh flow
   if (result.error && result.error.status === 401) {

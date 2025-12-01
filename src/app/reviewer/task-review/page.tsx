@@ -232,7 +232,7 @@ export default function TaskReview() {
         <div className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
           <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+            className="resize-y field-sizing-content min-h-30 mt-3 bg-figma-blacks border-none"
             placeholder="Write additional note"
           />
           <CloseBtn onClose={() => updateState('isReject', false)} />

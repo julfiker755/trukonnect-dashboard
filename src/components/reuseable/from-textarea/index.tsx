@@ -35,7 +35,7 @@ export function FromTextArea({
           <div className="relative">
             <Textarea
               className={cn(
-                'min-h-16 w-full border-none resize-none rounded-sm bg-figma-input  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm',
+                'min-h-16 w-full border-none resize-none  field-sizing-content rounded-sm bg-figma-input  pl-4 pr-3  text-blacks placeholder:text-blacks text-sm',
                 className
               )}
               placeholder={placeholder}

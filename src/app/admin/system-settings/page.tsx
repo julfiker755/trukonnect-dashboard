@@ -49,8 +49,6 @@ export default function SystemSettings() {
     },
   });
 
-  console.log(country);
-
   //   handleSubmit
   const handleSubmit = async (values: FieldValues) => {
     const value = {
@@ -207,13 +205,13 @@ export default function SystemSettings() {
                 <th className="px-6 table-cell py-4 text-left text-sm font-semibold text-white">
                   Country
                 </th>
-                <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
+                <th className="px-6 whitespace-nowrap table-cell py-4 text-center text-sm font-semibold text-white">
                   Dialing Code
                 </th>
-                <th className="px-6 table-cell  py-4 text-center text-sm font-semibold text-white">
+                <th className="px-6 whitespace-nowrap table-cell  py-4 text-center text-sm font-semibold text-white">
                   Token Rate
                 </th>
-                <th className="px-6 table-cell  py-4 text-center text-sm font-semibold text-white">
+                <th className="px-6  whitespace-nowrap table-cell  py-4 text-center text-sm font-semibold text-white">
                   Currency Code
                 </th>
                 <th className="px-6 table-cell py-4 text-center text-sm font-semibold text-white">
@@ -235,7 +233,7 @@ export default function SystemSettings() {
                     <td className="px-6 py-4 table-cell text-sm text-center">
                       {item?.currency_code}
                     </td>
-                    <td className="px-6 py-4 table-cell text-center">
+                    <td className="px-6 whitespace-nowrap py-4 table-cell text-center">
                       <button onClick={() => handleEdit(item)} className="mr-2 cursor-pointer">
                         <FavIcon name="edit2" />
                       </button>

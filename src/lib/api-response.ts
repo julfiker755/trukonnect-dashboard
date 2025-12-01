@@ -2,11 +2,11 @@
 export function buildResponse(item: any) {
   const { current_page, per_page, total, data } = item;
   return {
-    data: data,
+    data: data || [],
     meta: {
-      current_page,
-      per_page,
-      total,
+      current_page: current_page || 1,
+      per_page: per_page || 10,
+      total: total || 0,
     },
   };
 }

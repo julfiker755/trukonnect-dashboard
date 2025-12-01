@@ -1,18 +1,45 @@
 'use client';
-import Form from '@/components/reuseable/from';
-import { FromInput } from '@/components/reuseable/from-input';
+import { useBulkEmailStoreMutation, useBulkNotiStoreMutation } from '@/redux/api/admin/comtionApi';
 import { FromTextArea } from '@/components/reuseable/from-textarea';
-import { Button, Textarea } from '@/components/ui';
-import Navber from '@/components/view/common/dash/navber';
-import SearchBox from '@/components/view/common/search-box';
-import { bulkSchema } from '@/schema';
+import { FromInput } from '@/components/reuseable/from-input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import Navber from '@/components/view/common/dash/navber';
 import { FieldValues, useForm } from 'react-hook-form';
+import { Button, Textarea } from '@/components/ui';
+import Form from '@/components/reuseable/from';
+import sonner from '@/components/reuseable/sonner';
+import { useFormFields } from '@/hooks';
+import { bulkSchema } from '@/schema';
+import { CircleAlert } from 'lucide-react';
+import { helpers } from '@/lib';
+import React from 'react';
 
 export default function Communication() {
+  const [bulkEmailStore, { isLoading: isEmailLoading }] = useBulkEmailStoreMutation();
+  const [bulkNotiStore, { isLoading: isNotiLoading }] = useBulkNotiStoreMutation();
+  const { formData, handleChange, errors, validateFields } = useFormFields({
+    message: '',
+  });
+
+  const handleSubmitNoti = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isValid = validateFields({
+      message: 'Message is required',
+    });
+    if (!isValid) return;
+    const item = {
+      message: formData.message,
+    };
+    const data = helpers.fromData(item);
+    const res = await bulkNotiStore(data).unwrap();
+    if (res.status) {
+      sonner.success('Notification Sent', 'Notification sent successfully', 'bottom-right');
+    }
+  };
+
+  // == from ==
   const from = useForm({
-    // resolver: zodResolver(bulkSchema),
+    resolver: zodResolver(bulkSchema),
     defaultValues: {
       subject: '',
       message: '',
@@ -20,8 +47,14 @@ export default function Communication() {
   });
 
   const handleSubmit = async (values: FieldValues) => {
-    console.log(values);
+    const item = {
+      subject: values.subject,
+      body: values.message,
+    };
+    const data = helpers.fromData(item);
+    await bulkEmailStore(data).unwrap();
   };
+
   return (
     <div>
       <Navber title="Communication" />
@@ -42,7 +75,7 @@ export default function Communication() {
               className="min-h-[100px]"
             />
 
-            <Button variant="primary" className="w-full">
+            <Button disabled={isEmailLoading} variant="primary" className="w-full">
               {' '}
               Send
             </Button>
@@ -50,20 +83,26 @@ export default function Communication() {
         </div>
         <div className="bg-figma-card p-4 rounded-lg h-fit">
           <h1 className="text-xl font-medium mb-10">Send Bulk Notifications</h1>
-          <div>
+          <form onSubmit={handleSubmitNoti}>
             <div className="mb-8">
               <h1 className="mb-2">Notification text</h1>
               <Textarea
+                value={formData.message}
+                onChange={(e) => handleChange('message', e.target.value)}
                 name="message"
                 placeholder="Write the notification text"
-                className="resize-none bg-figma-input min-h-[100px] border-none"
+                className="resize-none  field-sizing-content bg-figma-input min-h-[100px] border-none"
               />
+              {errors.message && (
+                <p className="text-red-500 flex justify-end items-center text-right">
+                  <span className="mr-1"> {errors.message}</span> <CircleAlert size={14} />
+                </p>
+              )}
             </div>
-            <Button variant="primary" className="w-full">
-              {' '}
+            <Button disabled={isNotiLoading} variant="primary" className="w-full">
               Send
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
