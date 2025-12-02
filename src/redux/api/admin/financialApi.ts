@@ -1,5 +1,6 @@
 import { tagTypes } from '@/redux/tag-types';
 import { baseApi } from '../baseApi';
+import { buildResponse } from '@/lib/api-response';
 
 export const financialApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -11,11 +12,11 @@ export const financialApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.a_financial],
       transformResponse: (response: any) => {
-        return response.data;
+        return buildResponse(response.data);
       },
     }),
     finanStatusUp: build.mutation({
-      query: ({ data, id }) => {
+      query: ({ id, data }) => {
         return {
           url: `/admin/finance/update/${id}`,
           method: 'POST',

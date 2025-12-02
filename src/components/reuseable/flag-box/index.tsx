@@ -24,7 +24,7 @@ export default function FlagBox({
     <div onClick={onClick} className={cn(`flex items-center`, className)}>
       <picture>
         <img
-          src={helpers.imgSource(href)}
+          src={helpers.imgSource(href) || '/blur.png'}
           alt="flag"
           className={cn(`w-[20px] h-[15px]`, imgStyle)}
         />

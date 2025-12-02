@@ -19,8 +19,6 @@ const baseQuery = fetchBaseQuery({
 const customBaseQuery = async (args: any, api: any, extraOptions: any) => {
   const result = await baseQuery(args, api, extraOptions);
 
-  console.log(result);
-
   // If unauthorized, try refresh flow
   if (result.error && result.error.status === 401) {
     // Prevent multiple refreshes at the same time
@@ -73,3 +71,14 @@ async function refreshAuthToken() {
   const data = await res.json();
   return data?.token;
 }
+
+// import { axiosBase } from '@/lib';
+// import { tagTypesList } from '@/redux/tag-types';
+// import { createApi } from '@reduxjs/toolkit/query/react';
+
+// export const baseApi = createApi({
+//   reducerPath: 'api',
+//   baseQuery: axiosBase({ baseUrl: process.env.NEXT_PUBLIC_API_URL as string }),
+//   endpoints: () => ({}),
+//   tagTypes: tagTypesList,
+// });

@@ -14,3 +14,5 @@ export interface Args {
   id?: any;
   arg?: Record<string, any>;
 }
+
+export type Arr<T> = T[];
