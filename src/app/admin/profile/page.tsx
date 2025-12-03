@@ -6,16 +6,28 @@ import Form from '@/components/reuseable/from';
 import { FromInput } from '@/components/reuseable/from-input';
 import ImgUpload from '@/components/reuseable/img-uplod';
 import Modal2 from '@/components/reuseable/modal2';
+import sonner from '@/components/reuseable/sonner';
+import { TableNoItem2, TableSkeleton2 } from '@/components/reuseable/table-skeleton2';
 import TextEditor from '@/components/reuseable/text-editor';
 import { Button } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UpdatePassword from '@/components/view/common/update-password';
 import FavIcon from '@/icon/favIcon';
-import { PlaceholderImg } from '@/lib';
+import { helpers, PlaceholderImg } from '@/lib';
+import { ResponseApiErrors } from '@/lib/api-response';
+import {
+  useAdminStoreMutation,
+  useGetAdminQuery,
+  useGetPrivacyQuery,
+  useGetTermsQuery,
+  usePrivacyStoreMutation,
+  useTermsStoreMutation,
+} from '@/redux/api/admin/profileApi';
+import { adminSchema, authSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SquarePen } from 'lucide-react';
+import { Loader, SquarePen } from 'lucide-react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 
 export default function Profile() {
@@ -166,39 +178,99 @@ const PersonalInformation = () => {
 // ============== privacy policy ==============
 const PrivacyPolicy = () => {
   const [content, setContent] = useState<string>('');
+  const { data: privacy, isLoading } = useGetPrivacyQuery({});
+  const [privacyStore, { isLoading: storeLoading }] = usePrivacyStoreMutation();
+
+  useEffect(() => {
+    if (privacy) {
+      setContent(privacy?.[0]?.policy || '');
+    }
+  }, [privacy]);
+
+  //   == handleSave ==
+  const handleSave = async () => {
+    try {
+      const value = {
+        policy: content,
+      };
+      const data = helpers.fromData(value);
+      const res = await privacyStore(data).unwrap();
+
+      if (res.status) {
+        sonner.success('Update Successful', 'Privacy Policy have been updated');
+      }
+    } catch (error) {
+      sonner.error('Update Failed', 'Failed to update Privacy Policy');
+    }
+  };
+
   return (
-    <div className="bg-figma-card">
-      {/* {termsLoading ? (
+    <div className="bg-figma-card p-3 rounded-md">
+      {isLoading ? (
         <div className="mx-auto min-h-[280px] flex items-center justify-center">
           <Loader className="animate-spin text-reds" />
         </div>
       ) : (
-        <TextEditor value={content} onChange={setContent} />
-      )} */}
-      <TextEditor value={content} onChange={setContent} />
+        <TextEditor id="privacy-policy" value={content} onChange={setContent} />
+      )}
       <div className="py-5 flex justify-end mx-4">
-        <Button variant="primary" className="w-fit">
+        <Button
+          onClick={() => handleSave()}
+          disabled={storeLoading}
+          variant="primary"
+          className="w-fit"
+        >
           Save Changes
         </Button>
       </div>
     </div>
   );
 };
+
 // ===============Terms & Conditions============
 const TermsAndConditions = () => {
   const [content, setContent] = useState<string>('');
+  const { data: terams, isLoading } = useGetTermsQuery({});
+  const [termsStore, { isLoading: storeLoading }] = useTermsStoreMutation();
+
+  useEffect(() => {
+    if (terams) {
+      setContent(terams?.[0]?.terms_conditions || '');
+    }
+  }, [terams]);
+
+  //   == handleSave ==
+  const handleSave = async () => {
+    try {
+      const value = {
+        terms_conditions: content,
+      };
+      const data = helpers.fromData(value);
+      const res = await termsStore(data).unwrap();
+
+      if (res.status) {
+        sonner.success('Update Successful', 'Terms & Conditions have been updated');
+      }
+    } catch (error) {
+      sonner.error('Update Failed', 'Failed to update Terms & Conditions');
+    }
+  };
   return (
-    <div className="bg-figma-card">
-      {/* {termsLoading ? (
+    <div className="bg-figma-card p-3 rounded-md">
+      {isLoading ? (
         <div className="mx-auto min-h-[280px] flex items-center justify-center">
           <Loader className="animate-spin text-reds" />
         </div>
       ) : (
-        <TextEditor value={content} onChange={setContent} />
-      )} */}
-      <TextEditor value={content} onChange={setContent} />
+        <TextEditor id="terms-conditions" value={content} onChange={setContent} />
+      )}
       <div className="py-5 flex justify-end mx-4">
-        <Button variant="primary" className="w-fit">
+        <Button
+          onClick={() => handleSave()}
+          disabled={storeLoading}
+          variant="primary"
+          className="w-fit"
+        >
           Save Changes
         </Button>
       </div>
@@ -207,35 +279,34 @@ const TermsAndConditions = () => {
 };
 
 // ===============Admin List============
-const adminData = [
-  { name: 'Abu Hossain', email: 'abu123@gmail.com' },
-  { name: 'Mukibul Bhuiya', email: 'user123@example.com' },
-  { name: 'Arjun Patel', email: 'hello@smartfuturelabs.co' },
-  { name: 'Gita Sharma', email: 'info@innovativeworkdesk.com' },
-  { name: 'Kiran Mehta', email: 'support@smartsolutions.com' },
-  { name: 'Ravi Kumar', email: 'contact@agrifuture.com' },
-  { name: 'Anita Desai', email: 'admin@yourdomain.com' },
-  { name: 'Deepak Singh', email: 'reach@smartsolutions.com' },
-  { name: 'Deepak Verma', email: 'reach@smartsolutions.com' },
-  { name: 'Deepak Joshi', email: 'reach@smartsolutions.com' },
-];
-
 const AdminList = () => {
+  const { data: admin, isLoading } = useGetAdminQuery({});
+  const [adminStore, { isLoading: storeLoading }] = useAdminStoreMutation();
   const [isStore, setIsStore] = useState(false);
   const from = useForm({
-    // resolver: zodResolver(adminSchema),
+    resolver: zodResolver(adminSchema),
     defaultValues: {
       name: '',
       email: '',
       password: '',
+      password_confirmation: '',
     },
   });
 
   const handleAdminSubmit = async (values: FieldValues) => {
-    console.log(values);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    try {
+      const data = helpers.fromData(values);
+      const res = await adminStore(data).unwrap();
+      if (res.status) {
+        sonner.success('Admin Added Successfully', 'You can now login with new admin');
+        from.reset();
+        setIsStore(false);
+      }
+    } catch (err: any) {
+      if (err?.data) {
+        ResponseApiErrors(err.data, from);
+      }
+    }
   };
   return (
     <div>
@@ -245,34 +316,42 @@ const AdminList = () => {
         </Button>
       </div>
       <div className="mt-5 bg-figma-card p-4 rounded-md mb-10">
-        <div className="table w-full">
-          {/* Table Header */}
-          <div className="table-header-group">
-            <div className="table-row">
-              <div className="table-cell px-6 py-4 text-left text-sm font-semibold text-white">
+        <table className="w-full">
+          <thead className="table-header-group">
+            <tr className="table-row">
+              <th className="px-6 table-cell py-4 text-left text-sm font-semibold text-white">
                 Admin List
-              </div>
-              <div className="table-cell px-6 py-4 text-center text-sm font-semibold text-white">
+              </th>
+              <th className="px-6 whitespace-nowrap table-cell py-4 text-center text-sm font-semibold text-white">
                 Email
-              </div>
-            </div>
-          </div>
-
-          {/* Table Body */}
-          <div className="table-row-group">
-            {adminData.map((item, index) => (
-              <div key={index} className="table-row transition-colors">
-                <div className="table-cell px-6 py-4 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <Avatars src={''} fallback={item.name} alt={item.name} fallbackStyle="avatar" />
-                    <span>{item.name}</span>
-                  </div>
-                </div>
-                <div className="table-cell px-6 py-4 text-sm text-center">{item.email}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="table-row-group">
+            {isLoading ? (
+              <TableSkeleton2 len={5} colSpan={2} />
+            ) : admin?.data?.length > 0 ? (
+              admin?.data?.map((item: any) => (
+                <tr key={item.id} className="transition-colors table-row">
+                  <td className="px-6 py-4 table-cell text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Avatars
+                        src={helpers.imgSource(item.avatar) || ''}
+                        fallback={item.name}
+                        alt={item.name}
+                        fallbackStyle="avatar"
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 table-cell text-sm text-center">{item.email}</td>
+                </tr>
+              ))
+            ) : (
+              <TableNoItem2 colSpan={2} title="Not Admin Found" />
+            )}
+          </tbody>
+        </table>
       </div>
       {/* ============ Add New Admin modal ============ */}
       <Modal2 open={isStore} setIsOpen={setIsStore}>
@@ -305,9 +384,18 @@ const AdminList = () => {
               className="h-10"
               icon={<FavIcon name="email" className="size-5" color="#777777" />}
             />
+
             <FromInput
               label="New Password"
               name="password"
+              placeholder="Enter Password"
+              className="h-10"
+              icon={<FavIcon name="password" className="size-5" color="#777777" />}
+              eye={true}
+            />
+            <FromInput
+              label="Confirm Password"
+              name="password_confirmation"
               placeholder="Enter Password"
               className="h-10"
               icon={<FavIcon name="password" className="size-5" color="#777777" />}
@@ -326,7 +414,7 @@ const AdminList = () => {
               >
                 Cancel
               </Button>
-              <Button className="w-full" variant="primary">
+              <Button disabled={storeLoading} className="w-full" variant="primary">
                 Save Changes
               </Button>
             </div>

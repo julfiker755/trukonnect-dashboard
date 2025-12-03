@@ -19,9 +19,10 @@ interface TextEditorProps {
   value: string;
   onChange: (content: string) => void;
   className?: string;
+  id?: string;
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({ value, onChange, className }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ value, onChange, className, id }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }, { size: ['small', false, 'large', 'huge'] }],
@@ -59,6 +60,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange, className }) =
     <div className="w-full space-y-1">
       <div className="rounded-t-md border-none bg-figma-card p-2">
         <ReactQuill
+          key={id}
           theme="snow"
           value={value}
           onChange={onChange}

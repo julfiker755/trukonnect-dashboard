@@ -155,6 +155,10 @@
   @apply hidden md:block;
 }
 
+.sk_bg {
+  @apply !bg-[#575757]/20 !backdrop-blur-2xl;
+}
+
 .modal-shadow1 {
   box-shadow:
     0 4px 4px 0 rgba(224, 231, 255, 0.25),

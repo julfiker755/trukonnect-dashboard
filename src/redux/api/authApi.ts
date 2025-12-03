@@ -38,11 +38,10 @@ export const authApi = baseApi.injectEndpoints({
     }),
     changePassword: build.mutation({
       query: (data) => ({
-        url: '/auth/set-new-password',
+        url: '/auth/changepassword',
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [tagTypes.profile],
     }),
     signOut: build.mutation({
       query: () => ({

@@ -3,9 +3,13 @@ export enum tagTypes {
   engagement = 'engagement',
   socialMedia = 'socialMedia',
   country = 'country',
+  privacy = 'privacy',
+  terams = 'terms',
   a_reviewer = 'a_reviewer',
   a_sin_reviewer = 'a_sin_reviewer',
   a_financial = 'a_financial',
+  a_support = 'a_support',
+  a_admin = 'a_admin',
 }
 
 export const tagTypesList = [
@@ -16,4 +20,8 @@ export const tagTypesList = [
   tagTypes.a_reviewer,
   tagTypes.a_sin_reviewer,
   tagTypes.a_financial,
+  tagTypes.a_support,
+  tagTypes.a_admin,
+  tagTypes.privacy,
+  tagTypes.terams,
 ];

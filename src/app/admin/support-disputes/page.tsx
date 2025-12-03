@@ -11,6 +11,7 @@ import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
+import { useGetSuppTaskQuery } from '@/redux/api/admin/supportApi';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import ReactCountryFlag from 'react-country-flag';
@@ -114,9 +115,10 @@ const item2 = [
 ];
 
 export default function SupportDisputes() {
-  const [isValue, setIsValue] = useState('task _support');
-  const headers2 = ['Creator', 'Task Type', 'Quantity', 'Action'];
-  const isLoading = false;
+  const [isFilter, setIsFilter] = useState('task');
+  const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
+  const { data: item, isLoading } = useGetSuppTaskQuery({});
+
   return (
     <div>
       <Navber
@@ -130,23 +132,68 @@ export default function SupportDisputes() {
       <div className="flex items-center flex-wrap justify-between mb-4">
         <h1 className="text-lg">Select Option</h1>
         <RadioToggle
-          value={isValue}
-          onValueChange={(value) => setIsValue(value as any)}
+          value={isFilter}
+          onValueChange={(value) => setIsFilter(value as any)}
           options={[
-            { label: 'Task  support', value: 'task _support' },
-            { label: 'Orders support', value: 'orders_support' },
-            { label: 'User support', value: 'user_support' },
+            { label: 'Task  support', value: 'task' },
+            { label: 'Orders support', value: 'order' },
+            { label: 'User support', value: 'user' },
           ]}
         />
       </div>
-      {isValue === 'task _support' || isValue === 'orders_support' ? (
-        <TaskOrderTable isLoading={isLoading} item={item} urlValue={isValue} />
-      ) : (
-        <UsersSupportTable isLoading={isLoading} item={item2} />
-      )}
+      <CustomTable headers={headers}>
+        {isLoading ? (
+          <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
+        ) : item?.data?.length > 0 ? (
+          item?.data?.map((item: any, index: any) => (
+            <TableRow key={index}>
+              <TableCell className="relative">
+                <div className="flex items-center gap-3">
+                  <Avatars
+                    src={helpers.imgSource(item?.reviewer?.avatar) || '/blur.png'}
+                    alt={'avater' + index}
+                    fallback={item?.reviewer?.name}
+                    fallbackStyle="avatar"
+                  />
+                  <span>{item?.reviewer?.name}</span>
+                </div>
+              </TableCell>
+              <TableCell>{item?.engagement?.engagement_name}</TableCell>
+              <TableCell>
+                <h1 className="ml-5">{item?.quantity}</h1>
+              </TableCell>
+
+              <TableCell>
+                <Link
+                  href={
+                    item.status == 'task' ? `/admin/support-disputes/support/task/${item?.id}` : ''
+                    // isFilter === 'task _support'
+                    //   ? `/admin/support-disputes/support/task/3`
+                    //   : '/admin/support-disputes/support/orders/6'
+                  }
+                  className="flex justify-center cursor-pointer"
+                >
+                  <FavIcon name="eye" />
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableNoItem
+            colSpan={headers?.length}
+            title="No users are available at the moment"
+            tdStyle="!bg-background"
+          />
+        )}
+      </CustomTable>
     </div>
   );
 }
+// {isValue === 'task _support' || isValue === 'orders_support' ? (
+//       <TaskOrderTable isLoading={isLoading} item={item} urlValue={isValue} />
+//     ) : (
+//       <UsersSupportTable isLoading={isLoading} item={item2} />
+//     )}
 
 // TaskOrderTable
 const TaskOrderTable = ({ isLoading, item, urlValue }: any) => {

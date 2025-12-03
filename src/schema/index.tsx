@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// reviewerSchema
+// == reviewerSchema ==
 export const reviewerSchema = z.object({
   name: z.string().nonempty('Name is required'),
   phone: z.string().nonempty('Phone is required'),
@@ -8,7 +8,7 @@ export const reviewerSchema = z.object({
   password: z.string().nonempty('Password is required'),
 });
 
-// platformSchema
+// == platformSchema ==
 export const platformSchema = z.object({
   name: z.string().nonempty('Name is required'),
   icon: z.any().refine((file) => file instanceof File, {
@@ -16,7 +16,7 @@ export const platformSchema = z.object({
   }),
 });
 
-// engagementSchema
+// == engagementSchema ==
 export const engagementSchema = z.object({
   id: z.string().optional(),
   name: z.string().nonempty('Name is required'),
@@ -30,7 +30,7 @@ export const bulkSchema = z.object({
   message: z.string().nonempty('Message is required'),
 });
 
-// passwordChangeSchema
+// ==  passwordChangeSchema ==
 export const passwordChangeSchema = z
   .object({
     current_password: z.string().nonempty('Current Password is required'),
@@ -42,7 +42,7 @@ export const passwordChangeSchema = z
     message: 'Passwords must be match.',
   });
 
-// forgotSchema
+// == forgotSchema ==
 export const forgotSchema = z
   .object({
     new_password: z.string().nonempty('Password is required'),
@@ -53,7 +53,7 @@ export const forgotSchema = z
     message: 'Passwords must be match.',
   });
 
-// authSchema
+// == authSchema ==
 export const authSchema = z.object({
   email: z.string().nonempty('Email is required').email('Invalid email address'),
   password: z
@@ -62,7 +62,20 @@ export const authSchema = z.object({
     .min(8, 'Password must be at least 8 characters'),
 });
 
-// countrySchema
+//  == adminSchema ==
+export const adminSchema = z
+  .object({
+    name: z.string().nonempty('Name is required'),
+    email: z.string().nonempty('Email is required').email('Invalid email address'),
+    password: z.string().nonempty('Password is required'),
+    password_confirmation: z.string().nonempty('Confirm  Password is required'),
+  })
+  .refine((value) => value.password === value.password_confirmation, {
+    path: ['password_confirmation'],
+    message: 'Passwords must be match.',
+  });
+
+// == countrySchema ==
 export const countrystore = z.object({
   flag: z.any().refine((file) => file instanceof File, { message: 'flag is required' }),
   name: z.string().nonempty('Name is required'),
