@@ -1,25 +1,72 @@
 'use client';
+import useSuccessModal from '@/components/context/sucess-box';
+import {
+  useApproveStoreMutation,
+  useGetSuppDtsQuery,
+  useRejectStoreMutation,
+} from '@/redux/api/admin/supportApi';
+import FlagBox from '@/components/reuseable/flag-box';
+import { DateBox, SocialBox } from '@/components/reuseable/social';
+import { CloseBtn } from '@/components/reuseable/btn';
 import { BackBtn } from '@/components/reuseable/back-btn';
 import Navber from '@/components/view/common/dash/navber';
-import FavIcon from '@/icon/favIcon';
-import { getSocial } from '@/icon/utils';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import ReactCountryFlag from 'react-country-flag';
-import calendar from '@/assets/calendar.svg';
-import { PlaceholderImg } from '@/lib';
 import { ImgBox } from '@/components/reuseable/Img-box';
-import { useParams } from 'next/navigation';
 import CopyBox from '@/components/reuseable/copy-box';
 import { Button, Textarea } from '@/components/ui';
 import Modal2 from '@/components/reuseable/modal2';
-import { CloseBtn } from '@/components/reuseable/btn';
-import useSuccessModal from '@/components/context/sucess-box';
+import { useParams, useRouter } from 'next/navigation';
+import { helpers } from '@/lib';
+import FavIcon from '@/icon/favIcon';
+import React, { useState } from 'react';
+import { useFormFields } from '@/hooks';
 
 export default function TaskDetails() {
+  const { id } = useParams();
+  const router = useRouter();
   const [isReject, setIsReject] = useState(false);
   const { openSucc } = useSuccessModal();
-  const { id } = useParams();
+  const { data } = useGetSuppDtsQuery(id);
+  const [rejectStore, { isLoading: isRejecting }] = useRejectStoreMutation();
+  const [approveStore, { isLoading: isApproving }] = useApproveStoreMutation();
+  const { formData, change, errors, validate, reset, setError } = useFormFields({
+    node: '',
+  });
+  const {
+    engagement,
+    description,
+    quantity,
+    country,
+    total_token,
+    link,
+    created_at,
+    social,
+    reviewer,
+    rejection_reason,
+  } = data || {};
+
+  //   == SubmitReject ==
+  const SubmitReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isValid = validate({
+      node: 'Rejection is required',
+    });
+    if (!isValid) return;
+    try {
+      const data = {
+        rejection_reason: formData.node,
+        _method: 'PUT',
+      };
+      const res = await rejectStore({ id, data }).unwrap();
+      if (res.status) {
+        setIsReject(false);
+        router.back();
+        reset();
+      }
+    } catch (err: any) {
+      setError('node', err?.data?.message);
+    }
+  };
+
   return (
     <div className="mb-10">
       <Navber
@@ -32,64 +79,40 @@ export default function TaskDetails() {
         }
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="bg-figma-chart p-6 rounded-xl">
+        <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <h1 className="text-xl mb-4">Task Details</h1>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg">Instagram Likes</h1>
+              <h1 className="text-lg">{engagement?.engagement_name}</h1>
             </div>
-            <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
-              your support!
-            </p>
-            <ul className="*:text-lg *:text-figma-gray">
-              <li>- Tap in the link.</li>
-              <li>- There have a light profile picture</li>
-              <li>- React on this link</li>
-            </ul>
-            <ul className="space-y-2">
-              <li className="flex justify-between items-center">
+            <p className="text-figma-gray">{description || 'N/A'}</p>
+            <ul className="space-y-2 [&>li]:flex [&>li]:items-center [&>li]:justify-between">
+              <li>
                 <span>Quantity</span>
-                <span>150</span>
+                <span>{quantity || 0}</span>
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Selected Audience</span>
-                <span>
-                  <ReactCountryFlag
-                    countryCode={'GH'}
-                    svg
-                    style={{
-                      width: '2em',
-                      height: '1em',
-                    }}
-                    title={'item.region'}
-                  />
-                  Ghana
-                </span>
+                <FlagBox href={country?.flag} name={country?.name} />
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Per user earned Tokens</span>
                 <span className="flex items-center">
-                  <FavIcon name="coin" className="mr-1 size-5" />2
+                  <FavIcon name="coin" className="mr-1 size-5" />
+                  {total_token || 0}
                 </span>
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Platform</span>
-                <span className="flex items-center">
-                  {getSocial('instagram')}
-                  <span className="ml-2">Instagram</span>
-                </span>
+                <SocialBox href={social?.icon_url} name={social?.name} />
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Creation Date</span>
-                <span className="flex items-center">
-                  <Image src={calendar} width={18} height={20} alt="img1" />
-                  <span className="ml-1">13 Aug, 2025</span>
-                </span>
+                <DateBox date={created_at} />
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Link</span>
-                <CopyBox value="https://www.figma.com/design/yXKlQR3P8SaIfdykQPG5uP/Truekonnect?node-id=1544-2241&m=dev" />
+                <CopyBox value={link} />
               </li>
             </ul>
           </div>
@@ -98,11 +121,20 @@ export default function TaskDetails() {
               Reject
             </Button>
             <Button
+              disabled={isApproving}
               onClick={async () => {
-                await openSucc({
-                  title: 'Successfully',
-                  description: 'Task approved successfully',
-                });
+                const res = await approveStore({ id }).unwrap();
+                if (res.status) {
+                  const { close } = await openSucc({
+                    title: 'Successfully',
+                    description: 'Task approved successfully',
+                  });
+                  const timer = setTimeout(() => {
+                    close();
+                    router.back();
+                    clearTimeout(timer);
+                  }, 2500);
+                }
               }}
               variant="primary"
             >
@@ -113,53 +145,63 @@ export default function TaskDetails() {
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <div>
             <h1 className="text-xl">Issue</h1>
-            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
+            <p className="text-figma-gray">{rejection_reason || 'N/A'}</p>
           </div>
           <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">
             <div className="mb-10">
               <ImgBox
                 className="size-30 rounded-xl mx-auto"
-                src={PlaceholderImg()}
+                src={helpers.imgSource(reviewer?.avatar) || '/avater.png'}
                 alt="img"
               ></ImgBox>
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-figma-gray">Full name</span>
-              <span className="text-white">Mr. Daniel</span>
+              <span className="text-figma-gray">Full Name</span>
+              <span className="text-white">{reviewer?.name || 'N/A'}</span>
             </div>
 
             <div className="flex justify-between items-center">
               <span className="text-figma-gray">Email</span>
-              <span className="text-white">daniel234@gmail.com</span>
+              <span className="text-white">{reviewer?.email || 'N/A'}</span>
             </div>
 
             <div className="flex justify-between items-center">
               <span className="text-figma-gray">Phone number</span>
-              <span className="text-white">+334 254845665</span>
+              <span className="text-white">{reviewer?.phone || 'N/A'}</span>
             </div>
 
             <div className="flex justify-between items-center">
               <span className="text-figma-gray">Region</span>
-              <span className="text-white">Ghana</span>
+              <span className="text-white">{reviewer?.country?.name || 'N/A'}</span>
             </div>
           </div>
         </div>
       </div>
       {/* ===== account varification reject======= */}
       <Modal2 open={isReject} setIsOpen={setIsReject} className="sm:max-w-sm">
-        <div className="space-y-4">
+        <form onSubmit={SubmitReject} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
-          <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={formData.node}
+              onChange={(e) => change('node', e.target.value)}
+            />
+            {errors.node && <p className="text-red-500 text-right">{errors.node}</p>}
+          </div>
+          <CloseBtn
+            onClose={() => {
+              setIsReject(false);
+              reset();
+            }}
           />
-          <CloseBtn onClose={() => setIsReject(false)} />
-          <Button variant="primary" className="w-full">
+          <Button disabled={isRejecting} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
     </div>
   );

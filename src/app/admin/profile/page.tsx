@@ -23,6 +23,7 @@ import {
   usePrivacyStoreMutation,
   useTermsStoreMutation,
 } from '@/redux/api/admin/profileApi';
+import { useGetProfileQuery, useUpdateProfileMutation } from '@/redux/api/authApi';
 import { adminSchema, authSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader, SquarePen } from 'lucide-react';
@@ -91,24 +92,36 @@ const intAva = {
 const PersonalInformation = () => {
   const [avatar, setAvatar] = useState<any>(intAva);
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
+  const { data: profile } = useGetProfileQuery({});
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const from = useForm({
     defaultValues: {
-      name: 'Suuu Ronaldo',
-      contact_number: '01741703755',
-      thumbnail: null,
+      name: '',
+      contact_number: '',
     },
   });
+
+  useEffect(() => {
+    if (profile) {
+      from.reset({
+        name: profile?.data?.name,
+        contact_number: profile?.data?.phone,
+      });
+    }
+  }, [profile, from]);
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
     const value = {
       name: values.name,
-      ...(avatar?.file && { image: avatar?.file }),
+      phone: values.contact_number,
+      ...(avatar?.file && { avatar: avatar?.file }),
     };
-    console.log(value);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    const data = helpers.fromData(value);
+    const res = await updateProfile(data).unwrap();
+    if (res.status) {
+      sonner.success('Update Successful', 'Profile has been updated successfully');
+    }
   };
 
   return (
@@ -118,7 +131,7 @@ const PersonalInformation = () => {
           <div className="space-y-6 pt-5">
             <div className="relative mx-auto size-28 rounded-full">
               <Image
-                src={avatar.preview || PlaceholderImg() || '/blur.png'}
+                src={avatar.preview || helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
                 alt={'title'}
                 fill
                 className={'object-cover rounded-full'}
@@ -156,12 +169,13 @@ const PersonalInformation = () => {
             <div className="grid grid-cols-2 gap-5">
               <Button
                 variant="secondary"
+                type="button"
                 className="text-figma-red font-semibold"
                 onClick={() => setIsUpdatePassword(true)}
               >
                 Update Password
               </Button>
-              <Button className="w-full" variant="primary">
+              <Button disabled={isLoading} className="w-full" variant="primary">
                 Save Changes
               </Button>
             </div>

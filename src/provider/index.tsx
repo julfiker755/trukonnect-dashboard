@@ -1,11 +1,11 @@
 'use client';
 import { ConfirmDialogProvider } from '@/components/context/delete-modal';
 import { SuccessModalProvider } from '@/components/context/sucess-box';
+import { Provider as ReduxProvider } from 'react-redux';
+import { makeStore } from '@/redux/store';
 import { childrenProps } from '@/types';
 import React from 'react';
 import { Toaster } from 'sonner';
-import { Provider as ReduxProvider } from 'react-redux';
-import { makeStore } from '@/redux/store';
 
 export default function Provider({ children }: childrenProps) {
   const store = makeStore();

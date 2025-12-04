@@ -16,7 +16,6 @@ import { ImgBox } from '../reuseable/Img-box';
 /* =======================
    ✅ Types
 ======================= */
-
 interface SuccessModalState {
   open: boolean;
   title: string;
@@ -30,7 +29,7 @@ interface SuccessModalState {
 type SuccessModalOptions = Partial<Omit<SuccessModalState, 'open'>>;
 
 interface SuccessModalContextType {
-  openSucc: (options?: SuccessModalOptions) => Promise<boolean>;
+  openSucc: (options?: SuccessModalOptions) => Promise<{ close: () => void }>;
 }
 
 interface SuccessModalProviderProps {
@@ -38,7 +37,7 @@ interface SuccessModalProviderProps {
 }
 
 /* =======================
-   ✅ Default State
+   ✅ Default Modal State
 ======================= */
 const initialModalState: SuccessModalState = {
   open: false,
@@ -60,24 +59,35 @@ const SuccessModalContext = createContext<SuccessModalContextType | undefined>(u
 export const SuccessModalProvider = ({ children }: SuccessModalProviderProps) => {
   const [modalState, setModalState] = useState<SuccessModalState>(initialModalState);
 
-  const openSucc = (options: SuccessModalOptions = {}): Promise<boolean> => {
+  const close = () =>
+    setModalState((prev) => ({
+      ...prev,
+      open: false,
+    }));
+
+  const openSucc = (options: SuccessModalOptions = {}): Promise<{ close: () => void }> => {
     return new Promise((resolve) => {
-      setModalState({ ...modalState, ...options, open: true });
+      setModalState({
+        ...initialModalState,
+        ...options,
+        open: true,
+      });
+
+      resolve({ close });
     });
   };
-
-  const close = () => setModalState((prev) => ({ ...prev, open: false }));
 
   return (
     <SuccessModalContext.Provider value={{ openSucc }}>
       {children}
+
       <Dialog open={modalState.open} onOpenChange={close}>
         <DialogContent
           showCloseButton={false}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           className={cn(
-            'sm:max-w-xs p-4  gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none',
+            'sm:max-w-xs p-4 gap-0 bg-background modal-shadow1 rounded-2xl overflow-hidden border-none',
             modalState.className
           )}
         >
@@ -85,14 +95,18 @@ export const SuccessModalProvider = ({ children }: SuccessModalProviderProps) =>
             <DialogTitle>{modalState.title}</DialogTitle>
           </DialogHeader>
           <DialogDescription className="hidden">{modalState.description}</DialogDescription>
+
           <div className="space-y-2">
             <ImgBox src={sucessImg} alt="sucessImg" className="w-[110px] h-[100px] mx-auto" />
+
             <h1 className={cn('text-2xl font-medium text-center', modalState.titleStyle)}>
               {modalState.title}
             </h1>
+
             <h2 className={cn('text-figma-gray text-center', modalState.descriptionStyle)}>
               {modalState.description}
             </h2>
+
             <CloseBtn onClose={close} />
           </div>
         </DialogContent>

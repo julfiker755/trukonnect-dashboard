@@ -2,7 +2,7 @@ import { tagTypes } from '@/redux/tag-types';
 import { baseApi } from '../baseApi';
 import { buildResponse } from '@/lib/api-response';
 
-//  ====== Communication Tools =========
+//  ====== Support & Disputes =========
 export const supportApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getSuppTask: build.query({
@@ -16,16 +16,42 @@ export const supportApi = baseApi.injectEndpoints({
         return buildResponse(response.data);
       },
     }),
-    bulkNotiStore: build.mutation({
-      query: (data) => {
+    getSuppDts: build.query({
+      query: (id) => ({
+        url: `/admin/support/task/details/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [tagTypes.a_support_dts],
+      transformResponse: (response: any) => {
+        return response.data;
+      },
+    }),
+    rejectStore: build.mutation({
+      query: ({ id, data }) => {
         return {
-          url: '/admin/bulk/notification',
+          url: `/admin/support/rejectedtask/${id}`,
           method: 'POST',
           body: data,
         };
       },
+      invalidatesTags: [tagTypes.a_support],
+    }),
+    approveStore: build.mutation({
+      query: ({ id, data }) => {
+        return {
+          url: `/admin/support/approvedtask/${id}`,
+          method: 'PUT',
+          body: data,
+        };
+      },
+      invalidatesTags: [tagTypes.a_support],
     }),
   }),
 });
 
-export const { useGetSuppTaskQuery } = supportApi;
+export const {
+  useGetSuppTaskQuery,
+  useGetSuppDtsQuery,
+  useRejectStoreMutation,
+  useApproveStoreMutation,
+} = supportApi;

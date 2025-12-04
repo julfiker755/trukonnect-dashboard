@@ -7,7 +7,7 @@ export function useFormFields<T extends Record<string, any>>(
   const [formData, setFormData] = useState<T>(initialState);
   const [errors, setErrors] = useState<Record<keyof T, string>>(initialErrors);
 
-  const handleChange = (field: keyof T, value: T[keyof T]) => {
+  const change = (field: keyof T, value: T[keyof T]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -20,7 +20,7 @@ export function useFormFields<T extends Record<string, any>>(
     }));
   };
 
-  const validateFields = (rules: Record<keyof T, string>) => {
+  const validate = (rules: Record<keyof T, string>) => {
     let valid = true;
     const newErrors = { ...errors };
 
@@ -37,5 +37,14 @@ export function useFormFields<T extends Record<string, any>>(
     return valid;
   };
 
-  return { formData, handleChange, setFormData, errors, validateFields };
+  const reset = () => {
+    setFormData(initialState);
+    setErrors(initialErrors);
+  };
+
+  const setError = (name: keyof T, message: string) => {
+    setErrors({ ...errors, [name]: message });
+  };
+
+  return { formData, change, setFormData, errors, validate, reset, setError };
 }

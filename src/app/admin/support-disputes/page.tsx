@@ -1,6 +1,6 @@
 'use client';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
+import FlagBox from '@/components/reuseable/flag-box';
 import { Pagination } from '@/components/reuseable/pagination';
 import RadioToggle from '@/components/reuseable/radio-toggle';
 import { CustomTable } from '@/components/reuseable/table';
@@ -9,116 +9,31 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Badge, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
+import { useGetSuppTaskQuery } from '@/redux/api/admin/supportApi';
+import React, { useState } from 'react';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
-import { useGetSuppTaskQuery } from '@/redux/api/admin/supportApi';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import ReactCountryFlag from 'react-country-flag';
-
-const item = [
-  { creator: 'Abir', taskType: 'Instagram Follows', quantity: 150 },
-  { creator: 'Maksud', taskType: 'TikTok Shares', quantity: 100 },
-  { creator: 'Arjun', taskType: 'Facebook Post Likes', quantity: 250 },
-  { creator: 'Sita', taskType: 'Twitter Retweets', quantity: 100 },
-  { creator: 'Kiran', taskType: 'YouTube Comments', quantity: 250 },
-  { creator: 'Ravi', taskType: 'Instagram Shares', quantity: 300 },
-  { creator: 'Anita', taskType: 'YouTube Video Views', quantity: 50 },
-  { creator: 'Deepak', taskType: 'TikTok Comments', quantity: 150 },
-  { creator: 'Deepak', taskType: 'Twitter Follows', quantity: 350 },
-  { creator: 'Deepak', taskType: 'YouTube Shares', quantity: 400 },
-  { creator: 'Anita', taskType: 'Instagram Likes', quantity: 600 },
-];
-
-const item2 = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-];
 
 export default function SupportDisputes() {
   const [isFilter, setIsFilter] = useState('task');
-  const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
-  const { data: item, isLoading } = useGetSuppTaskQuery({});
-
+  const [page, setPage] = useState(1);
+  const { data: item, isLoading } = useGetSuppTaskQuery({
+    page: page,
+    status: isFilter,
+  });
+  const getHeaders = () => {
+    switch (isFilter) {
+      case 'task':
+        return ['Creator', 'Task Type', 'Quantity', 'Action'];
+      case 'order':
+        return ['Performers', 'Task Type', 'Action'];
+      case 'user':
+        return ['User', 'Role', 'Email', 'Region', 'Contact', 'Action'];
+      default:
+        return [];
+    }
+  };
   return (
     <div>
       <Navber
@@ -135,187 +50,109 @@ export default function SupportDisputes() {
           value={isFilter}
           onValueChange={(value) => setIsFilter(value as any)}
           options={[
-            { label: 'Task  support', value: 'task' },
-            { label: 'Orders support', value: 'order' },
-            { label: 'User support', value: 'user' },
+            { label: 'Task  Support', value: 'task' },
+            { label: 'Orders Support', value: 'order' },
+            { label: 'User Support', value: 'user' },
           ]}
         />
       </div>
-      <CustomTable headers={headers}>
-        {isLoading ? (
-          <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-        ) : item?.data?.length > 0 ? (
-          item?.data?.map((item: any, index: any) => (
-            <TableRow key={index}>
-              <TableCell className="relative">
-                <div className="flex items-center gap-3">
-                  <Avatars
-                    src={helpers.imgSource(item?.reviewer?.avatar) || '/blur.png'}
-                    alt={'avater' + index}
-                    fallback={item?.reviewer?.name}
-                    fallbackStyle="avatar"
-                  />
-                  <span>{item?.reviewer?.name}</span>
-                </div>
-              </TableCell>
-              <TableCell>{item?.engagement?.engagement_name}</TableCell>
-              <TableCell>
-                <h1 className="ml-5">{item?.quantity}</h1>
-              </TableCell>
+      <div>
+        <CustomTable headers={getHeaders()}>
+          {isLoading ? (
+            <TableSkeleton colSpan={getHeaders()?.length} tdStyle="!pl-0" />
+          ) : item?.data?.length > 0 ? (
+            item?.data?.map((item: any, index: any) => (
+              <TableRow key={index}>
+                {item.status === 'task' ? (
+                  <TableCell>
+                    <Avater2 href={item?.reviewer?.avatar} name={item?.reviewer?.name} />
+                  </TableCell>
+                ) : item.status === 'order' ? (
+                  <TableCell className="lg:max-w-[100px]">
+                    <Avater2 href={item?.performer?.avatar} name={item?.performer?.name} />
+                  </TableCell>
+                ) : (
+                  item.status === 'user' && (
+                    <TableCell>
+                      <Avater2
+                        href={item?.ticketcreator?.avatar}
+                        name={item?.ticketcreator?.name}
+                      />
+                    </TableCell>
+                  )
+                )}
+                {item.status === 'task' ? (
+                  <TableCell>{item?.engagement?.engagement_name}</TableCell>
+                ) : (
+                  item.status === 'order' && (
+                    <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
+                  )
+                )}
+                {item.status === 'task' && (
+                  <TableCell>
+                    <h1 className="ml-5">{item?.quantity}</h1>
+                  </TableCell>
+                )}
 
-              <TableCell>
-                <Link
-                  href={
-                    item.status == 'task' ? `/admin/support-disputes/support/task/${item?.id}` : ''
-                    // isFilter === 'task _support'
-                    //   ? `/admin/support-disputes/support/task/3`
-                    //   : '/admin/support-disputes/support/orders/6'
-                  }
-                  className="flex justify-center cursor-pointer"
-                >
-                  <FavIcon name="eye" />
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))
-        ) : (
-          <TableNoItem
-            colSpan={headers?.length}
-            title="No users are available at the moment"
-            tdStyle="!bg-background"
-          />
-        )}
-      </CustomTable>
+                {item.status === 'user' && (
+                  <>
+                    <TableCell>
+                      {' '}
+                      <Badge variant={item?.ticketcreator?.role}>
+                        {helpers.capitalize(item?.ticketcreator?.role)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{item?.ticketcreator?.email}</TableCell>
+                    <TableCell>
+                      {<FlagBox label={false} href={item?.ticketcreator?.country?.flag} />}
+                    </TableCell>
+                    <TableCell>{item?.ticketcreator?.phone}</TableCell>
+                  </>
+                )}
+
+                <TableCell>
+                  <Link
+                    href={
+                      item.status == 'task'
+                        ? `/admin/support-disputes/support/task/${item?.id}`
+                        : item.status == 'order'
+                          ? `/admin/support-disputes/support/orders/${item?.id}`
+                          : item.status == 'user'
+                            ? `/admin/support-disputes/support/user/${item?.id}`
+                            : ''
+                    }
+                    className="flex justify-center cursor-pointer"
+                  >
+                    <FavIcon name="eye" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableNoItem
+              colSpan={getHeaders()?.length}
+              title="No Support & Disputes are available at the moment"
+              tdStyle="!bg-background"
+            />
+          )}
+        </CustomTable>
+        <Pagination onClick={(v: any) => setPage(v)} {...(item?.meta || {})}></Pagination>
+      </div>
     </div>
   );
 }
-// {isValue === 'task _support' || isValue === 'orders_support' ? (
-//       <TaskOrderTable isLoading={isLoading} item={item} urlValue={isValue} />
-//     ) : (
-//       <UsersSupportTable isLoading={isLoading} item={item2} />
-//     )}
 
-// TaskOrderTable
-const TaskOrderTable = ({ isLoading, item, urlValue }: any) => {
-  const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
+//  ========= Avater2 ===========
+const Avater2 = ({ href, name }: { href: string; name: string }) => {
   return (
-    <div>
-      <CustomTable headers={headers}>
-        {isLoading ? (
-          <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0 !bg-background" />
-        ) : item.length > 0 ? (
-          item.map((item: any, index: any) => (
-            <TableRow key={index}>
-              {/* User */}
-              <TableCell className="relative">
-                <div className="flex items-center gap-3">
-                  <Avatars
-                    src={''}
-                    fallback={item.creator}
-                    alt={item.creator}
-                    fallbackStyle="avatar"
-                  />
-                  <span>{item.creator}</span>
-                </div>
-              </TableCell>
-
-              {/* Role */}
-              <TableCell>{item.taskType}</TableCell>
-              {/* Email */}
-              <TableCell>{item.quantity}</TableCell>
-              {/* Action Buttons */}
-              <TableCell>
-                <Link
-                  href={
-                    urlValue === 'task _support'
-                      ? `/admin/support-disputes/support/task/3`
-                      : '/admin/support-disputes/support/orders/6'
-                  }
-                  className="flex justify-center cursor-pointer"
-                >
-                  <FavIcon name="eye" />
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))
-        ) : (
-          <TableNoItem
-            colSpan={headers?.length}
-            title="No users are available at the moment"
-            tdStyle="!bg-background"
-          />
-        )}
-      </CustomTable>
-      <Pagination onClick={(v: any) => {}} {...dummyJson.meta}></Pagination>
-    </div>
-  );
-};
-
-const UsersSupportTable = ({ isLoading, item }: any) => {
-  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
-  return (
-    <div>
-      <CustomTable headers={headers}>
-        {isLoading ? (
-          <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-        ) : item.length > 0 ? (
-          item.map((item: any, index: any) => (
-            <TableRow key={index}>
-              {/* User */}
-              <TableCell className="relative">
-                <div className="flex items-center gap-3">
-                  <Avatars
-                    src={item?.avatar}
-                    fallback={item.user}
-                    alt={item.user}
-                    fallbackStyle="avatar"
-                  />
-                  <span>{item.user}</span>
-                </div>
-              </TableCell>
-
-              {/* Role */}
-              <TableCell>
-                <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
-              </TableCell>
-              {/* Email */}
-              <TableCell>{item.email}</TableCell>
-              {/* Account */}
-              <TableCell>{item.account}</TableCell>
-              {/* Region */}
-              <TableCell>
-                <ReactCountryFlag
-                  countryCode={item.countryFlag}
-                  svg
-                  style={{
-                    width: '2em',
-                    height: '1em',
-                  }}
-                  title={item.region}
-                />
-              </TableCell>
-              {/* Contact */}
-              <TableCell>{item.contact}</TableCell>
-              {/* Action Buttons */}
-              <TableCell>
-                <Link
-                  href={`/admin/support-disputes/support/user/88`}
-                  className="flex justify-center cursor-pointer"
-                >
-                  <FavIcon name="eye" />
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))
-        ) : (
-          <TableNoItem
-            colSpan={headers?.length}
-            title="No users are available at the moment"
-            tdStyle="!bg-background"
-          />
-        )}
-      </CustomTable>
-      <Pagination onClick={(v: any) => console.log(v)} {...dummyJson.meta}></Pagination>
+    <div className="flex items-center gap-3">
+      <Avatars
+        src={helpers.imgSource(href) || '/blur.png'}
+        alt={'avater' + name}
+        fallback={name}
+        fallbackStyle="avatar"
+      />
+      <span>{name}</span>
     </div>
   );
 };

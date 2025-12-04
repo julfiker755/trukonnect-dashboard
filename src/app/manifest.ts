@@ -2,13 +2,13 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Vide Connect',
-    short_name: 'Vide',
-    description: 'Music player application',
+    name: 'Trukonnect',
+    short_name: 'Trukonnect',
+    description: 'Trukonnect application',
     start_url: '/',
     display: 'standalone',
-    background_color: '#FB5E5E',
-    theme_color: '#FB5E5E',
+    background_color: '#fd7701',
+    theme_color: '#fd7701',
     icons: [
       {
         src: '/icon-192.png',

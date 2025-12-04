@@ -9,6 +9,7 @@ export enum tagTypes {
   a_sin_reviewer = 'a_sin_reviewer',
   a_financial = 'a_financial',
   a_support = 'a_support',
+  a_support_dts = 'a_support_dts',
   a_admin = 'a_admin',
 }
 
@@ -21,6 +22,7 @@ export const tagTypesList = [
   tagTypes.a_sin_reviewer,
   tagTypes.a_financial,
   tagTypes.a_support,
+  tagTypes.a_support_dts,
   tagTypes.a_admin,
   tagTypes.privacy,
   tagTypes.terams,

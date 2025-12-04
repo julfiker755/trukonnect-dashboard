@@ -42,11 +42,6 @@ export default function FinancialControls() {
 
   const { data, isLoading } = useGetFinancialQuery({ ...query });
   const [finanStatusUp] = useFinanStatusUpMutation();
-  // useEffect(() => {
-  //   console.log('Updated data:', data);
-  // }, [data]);
-  // const item = !isLoading && buildResponse((data && data[isFilter as keyof typeof data]) || {});
-  // console.log('item:', item);
 
   //  ==== handleStatus ====
   const handleStatus = async () => {
@@ -73,7 +68,10 @@ export default function FinancialControls() {
         <h1 className="text-lg font-medium">Select Option</h1>
         <RadioToggle
           value={isFilter as filterProps}
-          onValueChange={(value) => setIsFilter(value as filterProps)}
+          onValueChange={(value) => {
+            setIsFilter(value as filterProps);
+            setGlobal('isPage', 1);
+          }}
           options={[
             { label: 'Pending Approval', value: 'pending' },
             { label: 'Completed', value: 'completed' },
