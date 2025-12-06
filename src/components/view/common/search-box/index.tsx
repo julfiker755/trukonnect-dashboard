@@ -16,7 +16,7 @@ export default function SearchBox({
   placeholder = 'Search here',
   className,
   onSearch,
-  time = 1000,
+  time = 500,
 }: searchBoxProps) {
   const [value, setValue] = useState('');
   const [debounced] = useDebounce(value, time);

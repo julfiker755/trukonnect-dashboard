@@ -17,10 +17,12 @@ import Link from 'next/link';
 
 export default function SupportDisputes() {
   const [isFilter, setIsFilter] = useState('task');
+  const [isSearch, setIsSearch] = useState('');
   const [page, setPage] = useState(1);
   const { data: item, isLoading } = useGetSuppTaskQuery({
     page: page,
     status: isFilter,
+    ...(isSearch && ({ search: isSearch } as any)),
   });
   const getHeaders = () => {
     switch (isFilter) {
@@ -34,13 +36,15 @@ export default function SupportDisputes() {
         return [];
     }
   };
+
+  console.log(item);
   return (
     <div>
       <Navber
         title="Support & Disputes"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setIsSearch(text)} />
           </>
         }
       />
@@ -64,38 +68,50 @@ export default function SupportDisputes() {
             item?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
                 {item.status === 'task' ? (
-                  <TableCell>
-                    <Avater2 href={item?.reviewer?.avatar} name={item?.reviewer?.name} />
-                  </TableCell>
-                ) : item.status === 'order' ? (
-                  <TableCell className="lg:max-w-[100px]">
-                    <Avater2 href={item?.performer?.avatar} name={item?.performer?.name} />
-                  </TableCell>
+                  <>
+                    <TableCell>
+                      <Avater2 href={item?.reviewer?.avatar} name={item?.reviewer?.name} />
+                    </TableCell>
+                    <TableCell>{item?.engagement?.engagement_name}</TableCell>
+                    <TableCell>
+                      <h1 className="ml-5">{item?.quantity}</h1>
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        href={`/admin/support-disputes/support/task/${item?.id}`}
+                        className="flex justify-center cursor-pointer"
+                      >
+                        <FavIcon name="eye" />
+                      </Link>
+                    </TableCell>
+                  </>
                 ) : (
-                  item.status === 'user' && (
+                  item.status === 'order' && (
+                    <>
+                      <TableCell className="lg:max-w-[100px]">
+                        <Avater2 href={item?.performer?.avatar} name={item?.performer?.name} />
+                      </TableCell>
+                      <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
+                      <TableCell>
+                        <Link
+                          href={`/admin/support-disputes/support/orders/${item?.task?.id}`}
+                          className="flex justify-center cursor-pointer"
+                        >
+                          <FavIcon name="eye" />
+                        </Link>
+                      </TableCell>
+                    </>
+                  )
+                )}
+
+                {item.status === 'user' && (
+                  <>
                     <TableCell>
                       <Avater2
                         href={item?.ticketcreator?.avatar}
                         name={item?.ticketcreator?.name}
                       />
                     </TableCell>
-                  )
-                )}
-                {item.status === 'task' ? (
-                  <TableCell>{item?.engagement?.engagement_name}</TableCell>
-                ) : (
-                  item.status === 'order' && (
-                    <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
-                  )
-                )}
-                {item.status === 'task' && (
-                  <TableCell>
-                    <h1 className="ml-5">{item?.quantity}</h1>
-                  </TableCell>
-                )}
-
-                {item.status === 'user' && (
-                  <>
                     <TableCell>
                       {' '}
                       <Badge variant={item?.ticketcreator?.role}>
@@ -107,25 +123,16 @@ export default function SupportDisputes() {
                       {<FlagBox label={false} href={item?.ticketcreator?.country?.flag} />}
                     </TableCell>
                     <TableCell>{item?.ticketcreator?.phone}</TableCell>
+                    <TableCell>
+                      <Link
+                        href={`/admin/support-disputes/support/user/${item?.id}`}
+                        className="flex justify-center cursor-pointer"
+                      >
+                        <FavIcon name="eye" />
+                      </Link>
+                    </TableCell>
                   </>
                 )}
-
-                <TableCell>
-                  <Link
-                    href={
-                      item.status == 'task'
-                        ? `/admin/support-disputes/support/task/${item?.id}`
-                        : item.status == 'order'
-                          ? `/admin/support-disputes/support/orders/${item?.id}`
-                          : item.status == 'user'
-                            ? `/admin/support-disputes/support/user/${item?.id}`
-                            : ''
-                    }
-                    className="flex justify-center cursor-pointer"
-                  >
-                    <FavIcon name="eye" />
-                  </Link>
-                </TableCell>
               </TableRow>
             ))
           ) : (

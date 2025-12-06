@@ -266,3 +266,13 @@
     transition: background-color 5000s ease-in-out 0s;
   }
 }
+
+/* force controls visible on the media player */
+media-controller[noautohide] media-control-bar,
+media-controller[noautohide] media-controls,
+media-controller[noautohide] media-control-bar * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}

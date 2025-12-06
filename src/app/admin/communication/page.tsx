@@ -17,13 +17,13 @@ import React from 'react';
 export default function Communication() {
   const [bulkEmailStore, { isLoading: isEmailLoading }] = useBulkEmailStoreMutation();
   const [bulkNotiStore, { isLoading: isNotiLoading }] = useBulkNotiStoreMutation();
-  const { formData, handleChange, errors, validateFields } = useFormFields({
+  const { formData, change, errors, validate } = useFormFields({
     message: '',
   });
 
   const handleSubmitNoti = async (e: React.FormEvent) => {
     e.preventDefault();
-    const isValid = validateFields({
+    const isValid = validate({
       message: 'Message is required',
     });
     if (!isValid) return;
@@ -88,7 +88,7 @@ export default function Communication() {
               <h1 className="mb-2">Notification text</h1>
               <Textarea
                 value={formData.message}
-                onChange={(e) => handleChange('message', e.target.value)}
+                onChange={(e) => change('message', e.target.value)}
                 name="message"
                 placeholder="Write the notification text"
                 className="resize-none  field-sizing-content bg-figma-input min-h-[100px] border-none"

@@ -1,53 +1,23 @@
 'use client';
+import assets from '@/assets';
+import FlagBox from '@/components/reuseable/flag-box';
 import Navber from '@/components/view/common/dash/navber';
-import SearchBox from '@/components/view/common/search-box';
 import { SingleCalendar } from '@/components/view/common/single-calender';
-import React from 'react';
-import ReactCountryFlag from 'react-country-flag';
-
-const data = [
-  {
-    label: 'Total Performers',
-    value: '45898452',
-    selectedPeriod: '58462',
-    icon: '👨‍💼',
-  },
-  {
-    label: 'Total Creators',
-    value: '45898452',
-    selectedPeriod: '58462',
-    icon: '👩‍🎨',
-  },
-  { label: 'Total Reviewers', value: '54', selectedPeriod: '20', icon: '👨‍🏫' },
-  { label: 'Total Tasks', value: '652', selectedPeriod: '25', icon: '📄' },
-  {
-    label: 'Total Orders',
-    value: '45898452',
-    selectedPeriod: '58462',
-    icon: '📝',
-  },
-  {
-    label: 'Total Token Conversion',
-    value: '985635',
-    selectedPeriod: '14235',
-    icon: '💰',
-  },
-  {
-    label: 'Total Revenue',
-    value: '45898452',
-    selectedPeriod: '58462',
-    icon: '💵',
-  },
-  {
-    label: 'Total Revenue Distribution',
-    value: '45898452',
-    selectedPeriod: '58462',
-    icon: '💸',
-  },
-  { label: 'Total Withdraw', value: '54', selectedPeriod: '20', icon: '💳' },
-];
+import { useGetCountryQuery } from '@/redux/api/admin/countryApi';
+import { useGetPerformanceQuery } from '@/redux/api/admin/dashboardApi';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { helpers } from '@/lib';
 
 export default function SupportDisputes() {
+  const [countryId, setCountryId] = useState(1);
+  const [date, setDate] = useState<any>(null);
+  const { data: country } = useGetCountryQuery({});
+  const { data } = useGetPerformanceQuery({
+    country_id: countryId,
+    ...(date != null && { from_date: date?.from_date, to_date: date?.to_date }),
+  });
+
   return (
     <div className="mb-10">
       <Navber title="Performance & Analytics" />
@@ -55,57 +25,112 @@ export default function SupportDisputes() {
         <li className="flex items-center space-x-3">
           <div className="flex items-center">
             <span className="text-lg mr-2">Date: </span>
-            <SingleCalendar onChange={(date: any) => console.log(date)} />
+            <SingleCalendar
+              onChange={(date: any) => {
+                const data = {
+                  from_date: date.startDate ? helpers.formatDate(date.startDate, 'YYYY-MM-DD') : '',
+                  to_date: date.endDate ? helpers.formatDate(date.endDate, 'YYYY-MM-DD') : '',
+                };
+                if (data.from_date && data.to_date) setDate(data);
+              }}
+            />
           </div>
         </li>
         <li className="space-x-4 flex items-center flex-wrap">
-          <span className="text-lg">Selected Currency:</span>
-          <div className="space-x-4 mt-3 lg:mt-0">
-            <span className="border p-1 btn-shadow rounded-md">
-              <ReactCountryFlag
-                countryCode={'GH'}
-                svg
-                style={{
-                  width: '1em',
-                  height: '1em',
-                }}
-                title={'Ghana'}
+          <span className="text-lg">Selected Country:</span>
+          <div className="space-x-4 flex mt-3 lg:mt-0">
+            {/* btn-shadow */}
+            {country?.data?.map((item: any) => (
+              <FlagBox
+                className={`border-1 cursor-pointer p-1 ${
+                  item.id == countryId && 'btn-shadow'
+                } rounded-md`}
+                key={item.id}
+                href={item.flag}
+                name={item.name}
+                onClick={() => setCountryId(item.id)}
               />
-              <span className="ml-1"> Ghana</span>
-            </span>
-            <span className="border p-1 btn-shadow rounded-md">
-              <ReactCountryFlag
-                countryCode={'NG'}
-                svg
-                style={{
-                  width: '1em',
-                  height: '1em',
-                }}
-                title={'Nigeria'}
-              />
-              <span className="ml-1">Nigeria</span>
-            </span>
+            ))}
           </div>
         </li>
       </ul>
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
-          {data.map((item, index) => (
-            <div key={index} className="p-6 bg-figma-card text-white rounded-lg text-center">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-figma-gray">{item.label}</h3>
-                  <p className="text-figma-gray text-start">{item.value}</p>
-                </div>
-                <div className="text-4xl">{item.icon}</div>
-              </div>
-              <div className="flex justify-between items-center mt-3">
-                <h1>Selected Period:</h1>
-                <h1 className="font-medium text-xl">{item.selectedPeriod}</h1>
-              </div>
-            </div>
-          ))}
+          <AnalyticsCdard
+            label="Total Performers"
+            value={data?.total_performers || 0}
+            period={data?.total_performers_period || 0}
+            imghref={assets.analaytics.performer}
+          />
+          <AnalyticsCdard
+            label="Total Creators"
+            value={data?.total_creators || 0}
+            period={data?.total_creators_period || 0}
+            imghref={assets.analaytics.creator}
+          />
+          <AnalyticsCdard
+            label="Total Reviewers"
+            value={data?.total_reviewers || 0}
+            period={data?.total_reviewers_period || 0}
+            imghref={assets.analaytics.reviewer}
+          />
+          <AnalyticsCdard
+            label="Total Tasks"
+            value={data?.total_tasks || 0}
+            period={data?.total_tasks_period || 0}
+            imghref={assets.analaytics.task}
+          />
+          <AnalyticsCdard
+            label="Total Orders"
+            value={data?.total_orders || 0}
+            period={data?.total_orders_period || 0}
+            imghref={assets.analaytics.orders}
+          />
+          <AnalyticsCdard
+            label="Total Token Conversion"
+            value={data?.total_token_conversion || 0}
+            period={data?.total_token_conversion_period || 0}
+            imghref={assets.analaytics.token}
+          />
+          <AnalyticsCdard
+            label="Total Revenue"
+            value={data?.total_revenue || 0}
+            period={data?.total_revenue_period || 0}
+            imghref={assets.analaytics.revenu}
+          />
+          <AnalyticsCdard
+            label="Total Revenue Distribution"
+            value={data?.total_revenue_distribution || 0}
+            period={data?.total_revenue_distribution_period || 0}
+            imghref={assets.analaytics.distribution}
+          />
+          <AnalyticsCdard
+            label="Total Withdraw"
+            value={data?.total_withdrawals || 0}
+            period={data?.total_withdrawals_period || 0}
+            imghref={assets.analaytics.withdraw}
+          />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsCdard({ label, value, imghref, period }: any) {
+  return (
+    <div className="p-6 bg-figma-card text-white rounded-lg text-center">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-figma-gray">{label}</h3>
+          <p className="text-figma-gray text-start">{value}</p>
+        </div>
+        <div className="text-4xl">
+          <Image src={imghref} alt={label} width={50} height={50} />
+        </div>
+      </div>
+      <div className="flex justify-between items-center mt-3">
+        <h1>Selected Period:</h1>
+        <h1 className="font-medium text-xl">{period}</h1>
       </div>
     </div>
   );

@@ -18,18 +18,20 @@ export type VideoPlayerProps = ComponentProps<typeof MediaController>;
 
 const variables = {
   '--media-primary-color': 'var(--primary)',
-  '--media-secondary-color': 'var(--background)',
+  '--media-secondary-color': '#fd7701',
   '--media-text-color': 'var(--foreground)',
-  '--media-background-color': 'rgba(87, 87, 87, 0.10)',
-  '--media-control-hover-background': 'var(--accent)',
+  '--media-background-color': 'var(--background)',
+  '--media-control-hover-background': '#fd7701',
   '--media-font-family': 'var(--font-sans)',
-  '--media-live-button-icon-color': 'var(--muted-foreground)',
+  '--media-live-button-icon-color': 'var(--primary)',
   '--media-live-button-indicator-color': 'var(--destructive)',
   '--media-range-track-background': 'var(--border)',
+  '--media-control-height': '25px',
 } as CSSProperties;
 
 export const VideoPlayer = ({ style, ...props }: VideoPlayerProps) => (
   <MediaController
+    noAutohide
     style={{
       ...variables,
       ...style,

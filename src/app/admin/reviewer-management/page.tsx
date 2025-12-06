@@ -25,11 +25,18 @@ import { helpers } from '@/lib';
 import { ResponseApiErrors } from '@/lib/api-response';
 
 export default function ReviewerManagement() {
-  const [isValue, setIsValue] = useState('not_banned');
+  const [counId, setIsCoun] = useState('');
+  const [isStatus, setIsStatus] = useState('');
   const [isStore, setIsStore] = useState(false);
   const [isPage, setIsPage] = useState(1);
-  const { data: reviewer, isLoading } = useGetReviewerQuery({ page: isPage });
-  const [counId, setIsCoun] = useState('');
+  const [date, setDate] = useState<any>(null);
+  const [search, setSearch] = useState('');
+  const { data: reviewer, isLoading } = useGetReviewerQuery({
+    page: isPage,
+    ...(isStatus && { status: isStatus }),
+    ...(date != null && { from_date: date?.from_date, to_date: date?.to_date }),
+    ...(search && { search }),
+  });
   const [storeReviewer, { isLoading: stIsLoading }] = useStoreReviewerMutation();
   const from = useForm({
     resolver: zodResolver(reviewerSchema),
@@ -59,7 +66,7 @@ export default function ReviewerManagement() {
         handleStReset();
       }
     } catch (err: any) {
-      if (err?.data?.errors) {
+      if (err?.data?.error) {
         ResponseApiErrors(err?.data, from);
       }
     }
@@ -75,7 +82,7 @@ export default function ReviewerManagement() {
         title="Reviewer Management"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setSearch(text)} />
           </>
         }
       />
@@ -83,19 +90,27 @@ export default function ReviewerManagement() {
         <div className="flex flex-wrap items-center">
           <h1 className="lg:mr-2">Select Reviewer:</h1>
           <RadioToggle
-            value={isValue}
-            onValueChange={(value) => setIsValue(value as any)}
+            value={isStatus}
+            onValueChange={(value) => setIsStatus(value as any)}
             className="mt-1 lg:mt-0 "
             options={[
-              { label: 'Not Banned', value: 'not_banned' },
-              { label: 'Banned Reviewer', value: 'banned_reviewer' },
+              { label: 'Not Banned', value: 'active' },
+              { label: 'Banned Reviewer', value: 'banned' },
             ]}
           />
         </div>
         <div className="flex items-center flex-wrap space-y-3 lg:space-y-0 space-x-5">
           <div className="flex items-center">
             <span className="text-lg mr-2">Date: </span>
-            <SingleCalendar onChange={(date: any) => console.log(date)} />
+            <SingleCalendar
+              onChange={(date: any) => {
+                const data = {
+                  from_date: date.startDate ? helpers.formatDate(date.startDate, 'YYYY-MM-DD') : '',
+                  to_date: date.endDate ? helpers.formatDate(date.endDate, 'YYYY-MM-DD') : '',
+                };
+                if (data.from_date && data.to_date) setDate(data);
+              }}
+            />
           </div>
           <Button onClick={() => setIsStore(!isStore)} variant="primary" className="rounded-md">
             Add Reviewer
@@ -109,11 +124,10 @@ export default function ReviewerManagement() {
           ) : reviewer?.data?.length > 0 ? (
             reviewer?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={helpers.imgSource(item?.avatar)}
+                      src={helpers.imgSource(item?.avatar) || '/avater.png'}
                       fallback={item.name}
                       alt={item.name}
                       fallbackStyle="avatar"
@@ -121,12 +135,12 @@ export default function ReviewerManagement() {
                     <span>{item.name}</span>
                   </div>
                 </TableCell>
-                {/* Email */}
+
                 <TableCell>{item.email}</TableCell>
-                <TableCell>0</TableCell>
-                <TableCell>0</TableCell>
-                <TableCell>0</TableCell>
-                {/* Action Buttons */}
+                <TableCell>{item?.verified_accounts_count}</TableCell>
+                <TableCell>{item?.verified_tasks_count}</TableCell>
+                <TableCell>{item?.verified_performance_count}</TableCell>
+
                 <TableCell>
                   <Link href={`/admin/reviewer-management/9`}>
                     <h1 className="flex justify-center cursor-pointer">

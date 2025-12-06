@@ -11,6 +11,8 @@ export enum tagTypes {
   a_support = 'a_support',
   a_support_dts = 'a_support_dts',
   a_admin = 'a_admin',
+  a_performance = 'a_performance',
+  a_media = 'a_media',
 }
 
 export const tagTypesList = [
@@ -26,4 +28,6 @@ export const tagTypesList = [
   tagTypes.a_admin,
   tagTypes.privacy,
   tagTypes.terams,
+  tagTypes.a_performance,
+  tagTypes.a_media,
 ];

@@ -5,7 +5,10 @@ export const reviewerSchema = z.object({
   name: z.string().nonempty('Name is required'),
   phone: z.string().nonempty('Phone is required'),
   email: z.string().nonempty('Email is required'),
-  password: z.string().nonempty('Password is required'),
+  password: z
+    .string()
+    .nonempty('Password is required')
+    .min(8, 'Password must be at least 8 characters'),
 });
 
 // == platformSchema ==

@@ -1,7 +1,6 @@
 'use client';
 import {
   VideoPlayer,
-  VideoPlayerContent,
   VideoPlayerControlBar,
   VideoPlayerMuteButton,
   VideoPlayerPlayButton,
@@ -12,32 +11,32 @@ import {
   VideoPlayerVolumeRange,
 } from '@/components/ui/shadcn-io/video-player';
 import { cn } from '@/lib';
+import ReactPlayer from 'react-player';
 
-const PlayerBox = ({ className }: any) => (
+const PlayerBox = ({ className, link }: any) => (
   <VideoPlayer
     className={cn(
-      `overflow-hidden flex flex-col bg-figma-card justify-center max-w-6xl m-auto h-[300px] md:h-[500px] rounded-lg border-none`,
+      'overflow-hidden w-full m-auto mx-auto h-[400px] xl:h-[500px] rounded-lg',
       className
     )}
   >
-    <VideoPlayerContent
-      crossOrigin=""
-      muted
-      preload="auto"
+    <ReactPlayer
       slot="media"
-      src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
+      src={link}
+      controls={true}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
     />
-    <VideoPlayerControlBar className="bg-[red] hover:!bg-transparent">
-      <VideoPlayerPlayButton className="text-[#fd7701] hover:text-[#fd7701]" />
-      <VideoPlayerSeekBackwardButton className="text-[#fd7701] hover:text-[#fd7701]" />
-      <VideoPlayerSeekForwardButton className="text-[#fd7701] hover:text-[#fd7701]" />
+    <VideoPlayerControlBar>
+      <VideoPlayerPlayButton />
+      <VideoPlayerSeekBackwardButton />
+      <VideoPlayerSeekForwardButton />
       <VideoPlayerTimeRange />
-      <VideoPlayerTimeDisplay
-        className="text-[#fd7701] hover:bg-transparent hover:text-[#fd7701]"
-        showDuration
-      />
-      <VideoPlayerMuteButton className="text-[#fd7701] hover:text-[#fd7701]" />
-      <VideoPlayerVolumeRange className="text-[#fd7701] hover:text-[#fd7701]" />
+      <VideoPlayerTimeDisplay showDuration />
+      <VideoPlayerMuteButton />
+      <VideoPlayerVolumeRange />
     </VideoPlayerControlBar>
   </VideoPlayer>
 );
