@@ -2,8 +2,7 @@
 import { Input } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import React, { useState } from 'react';
 
 interface searchBoxProps {
   placeholder?: string;
@@ -16,12 +15,13 @@ export default function SearchBox({
   placeholder = 'Search here',
   className,
   onSearch,
-  time = 500,
 }: searchBoxProps) {
-  const [value, setValue] = useState('');
-  const [debounced] = useDebounce(value, time);
-
-  useEffect(() => onSearch && onSearch(debounced), [debounced, onSearch]);
+  const [searchText, setSearchText] = useState('');
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setSearchText(text);
+    onSearch?.(text);
+  };
 
   return (
     <div
@@ -36,8 +36,8 @@ export default function SearchBox({
 
       <Input
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={searchText}
+        onChange={handleSearchChange}
         placeholder={placeholder}
         className="pl-10 hidden md:block md:pr-4 py-3 rounded-full border-none w-full placeholder:text-figma-gray text-white"
       />

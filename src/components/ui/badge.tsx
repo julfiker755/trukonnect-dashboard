@@ -11,6 +11,7 @@ const badgeVariants = cva(
       variant: {
         default: 'border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90',
         performer: 'bg-[#FFDC64]/20 text-white text-base  w-20 rounded-full border-none',
+        brand: 'bg-[#FF193D]/20 text-white text-base w-20 rounded-full border-none',
         creator: 'bg-[#FF193D]/20 text-white text-base w-20 rounded-full border-none',
         pending: 'bg-[#FEF3C7] text-[#92400E] text-base px-3  rounded-full border-none',
         blocked: 'bg-[#FECACA] text-[#991B1B] text-base px-3  rounded-full border-none',

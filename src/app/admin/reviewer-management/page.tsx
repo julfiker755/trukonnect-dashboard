@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { useGetReviewerQuery, useStoreReviewerMutation } from '@/redux/api/admin/reviewerApi';
 import { helpers } from '@/lib';
 import { ResponseApiErrors } from '@/lib/api-response';
+import { useDebounce } from 'use-debounce';
 
 export default function ReviewerManagement() {
   const [counId, setIsCoun] = useState('');
@@ -31,11 +32,12 @@ export default function ReviewerManagement() {
   const [isPage, setIsPage] = useState(1);
   const [date, setDate] = useState<any>(null);
   const [search, setSearch] = useState('');
+  const [value] = useDebounce(search, 1000);
   const { data: reviewer, isLoading } = useGetReviewerQuery({
     page: isPage,
     ...(isStatus && { status: isStatus }),
     ...(date != null && { from_date: date?.from_date, to_date: date?.to_date }),
-    ...(search && { search }),
+    ...(value && { search: value }),
   });
   const [storeReviewer, { isLoading: stIsLoading }] = useStoreReviewerMutation();
   const from = useForm({

@@ -1,6 +1,6 @@
 'use client';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
+import FlagBox from '@/components/reuseable/flag-box';
 import { Pagination } from '@/components/reuseable/pagination';
 import RadioToggle from '@/components/reuseable/radio-toggle';
 import { CustomTable } from '@/components/reuseable/table';
@@ -11,118 +11,43 @@ import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
+import { useGetUserQuery } from '@/redux/api/admin/userApi';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import ReactCountryFlag from 'react-country-flag';
-
-const item = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-];
+import { useDebounce } from 'use-debounce';
 
 export default function UserManagement() {
-  const [isValue, setIsValue] = useState('not_banned');
+  const [isStatus, setIsStatus] = useState('active');
   const [isPage, setIsPage] = useState(1);
-  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
+  const headers = ['User', 'Role', 'Email', 'Region', 'Contact', 'Referral', 'Action'];
+  const [search, setSearch] = useState('');
+  const [value] = useDebounce(search, 1000);
+  const { data: user, isLoading } = useGetUserQuery({
+    page: isPage,
+    ...(isStatus && { status: isStatus }),
+    ...(value && { search: value }),
+  });
 
-  const isLoading = false;
+  console.log(user);
+
   return (
     <div>
       <Navber
         title="User Management"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setSearch(text)} />
           </>
         }
       />
       <div className="mb-3 flex flex-wrap justify-between">
         <h1 className="font-medium lg:font-semibold  text-xl">Select Users</h1>
         <RadioToggle
-          value={isValue}
-          onValueChange={(value) => setIsValue(value as any)}
+          value={isStatus}
+          onValueChange={(value) => setIsStatus(value as any)}
           options={[
-            { label: 'Not Banned', value: 'not_banned' },
-            { label: 'Banned Users', value: 'banned_users' },
+            { label: 'Not Banned', value: 'active' },
+            { label: 'Banned Reviewer', value: 'banned' },
           ]}
         />
       </div>
@@ -130,51 +55,41 @@ export default function UserManagement() {
         <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+          ) : user?.data?.length > 0 ? (
+            user?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
                       src={item?.avatar}
-                      fallback={item.user}
-                      alt={item.user}
+                      fallback={item.name}
+                      alt={item.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.user}</span>
+                    <span>{item.name}</span>
                   </div>
                 </TableCell>
 
-                {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
+                  <Badge variant={helpers.lowerCase(item.role) as any}>
+                    {helpers.capitalize(item.role)}
+                  </Badge>
                 </TableCell>
-                {/* Email */}
                 <TableCell>{item.email}</TableCell>
-                {/* Account */}
-                <TableCell>{item.account}</TableCell>
-                {/* Region */}
                 <TableCell>
-                  <ReactCountryFlag
-                    countryCode={item.countryFlag}
-                    svg
-                    style={{
-                      width: '2em',
-                      height: '1em',
-                    }}
-                    title={item.region}
-                  />
+                  <FlagBox label={false} href={item?.country?.flag} />
                 </TableCell>
-                {/* Contact */}
-                <TableCell>{item.contact}</TableCell>
-                {/* Action Buttons */}
+                <TableCell>{item.phone}</TableCell>
+                <TableCell>
+                  <h1 className="ml-3">{item.referral_count}</h1>
+                </TableCell>
                 <TableCell>
                   <Link
+                    //  brand mane --- > createor
                     href={
-                      item.role === 'creator'
-                        ? `/admin/user-management/creator/5`
-                        : `/admin/user-management/performer/7`
+                      item.role === 'brand'
+                        ? `/admin/user-management/creator/${item.id}`
+                        : `/admin/user-management/performer/${item.id}`
                     }
                   >
                     <h1 className="flex justify-center cursor-pointer">
@@ -193,7 +108,7 @@ export default function UserManagement() {
             />
           )}
         </CustomTable>
-        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...user?.meta}></Pagination>
       </div>
     </div>
   );

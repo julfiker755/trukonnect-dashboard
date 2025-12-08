@@ -37,7 +37,7 @@ export default function ReviewDetails() {
     },
     {
       title: 'Total Verified Accounts',
-      count: data?.totalVerifiedOrder,
+      count: data?.totalVerified,
       bg: 'rgba(190, 223, 254, 0.10)',
     },
   ];
@@ -143,18 +143,18 @@ export default function ReviewDetails() {
             show={false}
             className="bg-transparent p-0"
             item={[
-              { name: 'Orders Review', value: data?.totalPendingOrders || 0, color: '#FF6B9D' },
-              { name: 'Task Review', value: data?.totalPendingTask || 0, color: '#4ECDC4' },
+              { name: 'Orders Review', value: data?.totalVerifiedOrder || 0, color: '#FD4584' },
+              { name: 'Task Review', value: data?.totalVerifiedTask || 0, color: '#00EFD1' },
               {
                 name: 'Account Review',
-                value: data?.totalPendingAccounts || 0,
-                color: '#6366F1',
+                value: data?.totalVerified || 0,
+                color: '#6F55CF',
               },
             ]}
           >
             <div className="mt-6 text-center">
               <p className="text-foreground font-semibold">
-                Overall Performance: {data?.overallPerformance}
+                Overall Performance: {data?.overallPerformance} %
               </p>
             </div>
           </AnalyticChart>

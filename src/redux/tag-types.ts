@@ -13,6 +13,8 @@ export enum tagTypes {
   a_admin = 'a_admin',
   a_performance = 'a_performance',
   a_media = 'a_media',
+  a_user = 'a_user',
+  a_single_user = 'a_single_user',
 }
 
 export const tagTypesList = [
@@ -30,4 +32,6 @@ export const tagTypesList = [
   tagTypes.terams,
   tagTypes.a_performance,
   tagTypes.a_media,
+  tagTypes.a_user,
+  tagTypes.a_single_user,
 ];
