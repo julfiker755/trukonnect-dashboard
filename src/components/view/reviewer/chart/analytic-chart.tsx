@@ -1,12 +1,6 @@
 import { cn } from '@/lib';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const chartData = [
-  { name: 'Orders Reviewed', value: 43, color: '#FF6B9D' },
-  { name: 'Task Reviewed', value: 64, color: '#4ECDC4' },
-  { name: 'Accounts Reviewed', value: 13, color: '#6366F1' },
-];
-
 const CustomLegend = ({ payload }: any) => {
   return (
     <div className="flex justify-center gap-6 mt-4">
@@ -20,7 +14,13 @@ const CustomLegend = ({ payload }: any) => {
   );
 };
 
-export default function AnalyticChart({ className, show = true, heightStyle }: any) {
+export default function AnalyticChart({
+  className,
+  show = true,
+  heightStyle,
+  item = [],
+  children,
+}: any) {
   return (
     <div className={cn(`bg-[#575757]/10 rounded-xl p-5`, className)}>
       {show && <h1 className="font-medium text-2xl">Analytics Chart</h1>}
@@ -29,7 +29,7 @@ export default function AnalyticChart({ className, show = true, heightStyle }: a
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={chartData}
+                data={item}
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
@@ -37,7 +37,7 @@ export default function AnalyticChart({ className, show = true, heightStyle }: a
                 paddingAngle={2}
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
+                {item.map((entry: any, index: any) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -46,7 +46,7 @@ export default function AnalyticChart({ className, show = true, heightStyle }: a
           {/* Chart value labels */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              {chartData.map((item, index) => {
+              {item.map((item: any, index: any) => {
                 const angle = index * 120 - 90; // Distribute labels around the circle
                 const radius = 80;
                 const x = Math.cos((angle * Math.PI) / 180) * radius;
@@ -71,15 +71,13 @@ export default function AnalyticChart({ className, show = true, heightStyle }: a
         </div>
 
         <CustomLegend
-          payload={chartData.map((item) => ({
+          payload={item.map((item: any) => ({
             value: item.name,
             color: item.color,
           }))}
         />
 
-        <div className="mt-6 text-center">
-          <p className="text-foreground font-semibold">Overall Performance: 72%</p>
-        </div>
+        {children && children}
       </div>
     </div>
   );

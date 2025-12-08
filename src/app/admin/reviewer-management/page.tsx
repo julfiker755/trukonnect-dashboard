@@ -137,12 +137,18 @@ export default function ReviewerManagement() {
                 </TableCell>
 
                 <TableCell>{item.email}</TableCell>
-                <TableCell>{item?.verified_accounts_count}</TableCell>
-                <TableCell>{item?.verified_tasks_count}</TableCell>
-                <TableCell>{item?.verified_performance_count}</TableCell>
+                <TableCell>
+                  <h1 className="ml-3">{item?.verified_accounts_count}</h1>
+                </TableCell>
+                <TableCell>
+                  <h1 className="ml-3">{item?.verified_tasks_count}</h1>
+                </TableCell>
+                <TableCell>
+                  <h1 className="ml-4">{item?.verified_performance_count}</h1>
+                </TableCell>
 
                 <TableCell>
-                  <Link href={`/admin/reviewer-management/9`}>
+                  <Link href={`/admin/reviewer-management/${item.id}`}>
                     <h1 className="flex justify-center cursor-pointer">
                       {' '}
                       <FavIcon name="eye" />

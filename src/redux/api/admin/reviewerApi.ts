@@ -25,10 +25,13 @@ export const reviewerApi = baseApi.injectEndpoints({
     }),
     singleReviewer: build.query({
       query: (id) => ({
-        url: `admin/reviewer/view/${id}`,
+        url: `/admin/reviewer/view/${id}`,
         method: 'GET',
       }),
       providesTags: [tagTypes.a_sin_reviewer],
+      transformResponse: (res: any) => {
+        return res.data;
+      },
     }),
     acReviewer: build.mutation({
       query: ({ id, data }: any) => ({
