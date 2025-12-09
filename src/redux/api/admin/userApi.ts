@@ -25,16 +25,43 @@ export const userApi = baseApi.injectEndpoints({
         return response.data;
       },
     }),
-    // bulkNotiStore: build.mutation({
-    //   query: (data) => {
-    //     return {
-    //       url: '/admin/bulk/notification',
-    //       method: 'POST',
-    //       body: data,
-    //     };
-    //   },
-    // }),
+    sendToken: build.mutation({
+      query: ({ id, data }) => {
+        return {
+          url: `/admin/management/send/token/${id}`,
+          method: 'POST',
+          body: data,
+        };
+      },
+      invalidatesTags: [tagTypes.a_single_user],
+    }),
+    changeStatus: build.mutation({
+      query: ({ id, data }) => {
+        return {
+          url: `/admin/management/change/status/${id}`,
+          method: 'POST',
+          body: data,
+        };
+      },
+      invalidatesTags: [tagTypes.a_user, tagTypes.a_single_user],
+    }),
+    getReferrals: build.query({
+      query: (id) => ({
+        url: `/admin/management/all/referrals/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [tagTypes.a_user],
+      transformResponse: (response: any) => {
+        return buildResponse(response.data);
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery, useGetuserManDtsQuery } = userApi;
+export const {
+  useGetUserQuery,
+  useGetuserManDtsQuery,
+  useSendTokenMutation,
+  useChangeStatusMutation,
+  useGetReferralsQuery,
+} = userApi;

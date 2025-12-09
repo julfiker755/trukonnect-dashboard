@@ -1,97 +1,19 @@
+'use client';
 import Avatars from '@/components/reuseable/avater';
 import { BackBtn } from '@/components/reuseable/back-btn';
+import FlagBox from '@/components/reuseable/flag-box';
+import { TableNoItem } from '@/components/reuseable/table-no-item';
+import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
+import { useGetReferralsQuery } from '@/redux/api/admin/userApi';
 import { SlugParams } from '@/types';
-import React from 'react';
-import ReactCountryFlag from 'react-country-flag';
+import React, { use } from 'react';
 
-const item = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-];
+export default function UserDetail({ params }: SlugParams) {
+  const { slug } = use(params);
+  const { data: referrals, isLoading } = useGetReferralsQuery(slug);
 
-export default async function UserDetail({ params }: SlugParams) {
-  const { slug } = await params;
   return (
     <div>
       <Navber
@@ -107,38 +29,32 @@ export default async function UserDetail({ params }: SlugParams) {
       <div>
         <Table className="border-separate border-spacing-y-3 my-0">
           <TableBody>
-            {item.map((item: any, index: any) => (
-              <TableRow key={index}>
-                {/* User */}
-                <TableCell className="relative">
-                  <div className="flex items-center gap-3">
-                    <Avatars
-                      src={item?.avatar}
-                      fallback={item.user}
-                      alt={item.user}
-                      fallbackStyle="avatar"
-                    />
-                    <span>{item.user}</span>
-                  </div>
-                </TableCell>
-                {/* Email */}
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.contact}</TableCell>
-                {/* Region */}
-                <TableCell>
-                  <ReactCountryFlag
-                    countryCode={item.countryFlag}
-                    svg
-                    style={{
-                      width: '2em',
-                      height: '1em',
-                    }}
-                    title={item.region}
-                  />
-                  <span>{item.region}</span>
-                </TableCell>
-              </TableRow>
-            ))}
+            {isLoading ? (
+              <TableSkeleton colSpan={4} tdStyle="!pl-0" />
+            ) : referrals?.data?.length > 0 ? (
+              referrals?.data?.map((item: any, index: any) => (
+                <TableRow key={index}>
+                  <TableCell className="relative">
+                    <div className="flex items-center gap-3">
+                      <Avatars
+                        src={item?.avatar}
+                        fallback={item.name}
+                        alt={item.name}
+                        fallbackStyle="avatar"
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.phone}</TableCell>
+                  <TableCell>
+                    <FlagBox href={item?.country?.flag} name={item?.country?.name} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableNoItem colSpan={4} title="No referred users are available at the moment" />
+            )}
           </TableBody>
         </Table>
       </div>

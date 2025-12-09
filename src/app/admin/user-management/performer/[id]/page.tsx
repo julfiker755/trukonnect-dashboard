@@ -9,107 +9,21 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UserManagementAction from '@/components/view/common/user-mange-action';
 import FavIcon from '@/icon/favIcon';
-import { helpers, PlaceholderImg } from '@/lib';
+import { helpers } from '@/lib';
 import { useGetuserManDtsQuery } from '@/redux/api/admin/userApi';
 import { IdParams } from '@/types';
 import Link from 'next/link';
 import React, { use } from 'react';
-import ReactCountryFlag from 'react-country-flag';
-
-const item = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-];
 
 function UserDetail({ params }: IdParams) {
   const { id } = use(params);
-  console.log(id);
   const { data, isLoading } = useGetuserManDtsQuery(id);
 
   const overviewItem = [
     {
       icon: <FavIcon name="coin" />,
       title: 'Total earned tokens',
-      count: data?.total_earned_toke,
+      count: data?.total_earned_token,
       bg: 'rgba(194, 255, 212, 0.10)',
       circle: 'rgba(255, 218, 45, 0.10)',
     },
@@ -142,13 +56,13 @@ function UserDetail({ params }: IdParams) {
         }
       />
       <div className="bg-figma-chart p-5 rounded-xl mb-5">
-        <UserManagementAction />
+        <UserManagementAction id={id} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-15 2xl:gap-20 mt-10">
           <div className="space-y-3">
             <div>
               <ImgBox
                 className="size-30 rounded-xl mx-auto"
-                src={helpers.imgSource(data?.user_details?.avatar)}
+                src={helpers.imgSource(data?.user_details?.avatar) || '/avater.png'}
                 alt="img"
               ></ImgBox>
               <h1 className="text-figma-green text-center mt-1">{data?.user_details?.status}</h1>
@@ -203,14 +117,16 @@ function UserDetail({ params }: IdParams) {
       </div>
       <ul className="flex justify-between items-center">
         <li className="text-2xl font-medium">Referred Users</li>
-        <li>
-          <Link
-            className="text-sm text-figma-primary"
-            href={`/admin/user-management/${data?.user_details?.id}`}
-          >
-            See All
-          </Link>
-        </li>
+        {data?.referred_user.length > 0 && (
+          <li>
+            <Link
+              className="text-sm text-figma-primary"
+              href={`/admin/user-management/${data?.user_details?.id}`}
+            >
+              See All
+            </Link>
+          </li>
+        )}
       </ul>
       <div>
         <Table className="border-separate border-spacing-y-3 my-0">
@@ -224,7 +140,7 @@ function UserDetail({ params }: IdParams) {
                     <TableCell className="relative">
                       <div className="flex items-center gap-3">
                         <Avatars
-                          src={item?.avatar}
+                          src={item?.avatar || '/avater.png'}
                           fallback={item.name}
                           alt={item.name}
                           fallbackStyle="avatar"
