@@ -66,7 +66,7 @@ export default function AccountVarificaton() {
   }
 
 
-
+  console.log(global?.details)
 
   return (
     <div>
@@ -138,7 +138,7 @@ export default function AccountVarificaton() {
         style={`${state.isReject ? '!opacity-0' : ''}`}
       >
         <div>
-          <ImgBox src={global?.details?.profile_image || '/blur.png'} className="w-full h-[250px]" alt="imgbox1">
+          <ImgBox src={helpers.imgSource(global?.details?.profile_image) || '/blur.png'} className="w-full h-[250px]" alt="imgbox1">
             <CloseIcon onClose={() => updateState('isPreview', false)} />
           </ImgBox>
           <ul className="*:text-lg my-3">
@@ -151,13 +151,15 @@ export default function AccountVarificaton() {
               <span className="text-figma-gray">Notes: </span>This is my facebook account
             </li>
           </ul>
-          <div className="flex items-center space-x-2">
-            <Checkbox checked={global.withdrawal}
-              onCheckedChange={(checked) => {
-                setGlobal("withdrawal", checked);
-              }} />
-            <span className="text-figma-gray">Approve for withdrawal</span>
-          </div>
+          {global?.details?.user?.role == "performer" && (
+            <div className="flex items-center space-x-2">
+              <Checkbox checked={global.withdrawal}
+                onCheckedChange={(checked) => {
+                  setGlobal("withdrawal", checked);
+                }} />
+              <span className="text-figma-gray">Approve for withdrawal</span>
+            </div>
+          )}
           <div className="space-y-3 pt-4">
             <CloseBtn onClose={() => updateState('isPreview', false)} />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
