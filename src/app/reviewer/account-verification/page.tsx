@@ -15,7 +15,7 @@ import SearchBox from '@/components/view/common/search-box';
 import { useFormFields, useGlobalState } from '@/hooks';
 import { useModalState } from '@/hooks/useModalState';
 import { useAccApprovedMutation, useAccRejectMutation, useGetAccountQuery } from '@/redux/api/reviewer/accountApi';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDebounce } from 'use-debounce';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
@@ -28,11 +28,13 @@ const initGlobal: any = {
   withdrawal: false
 }
 
+const initState = {
+  isReject: false,
+  isPreview: false,
+}
+
 export default function AccountVarificaton() {
-  const [state, updateState] = useModalState({
-    isReject: false,
-    isPreview: false,
-  });
+  const [state, updateState] = useModalState(initState);
   const [global, setGlobal] = useGlobalState(initGlobal)
   const [value] = useDebounce(global.search, 1000);
   const { openSucc } = useSuccessModal();
