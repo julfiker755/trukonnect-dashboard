@@ -6,35 +6,18 @@ import { FromInput } from '@/components/reuseable/from-input';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import ImgUpload from '@/components/reuseable/img-uplod';
 import Modal2 from '@/components/reuseable/modal2';
+import sonner from '@/components/reuseable/sonner';
 import { Button } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UpdatePassword from '@/components/view/common/update-password';
 import FavIcon from '@/icon/favIcon';
-import { PlaceholderImg } from '@/lib';
+import { helpers, PlaceholderImg } from '@/lib';
+import { useGetProfileQuery, useUpdateProfileMutation } from '@/redux/api/authApi';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 
-const overviewItem = [
-  {
-    icon: <FavIcon className="size-12" name="review_acounts" />,
-    title: 'Pending Accounts',
-    count: 10,
-    bg: 'rgba(130, 255, 167, 0.10)',
-  },
-  {
-    icon: <FavIcon className="size-12" name="review_task" />,
-    title: 'Pending Orders',
-    count: 45,
-    bg: 'rgba(245, 131, 255, 0.10)',
-  },
-  {
-    icon: <FavIcon className="size-12" name="review_performance" />,
-    title: 'Pending Task',
-    count: 45,
-    bg: 'rgba(145, 137, 255, 0.10)',
-  },
-];
+
 
 const intAva = {
   file: null,
@@ -45,25 +28,58 @@ export default function Profile() {
   const [avatar, setAvatar] = useState<any>(intAva);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
+  const { data: profile } = useGetProfileQuery({});
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const from = useForm({
     defaultValues: {
-      name: 'Suuu Ronaldo',
-      thumbnail: null,
-      contact: '850948305',
+      name: '',
+      contact: '',
     },
   });
+
+  useEffect(() => {
+    if (profile) {
+      from.reset({
+        name: profile?.data?.name,
+        contact: profile?.data?.phone,
+      });
+    }
+  }, [profile, from]);
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
     const value = {
       name: values.name,
-      ...(avatar?.file && { image: avatar?.file }),
+      ...(avatar?.file && { avatar: avatar?.file }),
     };
-    console.log(value);
-    // toast.success("Update Successful", {
-    //   description: "Your profile has been updated successfully",
-    // });
+    const data = helpers.fromData(value);
+    const res = await updateProfile(data).unwrap();
+    if (res.status) {
+      setIsUpdate(false)
+      sonner.success('Update Successful', 'Profile has been updated successfully');
+    }
   };
+
+  const overviewItem = [
+    {
+      icon: <FavIcon className="size-12" name="review_acounts" />,
+      title: 'Pending Accounts',
+      count: profile?.data?.total_pending_accounts,
+      bg: 'rgba(130, 255, 167, 0.10)',
+    },
+    {
+      icon: <FavIcon className="size-12" name="review_task" />,
+      title: 'Pending Orders',
+      count: profile?.data?.total_pending_order,
+      bg: 'rgba(245, 131, 255, 0.10)',
+    },
+    {
+      icon: <FavIcon className="size-12" name="review_performance" />,
+      title: 'Pending Task',
+      count: profile?.data?.total_pending_task,
+      bg: 'rgba(145, 137, 255, 0.10)',
+    },
+  ];
   return (
     <div className="mb-10">
       <Navber
@@ -79,7 +95,7 @@ export default function Profile() {
       <div className="bg-[#5E5E5E]/20 p-5 rounded-xl mb-5 py-9">
         <ImgBox
           className="size-30 mx-auto rounded-full"
-          src={PlaceholderImg() || '/blur.png'}
+          src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
           alt="img1"
         />
         <div>
@@ -90,21 +106,21 @@ export default function Profile() {
                 <FavIcon name="user" className="size-4 mr-2" />
                 Full Name
               </span>
-              <span className="text-figma-gray">Suuu Ronaldo</span>
+              <span className="text-figma-gray">{profile?.data?.name}</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="flex items-center">
                 <FavIcon name="email" className="size-4 mr-2" />
                 Email
               </span>
-              <span className="text-figma-gray">suuu.ronaldo@example.com</span>
+              <span className="text-figma-gray">{profile?.data?.email}</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="flex items-center">
                 <FavIcon name="phone" className="size-4 mr-2" />
                 Contact Number
               </span>
-              <span className="text-figma-gray">081234567890</span>
+              <span className="text-figma-gray">{profile?.data?.phone}</span>
             </li>
           </ul>
         </div>
@@ -140,7 +156,7 @@ export default function Profile() {
           >
             <div className="flex justify-center">{item.icon}</div>
             <div className="text-figma-gray">{item.title}</div>
-            <div className="text-2xl font-semibold">{item.count}</div>
+            <div className="text-2xl font-semibold">{item.count || 0}</div>
           </div>
         ))}
       </div>
@@ -157,7 +173,7 @@ export default function Profile() {
           <div className="space-y-6 pt-5">
             <div className="relative mx-auto size-28 rounded-full">
               <Image
-                src={avatar.preview || PlaceholderImg() || '/blur.png'}
+                src={avatar.preview || helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
                 alt={'title'}
                 fill
                 className={'object-cover rounded-full'}
@@ -188,10 +204,11 @@ export default function Profile() {
               name="contact"
               placeholder="Enter Your Contact Number"
               className="h-10"
+              readOnly={true}
             />
             <div className="space-y-2">
               <CloseBtn onClose={() => setIsUpdate(false)} />
-              <Button className="w-full" variant="primary">
+              <Button disabled={isLoading} className="w-full" variant="primary">
                 Save Changes
               </Button>
             </div>

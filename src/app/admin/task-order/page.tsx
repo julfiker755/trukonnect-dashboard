@@ -14,9 +14,6 @@ import RadioToggle from '@/components/reuseable/radio-toggle';
 import { helpers } from '@/lib';
 import Link from 'next/link';
 
-// { label: "Active Task", value: "active_task" },
-// { label: "Completed Task", value: "completed_task" },
-// { label: "Rejected Task", value: "rejected_task" },
 
 const item = [
   {
@@ -134,9 +131,8 @@ export default function TaskOrder() {
             ].map((item) => (
               <li
                 key={item.label}
-                className={`font-medium cursor-pointer border-b-3 border-b-transparent ${
-                  isTab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
-                }`}
+                className={`font-medium cursor-pointer border-b-3 border-b-transparent ${isTab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
+                  }`}
                 onClick={() => setIsTab(item.value)}
               >
                 {item.label}
@@ -150,15 +146,15 @@ export default function TaskOrder() {
               options={
                 isTab === 'task_management'
                   ? [
-                      { label: 'All Task', value: 'all_task' },
-                      { label: 'Active Task', value: 'active_task' },
-                      { label: 'Completed Task', value: 'completed_task' },
-                      { label: 'Rejected Task', value: 'rejected_task' },
-                    ]
+                    { label: 'All Task', value: 'all_task' },
+                    { label: 'Active Task', value: 'active_task' },
+                    { label: 'Completed Task', value: 'completed_task' },
+                    { label: 'Rejected Task', value: 'rejected_task' },
+                  ]
                   : [
-                      { label: 'Completed Order', value: 'completed_order' },
-                      { label: 'Rejected Order', value: 'rejected_order' },
-                    ]
+                    { label: 'Completed Order', value: 'completed_order' },
+                    { label: 'Rejected Order', value: 'rejected_order' },
+                  ]
               }
             />
           </div>
@@ -257,7 +253,7 @@ const TaskManagement = ({ headers, isLoading, item, isValue }: any) => {
           />
         )}
       </CustomTable>
-      <Pagination onClick={(v: any) => {}} {...dummyJson.meta}></Pagination>
+      <Pagination onClick={(v: any) => { }} {...dummyJson.meta}></Pagination>
     </div>
   );
 };
@@ -313,7 +309,7 @@ const OrderManagement = ({ headers, isLoading, item, isValue }: any) => {
           />
         )}
       </CustomTable>
-      <Pagination onClick={(v: any) => {}} {...dummyJson.meta}></Pagination>
+      <Pagination onClick={(v: any) => { }} {...dummyJson.meta}></Pagination>
     </div>
   );
 };

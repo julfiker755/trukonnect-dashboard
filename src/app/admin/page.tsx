@@ -8,7 +8,7 @@ import React from 'react';
 
 export default function ReviewerHome() {
   const { data } = useAdminOverviewQuery({});
-  console.log(data);
+
   const overview = [
     {
       icon: assets.admin.overview.performance,
@@ -44,7 +44,7 @@ export default function ReviewerHome() {
         ))}
       </div>
       <div>
-        <RevenueChart />
+        <RevenueChart data={data} />
       </div>
     </div>
   );

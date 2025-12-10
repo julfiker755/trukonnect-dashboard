@@ -1,8 +1,8 @@
 'use client';
 import useSuccessModal from '@/components/context/sucess-box';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
 import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
+import FlagBox from '@/components/reuseable/flag-box';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import Modal2 from '@/components/reuseable/modal2';
 import { Pagination } from '@/components/reuseable/pagination';
@@ -12,118 +12,67 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Badge, Button, Checkbox, TableCell, TableRow, Textarea } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
+import { useFormFields, useGlobalState } from '@/hooks';
 import { useModalState } from '@/hooks/useModalState';
-import FavIcon from '@/icon/favIcon';
-import { helpers, PlaceholderImg } from '@/lib';
+import { useAccApprovedMutation, useAccRejectMutation, useGetAccountQuery } from '@/redux/api/reviewer/accountApi';
 import React, { useState } from 'react';
-import ReactCountryFlag from 'react-country-flag';
+import { useDebounce } from 'use-debounce';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
 
-const item = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-    countryFlag: 'IT',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-    countryFlag: 'GH',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-    countryFlag: 'NG',
-  },
-];
+
+const initGlobal: any = {
+  page: 1,
+  search: "",
+  details: {},
+  withdrawal: false
+}
 
 export default function AccountVarificaton() {
   const [state, updateState] = useModalState({
     isReject: false,
     isPreview: false,
   });
-  const [isPage, setIsPage] = useState(1);
+  const [global, setGlobal] = useGlobalState(initGlobal)
+  const [value] = useDebounce(global.search, 1000);
   const { openSucc } = useSuccessModal();
-  const [value, setIsValue] = useState('');
+  const { data: account, isLoading } = useGetAccountQuery({
+    page: global.page,
+    ...(value && { search: value }),
+  })
+  const [accApproved, { isLoading: appLoading }] = useAccApprovedMutation()
+  const [accReject, { isLoading: rejectLoading }] = useAccRejectMutation()
   const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
+  const { formData, change, errors, validate, reset } = useFormFields({
+    rejection_reason: '',
+  });
 
-  const handleRejection = () => {
-    console.log(value);
-  };
 
-  const isLoading = false;
+
+  const SubmitReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isValid = validate({
+      rejection_reason: 'Rejection is required',
+    });
+    const data = helpers.fromData(formData)
+    if (!isValid) return;
+    const res = await accReject({ id: global?.details?.id, data })
+    if (res?.data?.status) {
+      reset()
+      updateState("isReject", false)
+    }
+  }
+
+
+
+
   return (
     <div>
       <Navber
         title="Account Verification"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setGlobal("search", text)} />
           </>
         }
       />
@@ -131,48 +80,37 @@ export default function AccountVarificaton() {
         <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+          ) : account?.data?.length > 0 ? (
+            account?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={item?.avatar}
-                      fallback={item.user}
-                      alt={item.user}
+                      src={item?.user?.avatar}
+                      fallback={item.user?.name}
+                      alt={item?.user?.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.user}</span>
+                    <span>{item?.user?.name}</span>
                   </div>
                 </TableCell>
-
-                {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
+                  <Badge variant={helpers.lowerCase(item.user?.role) as any}>
+                    {helpers.capitalize(item?.user?.role)}
+                  </Badge>
                 </TableCell>
-                {/* Email */}
-                <TableCell>{item.email}</TableCell>
-                {/* Account */}
-                <TableCell>{item.account}</TableCell>
-                {/* Region */}
+                <TableCell>{item?.user?.email}</TableCell>
+                <TableCell>{item?.social?.name}</TableCell>
                 <TableCell>
-                  <ReactCountryFlag
-                    countryCode={item.countryFlag}
-                    svg
-                    style={{
-                      width: '2em',
-                      height: '1em',
-                    }}
-                    title={item.region}
-                  />
+                  <FlagBox label={false} href={item?.user?.country?.flag} />
                 </TableCell>
-                {/* Contact */}
-                <TableCell>{item.contact}</TableCell>
-                {/* Action Buttons */}
+                <TableCell>{item?.user?.phone}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => updateState('isPreview', true)}
+                    onClick={() => {
+                      updateState('isPreview', true)
+                      setGlobal("details", item)
+                    }}
                     className="flex justify-center cursor-pointer"
                   >
                     {' '}
@@ -189,7 +127,7 @@ export default function AccountVarificaton() {
             />
           )}
         </CustomTable>
-        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
+        <Pagination onClick={(v: any) => setGlobal("page", v)} {...account?.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2
@@ -198,21 +136,24 @@ export default function AccountVarificaton() {
         style={`${state.isReject ? '!opacity-0' : ''}`}
       >
         <div>
-          <ImgBox src={PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1">
+          <ImgBox src={global?.details?.profile_image || '/blur.png'} className="w-full h-[250px]" alt="imgbox1">
             <CloseIcon onClose={() => updateState('isPreview', false)} />
           </ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>Sourov Das Mithun
+              <span className="text-figma-gray">Username: </span>{global?.details?.profile_name
+              }
             </li>
             <li>
               {' '}
               <span className="text-figma-gray">Notes: </span>This is my facebook account
             </li>
           </ul>
-          {/* performer takle checkbox show hobe */}
           <div className="flex items-center space-x-2">
-            <Checkbox />
+            <Checkbox checked={global.withdrawal}
+              onCheckedChange={(checked) => {
+                setGlobal("withdrawal", checked);
+              }} />
             <span className="text-figma-gray">Approve for withdrawal</span>
           </div>
           <div className="space-y-3 pt-4">
@@ -227,9 +168,25 @@ export default function AccountVarificaton() {
                 Reject
               </Button>
               <Button
+                disabled={appLoading}
                 onClick={async () => {
-                  updateState('isPreview', false);
-                  await openSucc();
+                  const data1 = {
+                    withdrawal: global.withdraw
+                  }
+                  const data = helpers.fromData(data1)
+                  const res = await accApproved({ id: global?.details?.id, data }).unwrap();
+                  if (res.status) {
+                    const { close } = await openSucc({
+                      title: 'Successfully',
+                      description: 'You approved the account',
+                    });
+                    const timer = setTimeout(() => {
+                      close();
+                      updateState('isPreview', false);
+                      setGlobal("withdrawal", false)
+                      clearTimeout(timer);
+                    }, 2000);
+                  }
                 }}
                 size="lg"
                 variant="primary"
@@ -247,18 +204,22 @@ export default function AccountVarificaton() {
         setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
-        <div className="space-y-4">
+        <form onSubmit={SubmitReject} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
-          <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
-            onChange={(e) => setIsValue(e.target.value)}
-          />
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={formData.rejection_reason}
+              onChange={(e) => change('rejection_reason', e.target.value)}
+            />
+            {errors.rejection_reason && <p className="text-red-500 text-right">{errors.rejection_reason}</p>}
+          </div>
           <CloseBtn onClose={() => updateState('isReject', false)} />
-          <Button onClick={() => handleRejection()} variant="primary" className="w-full">
+          <Button disabled={rejectLoading} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
     </div>
   );
