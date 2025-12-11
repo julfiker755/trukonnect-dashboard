@@ -125,7 +125,6 @@ export default function AccountVarificaton() {
             <TableNoItem
               colSpan={headers?.length}
               title="No users are available at the moment"
-              tdStyle="!bg-background"
             />
           )}
         </CustomTable>

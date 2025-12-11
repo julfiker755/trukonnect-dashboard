@@ -1,6 +1,5 @@
 'use client';
 import useSuccessModal from '@/components/context/sucess-box';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
 import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
 import Modal2 from '@/components/reuseable/modal2';
@@ -13,41 +12,42 @@ import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import FavIcon from '@/icon/favIcon';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import calendar from '@/assets/calendar.svg';
 import { getSocial } from '@/icon/utils';
 import { ImgBox } from '@/components/reuseable/Img-box';
-import { PlaceholderImg } from '@/lib';
+import { helpers, PlaceholderImg } from '@/lib';
 import { useModalState } from '@/hooks/useModalState';
 import { ImageGallery } from '@/components/reuseable/image-gallery';
 import CopyBox from '@/components/reuseable/copy-box';
+import { useGetPerformQuery } from '@/redux/api/reviewer/performApi';
+import { useGlobalState } from '@/hooks';
+import { useDebounce } from 'use-debounce';
 
-const item = [
-  { performer: 'Abir', taskType: 'Instagram Follows' },
-  { performer: 'Maksud', taskType: 'TikTok Shares' },
-  { performer: 'Arjun', taskType: 'Facebook Post Likes' },
-  { performer: 'Sita', taskType: 'Twitter Retweets' },
-  { performer: 'Kiran', taskType: 'YouTube Comments' },
-  { performer: 'Ravi', taskType: 'Instagram Shares' },
-  { performer: 'Anita', taskType: 'YouTube Video Views' },
-  { performer: 'Deepak', taskType: 'TikTok Comments' },
-  { performer: 'Deepak', taskType: 'Twitter Follows' },
-  { performer: 'Deepak', taskType: 'YouTube Shares' },
-  { performer: 'Anita', taskType: 'Instagram Likes' },
-];
+const intState = {
+  isPreview: false,
+  isReject: false,
+  isReport: false,
+  isSocail: false,
+}
+
+const initGlobal: any = {
+  page: 1,
+  search: "",
+  details: {},
+}
 
 export default function PerformanceReview() {
-  const [state, updateState] = useModalState({
-    isPreview: false,
-    isReject: false,
-    isReport: false,
-    isSocail: false,
-  });
-  const [isPage, setIsPage] = useState(1);
+  const [state, updateState] = useModalState(intState);
   const { openSucc } = useSuccessModal();
-  const headers = ['Performers', 'Task Type', 'Action'];
-
-  const isLoading = false;
+  const [global, setGlobal] = useGlobalState(initGlobal)
+  const [value] = useDebounce(global.search, 1000);
+  const headers = ['Performers', "Task Creator", 'Task Type', "Quantity", 'Action'];
+  const { data: perform, isLoading } = useGetPerformQuery({
+    page: global.page,
+    ...(value && { search: value }),
+  })
+  const id = global?.details?.id
   const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
   return (
     <div>
@@ -55,35 +55,47 @@ export default function PerformanceReview() {
         title="Performance Review"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setGlobal("search", text)} />
           </>
         }
       />
       <div>
         <CustomTable headers={headers}>
           {isLoading ? (
-            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0 !bg-background" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
+          ) : perform?.data?.length > 0 ? (
+            perform?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={''}
-                      fallback={item.performer}
-                      alt={item.performer}
+                      src={helpers.imgSource(item.performer?.avatar) || "/avater.png"}
+                      fallback={item?.performer?.name}
+                      alt={item?.performer?.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.performer}</span>
+                    <span>{item?.performer?.name}</span>
                   </div>
                 </TableCell>
-
-                {/* Role */}
-                <TableCell>{item.taskType}</TableCell>
+                <TableCell className="relative">
+                  <div className="flex items-center gap-3">
+                    <Avatars
+                      src={helpers.imgSource(item?.creator?.avatar) || "/avater.png"}
+                      fallback={item?.creator?.name}
+                      alt={item?.creator?.name}
+                      fallbackStyle="avatar"
+                    />
+                    <span>{item?.creator?.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell>{item?.engagement?.engagement_name}</TableCell>
+                <TableCell>{item?.task?.quantity}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => updateState('isPreview', true)}
+                    onClick={() => {
+                      updateState('isPreview', true)
+                      setGlobal("details", item)
+                    }}
                     className="flex justify-center cursor-pointer"
                   >
                     {' '}
@@ -95,12 +107,12 @@ export default function PerformanceReview() {
           ) : (
             <TableNoItem
               colSpan={headers?.length}
-              title="No users are available at the moment"
-              tdStyle="!bg-background"
+              title="No Performance are available at the moment"
+
             />
           )}
         </CustomTable>
-        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
+        <Pagination onClick={(v: any) => setGlobal("page", v)} {...perform?.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2

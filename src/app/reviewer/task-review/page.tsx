@@ -141,7 +141,6 @@ export default function TaskReview() {
             <TableNoItem
               colSpan={headers?.length}
               title="No Task Review are available at the moment"
-              tdStyle="!bg-background"
             />
           )}
         </CustomTable>
