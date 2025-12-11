@@ -1,109 +1,76 @@
 'use client';
-import useSuccessModal from '@/components/context/sucess-box';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
 import { CloseIcon } from '@/components/reuseable/btn';
+import FlagBox from '@/components/reuseable/flag-box';
 import Modal2 from '@/components/reuseable/modal2';
 import { Pagination } from '@/components/reuseable/pagination';
 import { CustomTable } from '@/components/reuseable/table';
 import { TableNoItem } from '@/components/reuseable/table-no-item';
 import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Badge, Button, TableCell, TableRow, Textarea } from '@/components/ui';
+import { useAssignAdminMutation, useGetSupportQuery, useStoreReplayMutation } from '@/redux/api/reviewer/supportApi';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
+import React, { useState } from 'react';
+import { useDebounce } from 'use-debounce';
+import { useFormFields, useGlobalState } from '@/hooks';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
-import React, { useState } from 'react';
+import { CircleAlert } from 'lucide-react';
+import sonner from '@/components/reuseable/sonner';
 
-const item = [
-  {
-    user: 'Abir',
-    role: 'performer',
-    email: 'abid32@gmail.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-  },
-  {
-    user: 'Maksud',
-    role: 'creator',
-    email: 'user123@example.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-  },
-  {
-    user: 'Arjun',
-    role: 'performer',
-    email: 'hello@creativeoutlook.com',
-    account: 'Tik Tok',
-    region: 'Ghana',
-    contact: '+233 5487542',
-  },
-  {
-    user: 'Sita',
-    role: 'creator',
-    email: 'info@innovativeideas.com',
-    account: 'Twitter',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-  },
-  {
-    user: 'Kiran',
-    role: 'performer',
-    email: 'support@techsolutions.com',
-    account: 'Youtube',
-    region: 'Ghana',
-    contact: '+233 5487542',
-  },
-  {
-    user: 'Ravi',
-    role: 'creator',
-    email: 'contact@brightfuture.com',
-    account: 'Facebook',
-    region: 'Ghana',
-    contact: '+233 5487542',
-  },
-  {
-    user: 'Anita',
-    role: 'performer',
-    email: 'admin@yourdomain.com',
-    account: 'Instagram',
-    region: 'Italy',
-    contact: '+234 5485684',
-  },
-  {
-    user: 'Deepak',
-    role: 'creator',
-    email: 'reachus@smartsolutions.com',
-    account: 'Twitter',
-    region: 'Ghana',
-    contact: '+233 5487542',
-  },
-  {
-    user: 'Deepak',
-    role: 'performer',
-    email: 'reachus@smartsolutions.com',
-    account: 'Tik Tok',
-    region: 'Nigeria',
-    contact: '+234 5485684',
-  },
-];
+
+const initGlobal: any = {
+  page: 1,
+  search: "",
+  details: {},
+}
+
 
 export default function Support() {
   const [isPreview, setIsPreview] = useState(false);
-  const [isPage, setIsPage] = useState(1);
-  const headers = ['User', 'Role', 'Email', 'Account', 'Region', 'Contact', 'Action'];
-  console.log(isPage);
+  const [global, setGlobal] = useGlobalState(initGlobal)
+  const headers = ['User', 'Role', 'Email', 'Region', 'Contact', 'Action'];
+  const [value] = useDebounce(global.search, 1000);
+  const { data: support, isLoading } = useGetSupportQuery({
+    page: global.page,
+    ...(value && { search: value }),
+  })
+  const [assignAdmin, { isLoading: assignLoading }] = useAssignAdminMutation()
+  const [storeReplay, { isLoading: storeLoading }] = useStoreReplayMutation()
+  const id = global?.details?.id
+  //  === rejectForm ===
+  const replayForm = useFormFields({
+    reply: '',
+  });
 
-  const isLoading = false;
+  const handleSubmitReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const ok = replayForm.validate({
+      reply: 'Reply is required',
+    });
+    if (!ok) return;
+    const value = {
+      reply: replayForm.formData.reply,
+      user_id: global?.details?.ticketcreator?.id,
+      _method: 'PUT',
+    }
+    const data = helpers.fromData(value);
+    const res = await storeReplay({ id, data }).unwrap();
+    if (res.status) {
+      setIsPreview(false);
+      replayForm.reset();
+      sonner.success("Reply Successful", "Your reply has been successfully.", "bottom-right");;
+    }
+  };
+
   return (
     <div>
       <Navber
         title="Support"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setGlobal("search", text)} />
           </>
         }
       />
@@ -111,38 +78,34 @@ export default function Support() {
         <CustomTable headers={headers}>
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+          ) : support?.data?.length > 0 ? (
+            support?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={item?.avatar}
-                      fallback={item.user}
-                      alt={item.user}
+                      src={helpers.imgSource(item?.ticketcreator?.avatar) || '/avater.png'}
+                      fallback={item?.ticketcreator?.name}
+                      alt={item?.ticketcreator?.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.user}</span>
+                    <span>{item?.ticketcreator?.name}</span>
                   </div>
                 </TableCell>
-
-                {/* Role */}
                 <TableCell>
-                  <Badge variant={item.role}>{helpers.capitalize(item.role)}</Badge>
+                  <Badge variant={helpers.lowerCase(item?.ticketcreator?.role) as any}>
+                    {helpers.capitalize(item?.ticketcreator?.role)}
+                  </Badge>
                 </TableCell>
-                {/* Email */}
-                <TableCell>{item.email}</TableCell>
-                {/* Account */}
-                <TableCell>{item.account}</TableCell>
-                {/* Region */}
-                <TableCell>{item.region}</TableCell>
-                {/* Contact */}
-                <TableCell>{item.contact}</TableCell>
-                {/* Action Buttons */}
+                <TableCell>{item?.ticketcreator?.email}</TableCell>
+                <TableCell>{<FlagBox label={false} href={item?.ticketcreator?.country?.flag} />}</TableCell>
+                <TableCell>{item?.ticketcreator.phone}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => setIsPreview(!isPreview)}
+                    onClick={() => {
+                      setIsPreview(!isPreview)
+                      setGlobal("details", item)
+                    }}
                     className="flex justify-center cursor-pointer"
                   >
                     {' '}
@@ -154,43 +117,59 @@ export default function Support() {
           ) : (
             <TableNoItem
               colSpan={headers?.length}
-              title="No users are available at the moment"
+              title="No support  are available at the moment"
               tdStyle="!bg-background"
             />
           )}
         </CustomTable>
-        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
+        <Pagination onClick={(v: any) => setGlobal("page", v)} {...support?.meta}></Pagination>
       </div>
       {/* ===== account varification prieview======= */}
       <Modal2 open={isPreview} setIsOpen={setIsPreview}>
-        <div className="space-y-3">
+        <form onSubmit={handleSubmitReject} className="space-y-3">
           <div className="flex items-center justify-between">
-            <h1 className="font-semibold text-xl">Described Issue</h1>
-            <CloseIcon className="static" onClose={() => setIsPreview(false)} />
+            <h1 className="font-semibold text-xl">{global?.details?.subject}</h1>
+            <CloseIcon className="static" onClose={() => {
+              setIsPreview(false)
+              replayForm.reset()
+            }} />
           </div>
           <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
-            your support!
+            {global?.details?.issue}
           </p>
-          <ul className="*:text-lg *:leading-6 *:text-figma-gray">
-            <li>- Tap in the link.</li>
-            <li>- There have a light profile picture</li>
-            <li>- React on this link</li>
-          </ul>
+
           <div>
             <h1 className="font-medium text-lg mb-1">Your reply*</h1>
-            <Textarea
-              className="resize-none min-h-30 bg-figma-blacks border-none"
-              placeholder="Write additional note"
-            />
+            <div>
+              <Textarea
+                className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+                placeholder="Write additional note"
+                value={replayForm.formData.reply}
+                onChange={(e) => replayForm.change('reply', e.target.value)}
+              />
+              {replayForm?.errors?.reply && (
+                <p className="text-red-500 flex justify-end items-center text-right">
+                  <span className="mr-1"> {replayForm?.errors?.reply}</span>{' '}
+                  <CircleAlert size={14} />
+                </p>
+              )}
+            </div>
           </div>
-          <Button variant="secondary" className="w-full">
+          <Button onClick={async () => {
+            const data = helpers.fromData({ _method: "PUT" })
+            const res = await assignAdmin({ id, data })
+            if (res?.data?.status) {
+              setIsPreview(false)
+              sonner.success("Assign Successful", "Admin has been assign successfully", "bottom-right");
+            }
+          }} disabled={assignLoading} type='button' variant="secondary" className="w-full">
             Escalate to admin
           </Button>
-          <Button variant="primary" className="w-full">
+          <Button disabled={storeLoading
+          } variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
     </div>
   );

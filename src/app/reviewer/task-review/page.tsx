@@ -1,7 +1,6 @@
 'use client';
 import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
 import useSuccessModal from '@/components/context/sucess-box';
-import { dummyJson } from '@/components/dummy-json';
 import Avatars from '@/components/reuseable/avater';
 import Modal2 from '@/components/reuseable/modal2';
 import { Pagination } from '@/components/reuseable/pagination';
@@ -12,79 +11,125 @@ import { Button, TableCell, TableRow, Textarea } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import { useModalState } from '@/hooks/useModalState';
-import React, { useState } from 'react';
 import calendar from '@/assets/calendar.svg';
 import { getSocial } from '@/icon/utils';
 import FavIcon from '@/icon/favIcon';
-import { Files } from 'lucide-react';
-import Image from 'next/image';
 import ReactCountryFlag from 'react-country-flag';
 import CopyBox from '@/components/reuseable/copy-box';
+import { useGetTaskQuery, useTaskApprovedMutation, useTaskRejectMutation, useTaskReportMutation } from '@/redux/api/reviewer/taskApi';
+import { useDebounce } from 'use-debounce';
+import { useFormFields, useGlobalState } from '@/hooks';
+import { helpers } from '@/lib';
+import Image from 'next/image';
+import FlagBox from '@/components/reuseable/flag-box';
+import { DateBox, SocialBox } from '@/components/reuseable/social';
+import { CircleAlert } from 'lucide-react';
 
-const item = [
-  { creator: 'Abir', taskType: 'Instagram Follows', quantity: 150 },
-  { creator: 'Maksud', taskType: 'TikTok Shares', quantity: 100 },
-  { creator: 'Arjun', taskType: 'Facebook Post Likes', quantity: 250 },
-  { creator: 'Sita', taskType: 'Twitter Retweets', quantity: 100 },
-  { creator: 'Kiran', taskType: 'YouTube Comments', quantity: 250 },
-  { creator: 'Ravi', taskType: 'Instagram Shares', quantity: 300 },
-  { creator: 'Anita', taskType: 'YouTube Video Views', quantity: 50 },
-  { creator: 'Deepak', taskType: 'TikTok Comments', quantity: 150 },
-  { creator: 'Deepak', taskType: 'Twitter Follows', quantity: 350 },
-  { creator: 'Deepak', taskType: 'YouTube Shares', quantity: 400 },
-  { creator: 'Anita', taskType: 'Instagram Likes', quantity: 600 },
-];
+
+const initState = {
+  isReject: false,
+  isReport: false,
+  isPreview: false,
+}
+
+const initGlobal: any = {
+  page: 1,
+  search: "",
+  details: {},
+}
 
 export default function TaskReview() {
-  const [state, updateState] = useModalState({
-    isReject: false,
-    isReport: false,
-    isPreview: false,
-  });
-  const [isPage, setIsPage] = useState(1);
+  const [state, updateState] = useModalState(initState);
+  const [global, setGlobal] = useGlobalState(initGlobal)
   const { openSucc } = useSuccessModal();
-
   const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
+  const [value] = useDebounce(global.search, 1000);
+  const { data: task, isLoading } = useGetTaskQuery({
+    page: global.page,
+    ...(value && { search: value }),
+  })
+  const [taskApproved, { isLoading: appLoading }] = useTaskApprovedMutation()
+  const [taskReject, { isLoading: taskLoading }] = useTaskRejectMutation()
+  const [taskReport, { isLoading: reportLoading }] = useTaskReportMutation()
+  const id = global?.details?.id
 
-  const isLoading = false;
+
+  //  === reportForm ===
+  const reportForm = useFormFields({
+    report: '',
+  });
+
+  const handleSubmitReport = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const ok = reportForm.validate({
+      report: 'Report is required',
+    });
+    if (!ok) return;
+    const value = { rejection_reason: reportForm.formData.report, _method: 'PUT' }
+    const data = helpers.fromData(value);
+    const res = await taskReport({ id, data }).unwrap();
+    if (res.status) {
+      updateState('isReport', false);
+      reportForm.reset();
+    }
+  };
+  //  === rejectForm ===
+  const rejectForm = useFormFields({
+    rejection: '',
+  });
+
+  const handleSubmitReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const ok = rejectForm.validate({
+      rejection: 'Rejection is required',
+    });
+    if (!ok) return;
+    const value = { rejection_reason: rejectForm.formData.rejection, _method: 'PUT' }
+    const data = helpers.fromData(value);
+    const res = await taskReject({ id, data }).unwrap();
+    if (res.status) {
+      updateState('isReject', false);
+      rejectForm.reset();
+    }
+  };
+
   return (
     <div>
       <Navber
         title="Task Review"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => console.log(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setGlobal("search", text)} />
           </>
         }
       />
       <div>
         <CustomTable headers={headers}>
           {isLoading ? (
-            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0 !bg-background" />
-          ) : item.length > 0 ? (
-            item.map((item: any, index: any) => (
+            <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
+          ) : task?.data?.length > 0 ? (
+            task?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {/* User */}
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={''}
-                      fallback={item.creator}
-                      alt={item.creator}
+                      src={helpers.imgSource(item?.creator?.avatar) || '/avater.png'}
+                      fallback={item?.creator?.name}
+                      alt={item?.creator?.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.creator}</span>
+                    <span>{item?.creator?.name}</span>
                   </div>
                 </TableCell>
-
-                {/* Role */}
-                <TableCell>{item.taskType}</TableCell>
-                {/* Email */}
-                <TableCell>{item.quantity}</TableCell>
-                {/* Action Buttons */}
+                <TableCell>{item?.engagement?.engagement_name}</TableCell>
+                <TableCell>{item?.quantity}</TableCell>
                 <TableCell>
                   <h1
-                    onClick={() => updateState('isPreview', true)}
+                    onClick={() => {
+                      updateState('isPreview', true)
+                      setGlobal("details", item)
+                    }}
                     className="flex justify-center cursor-pointer"
                   >
                     <FavIcon name="eye" />
@@ -95,12 +140,12 @@ export default function TaskReview() {
           ) : (
             <TableNoItem
               colSpan={headers?.length}
-              title="No users are available at the moment"
+              title="No Task Review are available at the moment"
               tdStyle="!bg-background"
             />
           )}
         </CustomTable>
-        <Pagination onClick={(v: any) => setIsPage(v)} {...dummyJson.meta}></Pagination>
+        <Pagination onClick={(v: any) => setGlobal("page", v)} {...task?.meta}></Pagination>
       </div>
       {/* ===== preview======= */}
       <Modal2
@@ -110,65 +155,44 @@ export default function TaskReview() {
       >
         <div className="space-y-5">
           <div className="flex justify-between items-center">
-            <h1 className="font-semibold text-xl">Instagram Likes</h1>
+            <h1 className="font-semibold text-xl">{global?.details?.engagement?.engagement_name}</h1>
             <h1>
               <CloseIcon className="static" onClose={() => updateState('isPreview', false)} />
             </h1>
           </div>
-          <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
-            your support!
-          </p>
-          <ul className="*:text-lg *:text-figma-gray">
-            <li>- Tap in the link.</li>
-            <li>- There have a light profile picture</li>
-            <li>- React on this link</li>
-          </ul>
-          <ul className="space-y-2">
-            <li className="flex justify-between items-center">
-              <span>Quantity</span>
-              <span>150</span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Selected Audience</span>
-              <span>
-                <ReactCountryFlag
-                  countryCode={'GH'}
-                  svg
-                  style={{
-                    width: '2em',
-                    height: '1em',
-                  }}
-                  title={'item.region'}
-                />
-                Ghana
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Per user earned Tokens</span>
-              <span className="flex items-center">
-                <FavIcon name="coin" className="mr-1 size-5" />2
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Platform</span>
-              <span className="flex items-center">
-                {getSocial('instagram')}
-                <span className="ml-2">Instagram</span>
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Creation Date</span>
-              <span className="flex items-center">
-                <Image src={calendar} width={18} height={20} alt="img1" />
-                <span className="ml-1">13 Aug, 2025</span>
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Link</span>
-              <CopyBox value=" https://hdurbakjdfb.com" />
-            </li>
-          </ul>
+          <div className="space-y-4">
+
+            <p className="text-figma-gray">{global?.details?.description || 'N/A'}</p>
+            <ul className="space-y-2 [&>li]:flex [&>li]:items-center [&>li]:justify-between">
+              <li>
+                <span>Quantity</span>
+                <span>{global?.details?.quantity || 0}</span>
+              </li>
+              <li>
+                <span>Selected Audience</span>
+                <FlagBox href={helpers.imgSource(global?.details?.country?.flag) || '/blur.png'} name={global?.details?.country?.name} />
+              </li>
+              <li>
+                <span>Per user earned Tokens</span>
+                <span className="flex items-center">
+                  <FavIcon name="coin" className="mr-1 size-5" />
+                  {global?.details?.total_token || 0}
+                </span>
+              </li>
+              <li>
+                <span>Platform</span>
+                <SocialBox href={global?.details?.social?.icon_url} name={global?.details?.social?.name} />
+              </li>
+              <li>
+                <span>Creation Date</span>
+                <DateBox date={global?.details?.created_at} />
+              </li>
+              <li>
+                <span>Link</span>
+                <CopyBox value={global?.details?.link} />
+              </li>
+            </ul>
+          </div>
 
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
@@ -190,9 +214,20 @@ export default function TaskReview() {
               </Button>
             </div>
             <Button
+              disabled={appLoading}
               onClick={async () => {
-                updateState('isPreview', false);
-                await openSucc();
+                const res = await taskApproved(global?.details?.id).unwrap();
+                if (res.status) {
+                  const { close } = await openSucc({
+                    title: 'Successfully',
+                    description: 'You approved the task',
+                  });
+                  const timer = setTimeout(() => {
+                    close();
+                    updateState('isPreview', false);
+                    clearTimeout(timer);
+                  }, 2000);
+                }
               }}
               size="lg"
               variant="primary"
@@ -210,17 +245,30 @@ export default function TaskReview() {
         setIsOpen={(v) => updateState('isReport', v)}
         className="sm:max-w-sm"
       >
-        <div className="space-y-4">
+        <form onSubmit={handleSubmitReport} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of report</h1>
-          <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
-          />
-          <CloseBtn onClose={() => updateState('isReport', false)} />
-          <Button variant="primary" className="w-full">
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={reportForm.formData.report}
+              onChange={(e) => reportForm.change('report', e.target.value)}
+            />
+            {reportForm?.errors?.report && (
+              <p className="text-red-500 flex justify-end items-center text-right">
+                <span className="mr-1"> {reportForm?.errors?.report}</span>{' '}
+                <CircleAlert size={14} />
+              </p>
+            )}
+          </div>
+          <CloseBtn onClose={() => {
+            updateState('isReport', false)
+            reportForm.reset()
+          }} />
+          <Button disabled={reportLoading} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
 
       {/* ===== Cause of rejection======= */}
@@ -229,17 +277,30 @@ export default function TaskReview() {
         setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
-        <div className="space-y-4">
+        <form onSubmit={handleSubmitReject} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
-          <Textarea
-            className="resize-y field-sizing-content min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
-          />
-          <CloseBtn onClose={() => updateState('isReject', false)} />
-          <Button variant="primary" className="w-full">
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={rejectForm.formData.rejection}
+              onChange={(e) => rejectForm.change('rejection', e.target.value)}
+            />
+            {rejectForm?.errors?.rejection && (
+              <p className="text-red-500 flex justify-end items-center text-right">
+                <span className="mr-1"> {rejectForm?.errors?.rejection}</span>{' '}
+                <CircleAlert size={14} />
+              </p>
+            )}
+          </div>
+          <CloseBtn onClose={() => {
+            updateState('isReject', false)
+            rejectForm.reset()
+          }} />
+          <Button disabled={taskLoading} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
     </div>
   );

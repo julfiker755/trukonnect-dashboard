@@ -66,7 +66,7 @@ export default function AccountVarificaton() {
   }
 
 
-  console.log(global?.details)
+
 
   return (
     <div>
@@ -148,7 +148,7 @@ export default function AccountVarificaton() {
             </li>
             <li>
               {' '}
-              <span className="text-figma-gray">Notes: </span>This is my facebook account
+              <span className="text-figma-gray">Notes: </span>{global?.details?.note}
             </li>
           </ul>
           {global?.details?.user?.role == "performer" && (

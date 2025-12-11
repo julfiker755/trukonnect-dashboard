@@ -19,6 +19,8 @@ export enum tagTypes {
   a_notification = 'a_notification',
   r_dashboard = 'r_dashboard',
   r_account = 'r_account',
+  r_task = 'r_task',
+  r_support = 'r_support',
 }
 
 export const tagTypesList = [
@@ -42,4 +44,6 @@ export const tagTypesList = [
   tagTypes.a_notification,
   tagTypes.r_dashboard,
   tagTypes.r_account,
+  tagTypes.r_task,
+  tagTypes.r_support,
 ];
