@@ -5,7 +5,7 @@ export const mediaApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getMedia: build.query({
       query: (arg?: Record<string, any>) => ({
-        url: `/admin/promo/links`,
+        url: `/links`,
         method: 'GET',
         params: arg,
       }),

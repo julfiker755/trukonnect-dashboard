@@ -1,6 +1,7 @@
 'use client';
 import {
   VideoPlayer,
+  VideoPlayerContent,
   VideoPlayerControlBar,
   VideoPlayerMuteButton,
   VideoPlayerPlayButton,
@@ -20,7 +21,16 @@ const PlayerBox = ({ className, link }: any) => (
       className
     )}
   >
-    <ReactPlayer
+    <VideoPlayerContent
+      // crossOrigin="anonymous"
+      preload="metadata"
+      autoPlay={true}
+      slot="media"
+      // controls={false}
+      // poster={thumbnail}
+      src={`${process.env.NEXT_PUBLIC_VIDEO_URL}/${link}`}
+    />
+    {/* <ReactPlayer
       slot="media"
       src={link}
       controls={true}
@@ -28,7 +38,16 @@ const PlayerBox = ({ className, link }: any) => (
         width: '100%',
         height: '100%',
       }}
-    />
+    /> */}
+    {/* <ReactPlayer
+      slot="media"
+      src={link}
+      controls={true}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
+    /> */}
     <VideoPlayerControlBar>
       <VideoPlayerPlayButton />
       <VideoPlayerSeekBackwardButton />

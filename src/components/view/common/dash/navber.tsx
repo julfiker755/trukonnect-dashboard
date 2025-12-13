@@ -21,10 +21,10 @@ export default function Navber({ props, isShow = true, title, backbtn, className
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { sidebarOpen, setSidebarOpen } = useSidebarReviewer();
-  const token=helpers.getAuthCookie(authKey)
-  const {data:profile}=useGetProfileQuery( {},
+  const token = helpers.getAuthCookie(authKey)
+  const { data: profile } = useGetProfileQuery({},
     { refetchOnFocus: true, skip: !token }
-  
+
   )
 
 
@@ -57,11 +57,11 @@ export default function Navber({ props, isShow = true, title, backbtn, className
           <div className="flex space-x-2 lg:space-x-0">
             <div className="block lg:hidden">{props && props}</div>
             <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
-              <Link href={profile?.data?.role == "admin" ? ("/admin/notification"):("/reviewer/notification")}>
+              <Link href={profile?.data?.role == "admin" ? ("/admin/notification") : ("/reviewer/notification")}>
                 <FavIcon name="bell" />
               </Link>
-            
-              <Link href={profile?.data?.role == "admin" ? ("/admin/profile"):("reviewer/profile")}>
+
+              <Link href={profile?.data?.role == "admin" ? ("/admin/profile") : ("/reviewer/profile")}>
                 <Avatars
                   src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
                   fallback={profile?.data?.name}

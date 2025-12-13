@@ -20,9 +20,12 @@ import { helpers, PlaceholderImg } from '@/lib';
 import { useModalState } from '@/hooks/useModalState';
 import { ImageGallery } from '@/components/reuseable/image-gallery';
 import CopyBox from '@/components/reuseable/copy-box';
-import { useGetPerformQuery } from '@/redux/api/reviewer/performApi';
-import { useGlobalState } from '@/hooks';
+import { useGetPerformQuery, usePerformRejectMutation, usePerformReportMutation, usePerfromAppMutation } from '@/redux/api/reviewer/performApi';
+import { useFormFields, useGlobalState } from '@/hooks';
 import { useDebounce } from 'use-debounce';
+import FlagBox from '@/components/reuseable/flag-box';
+import { DateBox, SocialBox } from '@/components/reuseable/social';
+import { CircleAlert } from 'lucide-react';
 
 const intState = {
   isPreview: false,
@@ -43,12 +46,66 @@ export default function PerformanceReview() {
   const [global, setGlobal] = useGlobalState(initGlobal)
   const [value] = useDebounce(global.search, 1000);
   const headers = ['Performers', "Task Creator", 'Task Type', "Quantity", 'Action'];
+  const [perfromApp, { isLoading: appLoading }] = usePerfromAppMutation()
+  const [performReject, { isLoading: rejectLoading }] = usePerformRejectMutation()
+  const [performReport, { isLoading: reportLoaing }] = usePerformReportMutation()
   const { data: perform, isLoading } = useGetPerformQuery({
     page: global.page,
     ...(value && { search: value }),
   })
   const id = global?.details?.id
   const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
+
+  //  === reportForm ===
+  const reportForm = useFormFields({
+    report: '',
+  });
+
+  const handleSubmitReport = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const ok = reportForm.validate({
+      report: 'Report is required',
+    });
+    if (!ok) return;
+    try {
+      const value = { rejection_reason: reportForm.formData.report, _method: 'PUT' }
+      const data = helpers.fromData(value);
+      const res = await performReport({ id, data }).unwrap();
+      if (res.status) {
+        updateState('isReport', false);
+        reportForm.reset();
+      }
+    } catch (err: any) {
+      reportForm.setError("report", err?.data?.message)
+    }
+  };
+  //  === rejectForm ===
+  const rejectForm = useFormFields({
+    rejection: '',
+  });
+
+  const handleSubmitReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const ok = rejectForm.validate({
+      rejection: 'Rejection is required',
+    });
+    if (!ok) return;
+    try {
+      const value = { rejection_reason: rejectForm.formData.rejection, _method: 'PUT' }
+      const data = helpers.fromData(value);
+      const res = await performReject({ id, data }).unwrap();
+      if (res.status) {
+        updateState('isReject', false);
+        rejectForm.reset();
+      }
+    } catch (err: any) {
+      rejectForm.setError("rejection", err?.data?.message)
+    }
+  };
+
+
+
   return (
     <div>
       <Navber
@@ -123,26 +180,23 @@ export default function PerformanceReview() {
         <div className="space-y-5">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <Avatars src={''} fallback="Star Bucks" alt="Star Bucks" fallbackStyle="avatar" />
+              <Avatars src={helpers.imgSource(global?.details?.creator?.avatar) || '/avater.png'} fallback={global?.details?.creator?.name} alt="Star Bucks" fallbackStyle="avatar" />
               <ul className="*:leading-5">
-                <li className="text-xl">Star Bucks</li>
-                <li className="text-sm text-figma-gray">13 Aug, 2025</li>
+                <li className="text-xl">{global?.details?.creator?.name}</li>
+                <li className="text-sm text-figma-gray">{helpers.formatDate(global?.details?.creator?.created_at)}</li>
               </ul>
             </div>
-            {/* <h1 className="font-semibold text-xl">Instagram Likes</h1> */}
+
             <h1>
               <CloseIcon className="static" onClose={() => updateState('isPreview', false)} />
             </h1>
           </div>
-          <p className="text-figma-gray">
-            Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
-            your support!
-          </p>
-          <ul className="*:text-lg *:text-figma-gray">
-            <li>- Tap in the link.</li>
-            <li>- There have a light profile picture</li>
-            <li>- React on this link</li>
-          </ul>
+          <div>
+            <h1 className="font-semibold text-xl mb-2">{global?.details?.engagement?.engagement_name}</h1>
+            <p className="text-figma-gray">
+              {global?.details?.engagement?.description}
+            </p>
+          </div>
           <Button
             className="w-full"
             variant="primary"
@@ -150,51 +204,44 @@ export default function PerformanceReview() {
           >
             User Social
           </Button>
-          <ul className="space-y-2">
-            <li className="flex justify-between items-center">
+          <ul className="space-y-2 [&>li]:flex [&>li]:items-center [&>li]:justify-between">
+            <li>
               <span>Quantity</span>
-              <span>150</span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Selected Audience</span>
-              <span>Ghana</span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Per user earned Tokens</span>
-              <span className="flex items-center">
-                <FavIcon name="coin" className="mr-1 size-5" />2
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Platform</span>
-              <span className="flex items-center">
-                {getSocial('instagram')}
-                <span className="ml-2">Instagram</span>
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Creation Date</span>
-              <span className="flex items-center">
-                <Image src={calendar} width={18} height={20} alt="img1" />
-                <span className="ml-1">13 Aug, 2025</span>
-              </span>
-            </li>
-            <li className="flex justify-between items-center">
-              <span>Link</span>
-              <CopyBox value=" https://hdurbakjdfb.com" />
+              <span>{global?.details?.task?.quantity || 0}</span>
             </li>
             <li>
-              <ImageGallery images={images}>
-                <div className="grid grid-cols-4">
-                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
-                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
-                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
-                  <ImgBox src={'/photo.jpg'} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+              <span>Selected Audience</span>
+              <FlagBox href={helpers.imgSource(global?.details?.country?.flag) || '/blur.png'} name={global?.details?.country?.name} />
+            </li>
+            <li>
+              <span>Per user earned Tokens</span>
+              <span className="flex items-center">
+                <FavIcon name="coin" className="mr-1 size-5" />
+                {global?.details?.task?.total_token || 0}
+              </span>
+            </li>
+            <li>
+              <span>Platform</span>
+              <SocialBox href={global?.details?.social_task?.icon_url} name={global?.details?.social_task?.name} />
+            </li>
+            <li>
+              <span>Creation Date</span>
+              <DateBox date={global?.details?.task?.created_at} />
+            </li>
+            <li>
+              <span>Link</span>
+              <CopyBox value={global?.details?.task?.link} />
+            </li>
+            <li className='mt-4'>
+              <ImageGallery images={global?.details?.task_attached?.map((img: any) => img?.file_url)}>
+                <div className="grid grid-cols-4 gap-10">
+                  {global?.details?.task_attached?.slice(0, 4)?.map((item: any, index: any) => (
+                    <ImgBox key={index} src={helpers.imgSource(item?.file_url) || "/blur.png"} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                  ))}
                 </div>
               </ImageGallery>
             </li>
           </ul>
-          {/* performer takle checkbox show hobe */}
 
           <div className="space-y-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
@@ -211,15 +258,28 @@ export default function PerformanceReview() {
                 size="lg"
                 variant="secondary"
                 className="w-full text-figma-red"
+
               >
                 Reject
               </Button>
             </div>
             <Button
               onClick={async () => {
-                updateState('isPreview', false);
-                await openSucc();
+                const res = await perfromApp(id).unwrap();
+                console.log(res)
+                if (res?.status) {
+                  const { close } = await openSucc({
+                    title: 'Successfully',
+                    description: 'You approved the task',
+                  });
+                  const timer = setTimeout(() => {
+                    close();
+                    updateState('isPreview', false);
+                    clearTimeout(timer);
+                  }, 2000);
+                }
               }}
+              disabled={appLoading}
               size="lg"
               variant="primary"
               className="w-full"
@@ -236,15 +296,14 @@ export default function PerformanceReview() {
         className="sm:max-w-sm"
       >
         <div>
-          <ImgBox src={PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
+          <ImgBox src={helpers.imgSource(global?.details?.social?.profile_image) || PlaceholderImg()} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>Sourov Das Mithun
+              <span className="text-figma-gray">Username: </span>{global?.details?.social?.profile_name}
             </li>
             <li>
               {' '}
-              <span className="text-figma-gray">Notes: </span>This is my facebook account
-            </li>
+              <span className="text-figma-gray">Notes: </span>{global?.details?.social?.note}</li>
           </ul>
           {/* performer takle checkbox show hobe */}
           <CloseBtn className="bg-figma-primary" onClose={() => updateState('isSocail', false)} />
@@ -256,17 +315,31 @@ export default function PerformanceReview() {
         setIsOpen={(v) => updateState('isReport', v)}
         className="sm:max-w-sm"
       >
-        <div className="space-y-4">
+        <form onSubmit={handleSubmitReport} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of report</h1>
-          <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
-          />
-          <CloseBtn onClose={() => updateState('isReport', false)} />
-          <Button variant="primary" className="w-full">
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={reportForm.formData.report}
+              onChange={(e) => reportForm.change('report', e.target.value)}
+            />
+            {reportForm?.errors?.report && (
+              <p className="text-red-500 flex justify-end items-center text-right">
+                <span className="mr-1"> {reportForm?.errors?.report}</span>{' '}
+                <CircleAlert size={14} />
+              </p>
+            )}
+          </div>
+          <CloseBtn onClose={() => {
+            updateState('isReport', false)
+            reportForm.reset()
+          }} />
+
+          <Button disabled={reportLoaing} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
       {/* =====Cause of rejection======= */}
       <Modal2
@@ -274,17 +347,31 @@ export default function PerformanceReview() {
         setIsOpen={(v) => updateState('isReject', v)}
         className="sm:max-w-sm"
       >
-        <div className="space-y-4">
+        <form onSubmit={handleSubmitReject} className="space-y-4">
           <h1 className="font-medium text-xl">Cause of rejection</h1>
-          <Textarea
-            className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
-            placeholder="Write additional note"
-          />
-          <CloseBtn onClose={() => updateState('isReject', false)} />
-          <Button variant="primary" className="w-full">
+          <div>
+            <Textarea
+              className="resize-none min-h-30 mt-3 bg-figma-blacks border-none"
+              placeholder="Write additional note"
+              value={rejectForm.formData.rejection}
+              onChange={(e) => rejectForm.change('rejection', e.target.value)}
+            />
+            {rejectForm?.errors?.rejection && (
+              <p className="text-red-500 flex justify-end items-center text-right">
+                <span className="mr-1"> {rejectForm?.errors?.rejection}</span>{' '}
+                <CircleAlert size={14} />
+              </p>
+            )}
+          </div>
+          <CloseBtn onClose={() => {
+            updateState('isReject', false)
+            rejectForm.reset()
+          }} />
+
+          <Button disabled={rejectLoading} variant="primary" className="w-full">
             Send
           </Button>
-        </div>
+        </form>
       </Modal2>
     </div>
   );

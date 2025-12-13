@@ -188,7 +188,7 @@ export default function FinancialControls() {
                 </div>
               </div>
 
-              {global?.item?.status == 'pending' && (
+              {helpers.lowerCase(global?.item?.status) == 'pending' && (
                 <>
                   <div>
                     <h1 className="font-medium text-xl mb-3">Change Action</h1>

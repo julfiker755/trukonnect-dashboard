@@ -15,30 +15,35 @@ export const performApi = baseApi.injectEndpoints({
         return buildResponse(response.data);
       },
     }),
-    taskReject: build.mutation({
+    performReject: build.mutation({
       query: ({ id, data }) => ({
-        url: `/reviewer/task/rejected/${id}`,
+        url: `/reviewer/performed-task/rejected/${id}`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [tagTypes.r_task],
+      invalidatesTags: [tagTypes.r_perform],
     }),
-    taskReport: build.mutation({
+    performReport: build.mutation({
       query: ({ id, data }) => ({
-        url: `/reviewer/task/adminreview/${id}`,
+        url: `/reviewer/performed-task/adminreview/${id}`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [tagTypes.r_task],
+      invalidatesTags: [tagTypes.r_perform],
     }),
-    taskApproved: build.mutation({
+    perfromApp: build.mutation({
       query: (id) => ({
-        url: `/reviewer/task/approved/${id}`,
+        url: `/reviewer/performed-task/approved/${id}`,
         method: 'PUT',
       }),
-      invalidatesTags: [tagTypes.r_task],
+      invalidatesTags: [tagTypes.r_perform],
     }),
   }),
 });
 
-export const { useGetPerformQuery } = performApi;
+export const {
+  useGetPerformQuery,
+  usePerfromAppMutation,
+  usePerformRejectMutation,
+  usePerformReportMutation,
+} = performApi;

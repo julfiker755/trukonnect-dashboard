@@ -11,16 +11,12 @@ import { Button, TableCell, TableRow, Textarea } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import { useModalState } from '@/hooks/useModalState';
-import calendar from '@/assets/calendar.svg';
-import { getSocial } from '@/icon/utils';
 import FavIcon from '@/icon/favIcon';
-import ReactCountryFlag from 'react-country-flag';
 import CopyBox from '@/components/reuseable/copy-box';
 import { useGetTaskQuery, useTaskApprovedMutation, useTaskRejectMutation, useTaskReportMutation } from '@/redux/api/reviewer/taskApi';
 import { useDebounce } from 'use-debounce';
 import { useFormFields, useGlobalState } from '@/hooks';
 import { helpers } from '@/lib';
-import Image from 'next/image';
 import FlagBox from '@/components/reuseable/flag-box';
 import { DateBox, SocialBox } from '@/components/reuseable/social';
 import { CircleAlert } from 'lucide-react';
@@ -66,12 +62,16 @@ export default function TaskReview() {
       report: 'Report is required',
     });
     if (!ok) return;
-    const value = { rejection_reason: reportForm.formData.report, _method: 'PUT' }
-    const data = helpers.fromData(value);
-    const res = await taskReport({ id, data }).unwrap();
-    if (res.status) {
-      updateState('isReport', false);
-      reportForm.reset();
+    try {
+      const value = { note: reportForm.formData.report, _method: 'PUT' }
+      const data = helpers.fromData(value);
+      const res = await taskReport({ id, data }).unwrap();
+      if (res.status) {
+        updateState('isReport', false);
+        reportForm.reset();
+      }
+    } catch (err: any) {
+      reportForm.setError("report", err?.data?.message)
     }
   };
   //  === rejectForm ===
@@ -85,12 +85,16 @@ export default function TaskReview() {
       rejection: 'Rejection is required',
     });
     if (!ok) return;
-    const value = { rejection_reason: rejectForm.formData.rejection, _method: 'PUT' }
-    const data = helpers.fromData(value);
-    const res = await taskReject({ id, data }).unwrap();
-    if (res.status) {
-      updateState('isReject', false);
-      rejectForm.reset();
+    try {
+      const value = { rejection_reason: rejectForm.formData.rejection, _method: 'PUT' }
+      const data = helpers.fromData(value);
+      const res = await taskReject({ id, data }).unwrap();
+      if (res.status) {
+        updateState('isReject', false);
+        rejectForm.reset();
+      }
+    } catch (err: any) {
+      rejectForm.setError("rejection", err?.data?.message)
     }
   };
 

@@ -11,6 +11,7 @@ import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut, Download, ListRestart } 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ImgBox } from '../Img-box';
+import { helpers } from '@/lib';
 
 interface ImageGalleryProps {
   images: string[];
@@ -63,18 +64,33 @@ export function ImageGallery({
     setOrigin('center center');
   };
 
-  const downloadImage = async (imageUrl: string, fileName: string) => {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName || 'image.jpg';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+  const downloadImage = async (imageUrl: string, fileName = 'image.jpg') => {
+    try {
+      // 1. Fetch the image data from the URL as a binary object (Blob)
+      const response = await fetch(imageUrl, { mode: 'cors' });
+      const blob = await response.blob();
+
+      // 2. Create a temporary URL for the Blob
+      const blobUrl = URL.createObjectURL(blob);
+
+      // 3. Create a temporary <a> element
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName; // This attribute forces a download dialog
+
+      // 4. Click the link to start the download, then clean up
+      document.body.appendChild(link);
+      link.click(); // Triggers the download
+      document.body.removeChild(link);
+
+      // 5. Clean up the temporary Blob URL to free memory
+      URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error('Download failed:', err);
+      alert('Cannot download image. Try again.');
+    }
   };
+
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (zoomLevel === 1) return;
@@ -126,7 +142,7 @@ export function ImageGallery({
                 className="text-gray-400 size-6 cursor-pointer"
               />
               <Download
-                onClick={() => downloadImage(currentImage, `image-${currentIndex + 1}.jpg`)}
+                onClick={() => downloadImage(helpers.imgSource(currentImage), `image-${currentIndex + 1}.jpg`)}
                 className="text-gray-400 size-5 cursor-pointer"
               />
               <X onClick={() => setIsGalleryOpen(false)} className="text-gray-400 cursor-pointer" />
@@ -144,7 +160,7 @@ export function ImageGallery({
             >
               <picture>
                 <img
-                  src={currentImage || '/placeholder.svg'}
+                  src={helpers.imgSource(currentImage) || "/blur.png" || '/placeholder.svg'}
                   alt="image"
                   className={cn(
                     'w-full h-full object-contain transition-transform duration-300 select-none',
@@ -193,7 +209,7 @@ export function ImageGallery({
                   onClick={() => goToSlide(index)}
                 >
                   <ImgBox
-                    src={image}
+                    src={helpers.imgSource(image) || '/blur.png'}
                     alt="thumb"
                     className="w-full h-full object-cover rounded-md"
                   />
