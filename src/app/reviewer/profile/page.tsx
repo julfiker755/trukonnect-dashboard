@@ -1,4 +1,5 @@
 'use client';
+import { useGetProfileQuery, useUpdateProfileMutation } from '@/redux/api/authApi';
 import { BackBtn } from '@/components/reuseable/back-btn';
 import { CloseBtn, CloseIcon } from '@/components/reuseable/btn';
 import Form from '@/components/reuseable/from';
@@ -11,12 +12,10 @@ import { Button } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UpdatePassword from '@/components/view/common/update-password';
 import FavIcon from '@/icon/favIcon';
-import { helpers, PlaceholderImg } from '@/lib';
-import { useGetProfileQuery, useUpdateProfileMutation } from '@/redux/api/authApi';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-
+import { helpers } from '@/lib';
 
 
 const intAva = {
@@ -80,6 +79,8 @@ export default function Profile() {
       bg: 'rgba(145, 137, 255, 0.10)',
     },
   ];
+
+
   return (
     <div className="mb-10">
       <Navber

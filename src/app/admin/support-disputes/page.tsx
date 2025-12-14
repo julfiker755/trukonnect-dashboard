@@ -10,6 +10,7 @@ import { Badge, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import { useGetSuppTaskQuery } from '@/redux/api/admin/supportApi';
+import { useDebounce } from 'use-debounce';
 import React, { useState } from 'react';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
@@ -18,11 +19,12 @@ import Link from 'next/link';
 export default function SupportDisputes() {
   const [isFilter, setIsFilter] = useState('task');
   const [isSearch, setIsSearch] = useState('');
+  const [value] = useDebounce(isSearch, 1000);
   const [page, setPage] = useState(1);
   const { data: item, isLoading } = useGetSuppTaskQuery({
     page: page,
     status: isFilter,
-    ...(isSearch && ({ search: isSearch } as any)),
+    ...(value && { search: value }),
   });
   const getHeaders = () => {
     switch (isFilter) {
@@ -52,7 +54,10 @@ export default function SupportDisputes() {
         <h1 className="text-lg">Select Option</h1>
         <RadioToggle
           value={isFilter}
-          onValueChange={(value) => setIsFilter(value as any)}
+          onValueChange={(value) => {
+            setPage(1)
+            setIsFilter(value as any)
+          }}
           options={[
             { label: 'Task  Support', value: 'task' },
             { label: 'Orders Support', value: 'order' },
@@ -67,7 +72,7 @@ export default function SupportDisputes() {
           ) : item?.data?.length > 0 ? (
             item?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
-                {item.status === 'task' ? (
+                {helpers.lowerCase(item?.status) === 'task' ? (
                   <>
                     <TableCell>
                       <Avater2 href={item?.reviewer?.avatar} name={item?.reviewer?.name} />
@@ -86,7 +91,7 @@ export default function SupportDisputes() {
                     </TableCell>
                   </>
                 ) : (
-                  item.status === 'order' && (
+                  helpers.lowerCase(item?.status) === 'order' && (
                     <>
                       <TableCell className="lg:max-w-[100px]">
                         <Avater2 href={item?.performer?.avatar} name={item?.performer?.name} />
@@ -104,7 +109,7 @@ export default function SupportDisputes() {
                   )
                 )}
 
-                {item.status === 'user' && (
+                {helpers.lowerCase(item?.status) === 'user' && (
                   <>
                     <TableCell>
                       <Avater2
@@ -139,7 +144,6 @@ export default function SupportDisputes() {
             <TableNoItem
               colSpan={getHeaders()?.length}
               title="No Support & Disputes are available at the moment"
-              tdStyle="!bg-background"
             />
           )}
         </CustomTable>

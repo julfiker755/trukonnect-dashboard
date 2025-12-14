@@ -39,7 +39,7 @@ export default function Support() {
   const [assignAdmin, { isLoading: assignLoading }] = useAssignAdminMutation()
   const [storeReplay, { isLoading: storeLoading }] = useStoreReplayMutation()
   const id = global?.details?.id
-  //  === rejectForm ===
+  //   === replay ===
   const replayForm = useFormFields({
     reply: '',
   });

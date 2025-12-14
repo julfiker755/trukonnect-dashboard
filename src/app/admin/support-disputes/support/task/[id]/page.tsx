@@ -25,7 +25,7 @@ export default function TaskDetails() {
   const router = useRouter();
   const [isReject, setIsReject] = useState(false);
   const { openSucc } = useSuccessModal();
-  const { data } = useGetSuppDtsQuery(id);
+  const { data } = useGetSuppDtsQuery({ id });
   const [rejectStore, { isLoading: isRejecting }] = useRejectStoreMutation();
   const [approveStore, { isLoading: isApproving }] = useApproveStoreMutation();
   const { formData, change, errors, validate, reset, setError } = useFormFields({

@@ -10,11 +10,6 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Button, TableCell, TableRow, Textarea } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
-import FavIcon from '@/icon/favIcon';
-import Image from 'next/image';
-import React from 'react';
-import calendar from '@/assets/calendar.svg';
-import { getSocial } from '@/icon/utils';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import { helpers, PlaceholderImg } from '@/lib';
 import { useModalState } from '@/hooks/useModalState';
@@ -26,6 +21,8 @@ import { useDebounce } from 'use-debounce';
 import FlagBox from '@/components/reuseable/flag-box';
 import { DateBox, SocialBox } from '@/components/reuseable/social';
 import { CircleAlert } from 'lucide-react';
+import FavIcon from '@/icon/favIcon';
+import React from 'react';
 
 const intState = {
   isPreview: false,
@@ -54,7 +51,6 @@ export default function PerformanceReview() {
     ...(value && { search: value }),
   })
   const id = global?.details?.id
-  const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
 
   //  === reportForm ===
   const reportForm = useFormFields({
