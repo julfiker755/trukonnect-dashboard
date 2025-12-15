@@ -11,13 +11,17 @@ import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import { useGetSuppTaskQuery } from '@/redux/api/admin/supportApi';
 import { useDebounce } from 'use-debounce';
-import React, { useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function SupportDisputes() {
-  const [isFilter, setIsFilter] = useState('task');
+function SupportChild() {
+  const router = useRouter()
+  const params = useSearchParams();
+  const status_v = params.get('status') || 'task';
+  const [isFilter, setIsFilter] = useState(status_v);
   const [isSearch, setIsSearch] = useState('');
   const [value] = useDebounce(isSearch, 1000);
   const [page, setPage] = useState(1);
@@ -26,6 +30,12 @@ export default function SupportDisputes() {
     status: isFilter,
     ...(value && { search: value }),
   });
+
+  useEffect(() => {
+    setIsFilter(status_v);
+    setPage(1);
+  }, [params, status_v]);
+
   const getHeaders = () => {
     switch (isFilter) {
       case 'task':
@@ -57,6 +67,7 @@ export default function SupportDisputes() {
           onValueChange={(value) => {
             setPage(1)
             setIsFilter(value as any)
+            router.push(`?status=${value}`);
           }}
           options={[
             { label: 'Task  Support', value: 'task' },
@@ -167,3 +178,13 @@ const Avater2 = ({ href, name }: { href: string; name: string }) => {
     </div>
   );
 };
+
+
+
+export default function SupportDisputes() {
+  return (
+    <Suspense>
+      <SupportChild />
+    </Suspense>
+  )
+}

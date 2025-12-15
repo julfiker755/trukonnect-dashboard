@@ -13,14 +13,15 @@ import Avatars from '@/components/reuseable/avater';
 import { CloseIcon } from '@/components/reuseable/btn';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import Modal2 from '@/components/reuseable/modal2';
-import React, { useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import FavIcon from '@/icon/favIcon';
 import { Arr } from '@/types';
 import { useGlobalState } from '@/hooks';
 import FlagBox from '@/components/reuseable/flag-box';
 import { helpers } from '@/lib';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-type filterProps = 'pending' | 'completed' | 'blocked';
+
 
 const intGlobalState: any = {
   isPreview: false,
@@ -29,10 +30,13 @@ const intGlobalState: any = {
   item: {},
 };
 
-export default function FinancialControls() {
+function FinancialChild() {
   const [global, setGlobal] = useGlobalState(intGlobalState);
   const [isSearch, setIsSearch] = useState('');
-  const [isFilter, setIsFilter] = useState<filterProps>('pending');
+  const params = useSearchParams()
+  const router = useRouter()
+  const status_v = params.get('status') || 'pending';
+  const [isFilter, setIsFilter] = useState(status_v);
   const headers: Arr<string> = ['User', 'Email', 'Purchased Task', 'Status', 'Action'];
   const query: Record<string, any> = {
     search: isSearch,
@@ -42,6 +46,12 @@ export default function FinancialControls() {
 
   const { data, isLoading } = useGetFinancialQuery({ ...query });
   const [finanStatusUp] = useFinanStatusUpMutation();
+
+
+  useEffect(() => {
+    setIsFilter(status_v as any);
+  }, [params, status_v]);
+
 
   //  ==== handleStatus ====
   const handleStatus = async () => {
@@ -67,10 +77,11 @@ export default function FinancialControls() {
       <div className="flex items-center flex-wrap justify-between mb-4">
         <h1 className="text-lg font-medium">Select Option</h1>
         <RadioToggle
-          value={isFilter as filterProps}
+          value={isFilter}
           onValueChange={(value) => {
-            setIsFilter(value as filterProps);
+            setIsFilter(value);
             setGlobal('isPage', 1);
+            router.push(`?status=${value}`);
           }}
           options={[
             { label: 'Pending Approval', value: 'pending' },
@@ -240,4 +251,15 @@ export default function FinancialControls() {
       )}
     </div>
   );
+}
+
+
+
+
+export default function FinancialControls() {
+  return (
+    <Suspense>
+      <FinancialChild />
+    </Suspense>
+  )
 }
