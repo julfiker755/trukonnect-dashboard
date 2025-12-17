@@ -147,7 +147,7 @@ export default function TaskOrder() {
                       <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
                       <TableCell>
                         <Link
-                          href={"#"}
+                          href={`/admin/task-order/${item?.id}`}
                           className="flex justify-center cursor-pointer"
                         >
                           <FavIcon name="eye" />

@@ -1,20 +1,24 @@
+"use client"
 import Avatars from '@/components/reuseable/avater';
 import { ImageGallery } from '@/components/reuseable/image-gallery';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import Navber from '@/components/view/common/dash/navber';
 import { BackBtn } from '@/components/reuseable/back-btn';
 import CopyBox from '@/components/reuseable/copy-box';
-import calendar from '@/assets/calendar.svg';
-import { PlaceholderImg } from '@/lib';
+import { useSlgOrderQuery } from '@/redux/api/admin/taskApi';
+import FlagBox from '@/components/reuseable/flag-box';
+import { DateBox, SocialBox } from '@/components/reuseable/social';
+import { helpers } from '@/lib';
 import FavIcon from '@/icon/favIcon';
-import { getSocial } from '@/icon/utils';
 import { IdParams } from '@/types';
-import Image from 'next/image';
-import React from 'react';
+import React, { use } from 'react';
 
-export default async function TaskDetails({ params }: IdParams) {
-  const { id } = await params;
-  const images = ['/photo.jpg', '/photo.jpg', '/photo.jpg'];
+
+export default function TaskDetails({ params }: IdParams) {
+  const { id } = use(params);
+  const { data: order } = useSlgOrderQuery(id)
+  const { creator, engagement, task, reviewer, status, task_attached, country } = order?.data || {}
+
   return (
     <div className="mb-10">
       <Navber
@@ -33,85 +37,58 @@ export default async function TaskDetails({ params }: IdParams) {
           <div className="space-y-5">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
-                <Avatars src={''} fallback="Star Bucks" alt="Star Bucks" fallbackStyle="avatar" />
+                <Avatars src={helpers.imgSource(creator?.avatar) || '/avater.png'} fallback={creator?.name} alt={creator?.name} fallbackStyle="avatar" />
                 <ul className="*:leading-5">
-                  <li className="text-xl">Star Bucks</li>
-                  <li className="text-sm text-figma-gray">13 Aug, 2025</li>
+                  <li className="text-xl">{creator?.name}</li>
+                  <li className="text-sm text-figma-gray">{helpers.formatDate(creator?.created_at)}</li>
                 </ul>
               </div>
             </div>
-            <h1 className="text-lg font-medium mb-2">Instagram Likes</h1>
+            <h1 className="text-lg font-medium mb-2">{engagement?.engagement_name}</h1>
             <p className="text-figma-gray">
-              Like the latest Star Bucks ad post on Instagram. Earn 2 tokens instantly for showing
-              your support!
+              {task?.description}
             </p>
-            <ul className="*:text-lg *:text-figma-gray">
-              <li>- Tap in the link.</li>
-              <li>- There have a light profile picture</li>
-              <li>- React on this link</li>
-            </ul>
-            <ul className="space-y-2">
-              <li className="flex justify-between items-center">
-                <span>Total tokens</span>
+
+            <ul className="space-y-2 [&>li]:flex [&>li]:items-center [&>li]:justify-between">
+              <li>
+                <span>Quantity</span>
+                <span>{task?.quantity || 0}</span>
+              </li>
+              <li>
+                <span>Selected Audience</span>
+                <FlagBox href={helpers.imgSource(country?.flag) || '/blur.png'} name={country?.name} />
+              </li>
+              <li>
+                <span>Per user earned Tokens</span>
                 <span className="flex items-center">
-                  <FavIcon name="coin" className="mr-1 size-5" />2
+                  <FavIcon name="coin" className="mr-1 size-5" />
+                  {task?.total_token || 0}
                 </span>
               </li>
-              <li className="flex justify-between items-center">
-                <span>Task from</span>
-                <span className="flex items-center">
-                  {getSocial('instagram')}
-                  <span className="ml-2">Instagram</span>
-                </span>
+              <li>
+                <span>Platform</span>
+                <SocialBox href={task?.social?.icon_url} name={task?.social?.name} />
               </li>
-              <li className="flex justify-between items-center">
+              <li>
                 <span>Creation Date</span>
-                <span className="flex items-center">
-                  <Image src={calendar} width={18} height={20} alt="img1" />
-                  <span className="ml-1">13 Aug, 2025</span>
-                </span>
+                <DateBox date={task?.created_at} />
               </li>
-              <li className="flex justify-between items-center">
-                <span>Task Link</span>
-                <CopyBox value=" https://hdurbakjdfb.com" />
+              <li>
+                <span>Link</span>
+                <CopyBox value={task?.link} />
               </li>
-              <li className="mt-3">
-                <h1 className="text-lg font-medium mb-3">Proven File</h1>
-                <ImageGallery images={images}>
-                  <div className="flex flex-wrap gap-5 items-center justify-between">
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                    <ImgBox
-                      src={'/photo.jpg'}
-                      alt="photo2"
-                      className="w-[70px] h-[100px] mx-auto"
-                    />
-                  </div>
-                </ImageGallery>
-              </li>
+              {task_attached?.length > 0 && (
+                <li className='mt-4'>
+                  <ImageGallery images={task_attached?.map((img: any) => img?.file_url)}>
+                    <div className="grid grid-cols-4 gap-10">
+                      {task_attached?.slice(0, 4)?.map((item: any, index: any) => (
+                        <ImgBox key={index} src={helpers.imgSource(item?.file_url) || "/blur.png"} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                      ))}
+                    </div>
+                  </ImageGallery>
+                </li>
+              )}
+
             </ul>
           </div>
         </div>
@@ -122,37 +99,40 @@ export default async function TaskDetails({ params }: IdParams) {
               <div className="mb-10">
                 <ImgBox
                   className="size-30 rounded-xl mx-auto"
-                  src={PlaceholderImg()}
+                  src={helpers.imgSource(reviewer?.avatar) || '/avater.png'}
                   alt="img"
                 ></ImgBox>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-figma-gray">Full name</span>
-                <span className="text-white">Mr. Daniel</span>
+                <span className="text-white">{reviewer?.name}</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-figma-gray">Email</span>
-                <span className="text-white">daniel234@gmail.com</span>
+                <span className="text-white">{reviewer?.email}</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-figma-gray">Phone number</span>
-                <span className="text-white">+334 254845665</span>
+                <span className="text-white">{reviewer?.phone}</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-figma-gray">Region</span>
-                <span className="text-white">Ghana</span>
+                <span className="text-white">{reviewer?.country?.name}</span>
               </div>
             </div>
           </div>
-          {/* Issue condition apply for the web */}
-          <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
-            <h1 className="text-lg mb-2">Issue</h1>
-            <p className="text-figma-gray">I can not find the link which given by task creator.</p>
-          </div>
+          {/* ======== [rejected]-Issue =========== */}
+          {helpers.lowerCase(status) === "rejected" && (
+            <div className="bg-figma-chart p-6 h-fit mt-4 rounded-xl">
+              <h1 className="text-lg mb-2">Issue</h1>
+              <p className="text-figma-gray">{task?.rejection_reason}</p>
+            </div>
+          )}
+
         </div>
       </div>
     </div>

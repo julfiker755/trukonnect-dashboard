@@ -1,7 +1,6 @@
 import { tagTypes } from '@/redux/tag-types';
 import { baseApi } from '../baseApi';
 import { buildResponse } from '@/lib/api-response';
-import { Args } from '@/types';
 
 export const taskApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -23,57 +22,14 @@ export const taskApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.a_slg_task],
     }),
-    //  ===============
-    rejectStore: build.mutation({
-      query: ({ id, data }) => {
-        return {
-          url: `/admin/support/rejectedtask/${id}`,
-          method: 'POST',
-          body: data,
-        };
-      },
-      invalidatesTags: [tagTypes.a_support],
-    }),
-    supportReject: build.mutation({
-      query: ({ id, data }) => {
-        return {
-          url: `/admin/support/rejectedspt/${id}`,
-          method: 'POST',
-          body: data,
-        };
-      },
-      invalidatesTags: [tagTypes.a_support],
-    }),
-    approveStore: build.mutation({
-      query: ({ id, data }) => {
-        return {
-          url: `/admin/support/approvedtask/${id}`,
-          method: 'PUT',
-          body: data,
-        };
-      },
-      invalidatesTags: [tagTypes.a_support],
-    }),
-    supportApp: build.mutation({
-      query: (id) => {
-        return {
-          url: `/admin/support/approvedspt/${id}`,
-          method: 'PUT',
-        };
-      },
-      invalidatesTags: [tagTypes.a_support],
-    }),
-    replayStore: build.mutation({
-      query: ({ id, data }) => {
-        return {
-          url: `/admin/support/answareusersupport/${id}`,
-          method: 'POST',
-          body: data,
-        };
-      },
-      invalidatesTags: [tagTypes.a_support],
+    slgOrder: build.query({
+      query: (id) => ({
+        url: `/admin/task/management/order/details/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [tagTypes.a_slg_order],
     }),
   }),
 });
 
-export const { useGetTaskQuery, useSlgTaskQuery } = taskApi;
+export const { useGetTaskQuery, useSlgTaskQuery, useSlgOrderQuery } = taskApi;

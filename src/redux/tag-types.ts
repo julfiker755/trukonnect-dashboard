@@ -24,6 +24,7 @@ export enum tagTypes {
   r_perform = 'r_perform',
   a_task = 'a_task',
   a_slg_task = 'a_slg_task',
+  a_slg_order = 'a_slg_order',
 }
 
 export const tagTypesList = [
@@ -52,4 +53,5 @@ export const tagTypesList = [
   tagTypes.r_perform,
   tagTypes.a_task,
   tagTypes.a_slg_task,
+  tagTypes.a_slg_order,
 ];
