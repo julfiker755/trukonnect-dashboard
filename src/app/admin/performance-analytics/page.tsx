@@ -42,9 +42,8 @@ export default function SupportDisputes() {
             {/* btn-shadow */}
             {country?.data?.map((item: any) => (
               <FlagBox
-                className={`border-1 cursor-pointer p-1 ${
-                  item.id == countryId && 'btn-shadow'
-                } rounded-md`}
+                className={`border-1 cursor-pointer p-1 ${item.id == countryId && 'btn-shadow'
+                  } rounded-md`}
                 key={item.id}
                 href={item.flag}
                 name={item.name}

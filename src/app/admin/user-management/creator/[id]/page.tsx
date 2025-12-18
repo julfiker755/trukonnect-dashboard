@@ -8,12 +8,12 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UserManagementAction from '@/components/view/common/user-mange-action';
-import FavIcon from '@/icon/favIcon';
-import { helpers, PlaceholderImg } from '@/lib';
 import { useGetuserManDtsQuery } from '@/redux/api/admin/userApi';
 import { IdParams } from '@/types';
 import Link from 'next/link';
 import React, { use } from 'react';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
 
 export default function CreatorDetail({ params }: IdParams) {
   const { id } = use(params);

@@ -13,32 +13,40 @@ import { Button, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
 import { SingleCalendar } from '@/components/view/common/single-calender';
-import React, { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { reviewerSchema } from '@/schema';
 import { PhoneInput } from '@/components/reuseable/phone-input';
-import FavIcon from '@/icon/favIcon';
-import Link from 'next/link';
 import { useGetReviewerQuery, useStoreReviewerMutation } from '@/redux/api/admin/reviewerApi';
-import { helpers } from '@/lib';
 import { ResponseApiErrors } from '@/lib/api-response';
 import { useDebounce } from 'use-debounce';
+import { reviewerSchema } from '@/schema';
+import React, { useState } from 'react';
+import FavIcon from '@/icon/favIcon';
+import Link from 'next/link';
+import { helpers } from '@/lib';
+import { useGlobalState } from '@/hooks';
+
+
+const intGlobal = {
+  page: 1,
+  search: "",
+  countryId: "",
+  status: ""
+}
 
 export default function ReviewerManagement() {
-  const [counId, setIsCoun] = useState('');
-  const [isStatus, setIsStatus] = useState('');
   const [isStore, setIsStore] = useState(false);
-  const [isPage, setIsPage] = useState(1);
   const [date, setDate] = useState<any>(null);
-  const [search, setSearch] = useState('');
-  const [value] = useDebounce(search, 1000);
+  const [global, setGlobal] = useGlobalState(intGlobal)
+  const [value] = useDebounce(global.search, 1000);
   const { data: reviewer, isLoading } = useGetReviewerQuery({
-    page: isPage,
-    ...(isStatus && { status: isStatus }),
+    page: global.page,
+    ...(global.status && { status: global.status }),
     ...(date != null && { from_date: date?.from_date, to_date: date?.to_date }),
     ...(value && { search: value }),
   });
+
+  const headers = ['Reviewer', 'Email', 'Account Re.', 'Task Re.', 'Performance Re.', 'Action'];
   const [storeReviewer, { isLoading: stIsLoading }] = useStoreReviewerMutation();
   const from = useForm({
     resolver: zodResolver(reviewerSchema),
@@ -50,7 +58,6 @@ export default function ReviewerManagement() {
     },
   });
 
-  const headers = ['Reviewer', 'Email', 'Account Re.', 'Task Re.', 'Performance Re.', 'Action'];
 
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
@@ -60,7 +67,7 @@ export default function ReviewerManagement() {
         email: values.email,
         phone: values.phone,
         password: values.password,
-        country_id: counId,
+        country_id: global.countryId,
       };
       const data = helpers.fromData(value);
       const res = await storeReviewer(data).unwrap();
@@ -84,7 +91,7 @@ export default function ReviewerManagement() {
         title="Reviewer Management"
         props={
           <>
-            <SearchBox placeholder="Search here" onSearch={(text: any) => setSearch(text)} />
+            <SearchBox placeholder="Search here" onSearch={(text: any) => setGlobal("search", text)} />
           </>
         }
       />
@@ -92,8 +99,8 @@ export default function ReviewerManagement() {
         <div className="flex flex-wrap items-center">
           <h1 className="lg:mr-2">Select Reviewer:</h1>
           <RadioToggle
-            value={isStatus}
-            onValueChange={(value) => setIsStatus(value as any)}
+            value={global.status}
+            onValueChange={(value) => setGlobal("status", value)}
             className="mt-1 lg:mt-0 "
             options={[
               { label: 'Not Banned', value: 'active' },
@@ -168,7 +175,7 @@ export default function ReviewerManagement() {
           )}
         </CustomTable>
 
-        <Pagination onClick={(v: any) => setIsPage(v)} {...reviewer?.meta}></Pagination>
+        <Pagination onClick={(v: any) => setGlobal("page", v)} {...reviewer?.meta}></Pagination>
       </div>
       {/* ============= Add New Reviewer ========== */}
       <Modal2 open={isStore} setIsOpen={setIsStore}>
@@ -196,7 +203,7 @@ export default function ReviewerManagement() {
           />
           <PhoneInput
             onChange={(v: any) => {
-              setIsCoun(v);
+              setGlobal("countryId", v)
             }}
             label="Contact Number"
             name="phone"

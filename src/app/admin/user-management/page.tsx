@@ -9,12 +9,13 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { Badge, TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
-import FavIcon from '@/icon/favIcon';
-import { helpers } from '@/lib';
 import { useGetUserQuery } from '@/redux/api/admin/userApi';
-import Link from 'next/link';
 import React, { useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
+import Link from 'next/link';
+
 
 export default function UserManagement() {
   const [isStatus, setIsStatus] = useState('active');
@@ -27,8 +28,6 @@ export default function UserManagement() {
     ...(isStatus && { status: isStatus }),
     ...(value && { search: value }),
   });
-
-  console.log(user);
 
   return (
     <div>
@@ -85,7 +84,6 @@ export default function UserManagement() {
                 </TableCell>
                 <TableCell>
                   <Link
-                    //  brand mane --- > createor
                     href={
                       item.role === 'brand'
                         ? `/admin/user-management/creator/${item.id}`
@@ -93,7 +91,6 @@ export default function UserManagement() {
                     }
                   >
                     <h1 className="flex justify-center cursor-pointer">
-                      {' '}
                       <FavIcon name="eye" />
                     </h1>
                   </Link>
@@ -104,7 +101,6 @@ export default function UserManagement() {
             <TableNoItem
               colSpan={headers?.length}
               title="No users are available at the moment"
-              tdStyle="!bg-background"
             />
           )}
         </CustomTable>

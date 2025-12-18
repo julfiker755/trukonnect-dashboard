@@ -49,8 +49,7 @@ export default function SystemSettings() {
     },
   });
 
-  console.log(country)
-  //   handleSubmit
+
   const handleSubmit = async (values: FieldValues) => {
     const value = {
       name: values.name,
@@ -199,17 +198,18 @@ export default function SystemSettings() {
         <div className="bg-figma-card p-4 rounded-lg h-fit">
           <h1 className="text-2xl font-semibold mb-4">Current Supported Countries</h1>
 
-          <Table>
+          <Table styleClass="[&::-webkit-scrollbar]:w-full  [&::-webkit-scrollbar]:h-4  [&::-webkit-scrollbar-track]:bg-figma-input [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-500
+               [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-[#181d22]">
             {/* Table Header */}
             <thead className="table-header-group">
               <tr className="table-row">
                 <th className="px-6 table-cell py-4 text-left text-sm font-semibold text-white">
                   Country
                 </th>
-                <th className="px-6 whitespace-nowrap table-cell py-4 text-center text-sm font-semibold text-white">
+                <th className="px-6 whitespace-nowrap table-cell py-4 text-center text-sm font-semibold  text-white">
                   Dialing Code
                 </th>
-                <th className="px-6 whitespace-nowrap table-cell  py-4 text-center text-sm font-semibold text-white">
+                <th className="px-6 whitespace-nowrap table-cell  py-4 text-center text-sm  font-semibold text-white">
                   Token Rate
                 </th>
                 <th className="px-6  whitespace-nowrap table-cell  py-4 text-center text-sm font-semibold text-white">
@@ -251,6 +251,6 @@ export default function SystemSettings() {
           </Table>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

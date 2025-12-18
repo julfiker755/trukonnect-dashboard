@@ -49,7 +49,6 @@ function SupportChild() {
     }
   };
 
-  console.log(item);
   return (
     <div>
       <Navber

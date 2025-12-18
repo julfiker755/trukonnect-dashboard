@@ -1,13 +1,13 @@
 'use client';
 import Avatars from '@/components/reuseable/avater';
-import FavIcon from '@/icon/favIcon';
-import { Menu } from 'lucide-react';
-import React, { useEffect, useRef } from 'react';
-import { useSidebarReviewer } from '../../wapper-layout/reviewer';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { authKey, cn, helpers } from '@/lib';
 import { useGetProfileQuery } from '@/redux/api/authApi';
+import React, { useEffect, useRef } from 'react';
+import { useSidebarReviewer } from '../../wapper-layout/reviewer';
+import FavIcon from '@/icon/favIcon';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
+
 
 interface navberProps {
   className?: string;
@@ -19,7 +19,6 @@ interface navberProps {
 
 export default function Navber({ props, isShow = true, title, backbtn, className }: navberProps) {
   const navRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
   const { sidebarOpen, setSidebarOpen } = useSidebarReviewer();
   const token = helpers.getAuthCookie(authKey)
   const { data: profile } = useGetProfileQuery({},
@@ -27,6 +26,7 @@ export default function Navber({ props, isShow = true, title, backbtn, className
 
   )
 
+  const isAdmin = profile?.data?.role === "admin"
 
   const handleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -57,16 +57,16 @@ export default function Navber({ props, isShow = true, title, backbtn, className
           <div className="flex space-x-2 lg:space-x-0">
             <div className="block lg:hidden">{props && props}</div>
             <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
-              <Link href={profile?.data?.role == "admin" ? ("/admin/notification") : ("/reviewer/notification")}>
+              <Link href={isAdmin ? ("/admin/notification") : ("/reviewer/notification")}>
                 <FavIcon name="bell" />
               </Link>
 
-              <Link href={profile?.data?.role == "admin" ? ("/admin/profile") : ("/reviewer/profile")}>
+              <Link href={isAdmin ? ("/admin/profile") : ("/reviewer/profile")}>
                 <Avatars
                   src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
                   fallback={profile?.data?.name}
                   className="2xl:size-10   cursor-pointer"
-                  alt="img"
+                  alt={profile?.data?.avatar}
                 />
               </Link>
             </div>

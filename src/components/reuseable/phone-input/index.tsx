@@ -54,7 +54,7 @@ export function PhoneInput({
       setSelectedCountry(defaultCountry);
       onChange(defaultCountry.id);
     }
-  }, [countries, selectedCountry, onChange]);
+  }, [selectedCountry, onChange, countries]);
 
   // ✅ Handle country selection change
   const handleCountryChange = (countryId: string) => {

@@ -28,13 +28,16 @@ import { ResponseApiErrors } from '@/lib/api-response';
 import { helpers } from '@/lib';
 import { FakeInput } from '@/components/reuseable/fake-input';
 
+
+const initState = {
+  isAdd: false,
+  isEdit: false,
+}
+
 export default function PlatformSingle() {
   const { confirm } = useConfirmation();
   const { slug } = useParams();
-  const [state, updateState] = useModalState({
-    isAdd: false,
-    isEdit: false,
-  });
+  const [state, updateState] = useModalState(initState);
   const [countryId, setCountryId] = useState(1);
   const { data: engagement, isLoading } = useGetEngmentQuery(slug);
   const { data: country } = useGetCountryQuery({});
@@ -158,9 +161,8 @@ export default function PlatformSingle() {
             {/* btn-shadow */}
             {country?.data?.map((item: any) => (
               <FlagBox
-                className={`border-1 cursor-pointer p-1 ${
-                  item.id == countryId && 'btn-shadow'
-                } rounded-md`}
+                className={`border-1 cursor-pointer p-1 ${item.id == countryId && 'btn-shadow'
+                  } rounded-md`}
                 key={item.id}
                 href={item.flag}
                 name={item.name}

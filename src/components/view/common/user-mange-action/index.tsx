@@ -4,12 +4,12 @@ import Modal2 from '@/components/reuseable/modal2';
 import RadioToggle from '@/components/reuseable/radio-toggle';
 import sonner from '@/components/reuseable/sonner';
 import { Button, Input, Textarea } from '@/components/ui';
-import { useFormFields } from '@/hooks';
+import { useChangeStatusMutation, useSendTokenMutation } from '@/redux/api/admin/userApi';
 import { useModalState } from '@/hooks/useModalState';
+import { CircleAlert } from 'lucide-react';
+import { useFormFields } from '@/hooks';
 import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
-import { useChangeStatusMutation, useSendTokenMutation } from '@/redux/api/admin/userApi';
-import { CircleAlert } from 'lucide-react';
 import React from 'react';
 
 export default function UserManagementAction({ isShow = true, id }: any) {
@@ -36,7 +36,7 @@ export default function UserManagementAction({ isShow = true, id }: any) {
     const data = helpers.fromData({ rejection_reason: statusForm.formData.rejection_reason });
     const res = await changeStatus({ id, data }).unwrap();
     if (res.status) {
-      sonner.success('Status updated successfully', 'The status was changed successfully');
+      sonner.success('Status Updated successfully', 'The status was changed successfully');
       updateState('isStatus', false);
       statusForm.reset();
     }
@@ -57,7 +57,7 @@ export default function UserManagementAction({ isShow = true, id }: any) {
     const data = helpers.fromData(tokenForm?.formData);
     const res = await sendToken({ id, data }).unwrap();
     if (res.status) {
-      sonner.success('Token sent successfully', 'Please check your gift token');
+      sonner.success('Token Sent successfully', 'Please check your gift token');
       updateState('isToken', false);
       tokenForm.reset();
     }

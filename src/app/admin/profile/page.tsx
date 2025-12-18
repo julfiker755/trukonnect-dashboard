@@ -6,14 +6,13 @@ import Form from '@/components/reuseable/from';
 import { FromInput } from '@/components/reuseable/from-input';
 import ImgUpload from '@/components/reuseable/img-uplod';
 import Modal2 from '@/components/reuseable/modal2';
+import { Pagination } from '@/components/reuseable/pagination';
 import sonner from '@/components/reuseable/sonner';
 import { TableNoItem2, TableSkeleton2 } from '@/components/reuseable/table-skeleton2';
 import TextEditor from '@/components/reuseable/text-editor';
 import { Button } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import UpdatePassword from '@/components/view/common/update-password';
-import FavIcon from '@/icon/favIcon';
-import { helpers, PlaceholderImg } from '@/lib';
 import { ResponseApiErrors } from '@/lib/api-response';
 import {
   useAdminStoreMutation,
@@ -24,25 +23,36 @@ import {
   useTermsStoreMutation,
 } from '@/redux/api/admin/profileApi';
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/redux/api/authApi';
-import { adminSchema, authSchema } from '@/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader, SquarePen } from 'lucide-react';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { Suspense, useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
+import { adminSchema } from '@/schema';
+import FavIcon from '@/icon/favIcon';
+import Image from 'next/image';
+import { helpers } from '@/lib';
 
-export default function Profile() {
-  const [isTab, setIsTab] = useState('personal_information');
+function ProfileChild() {
+  const [isTab, setIsTab] = useState('information');
+  const params = useSearchParams();
+  const router = useRouter()
+  const tab = params.get('tab') || 'information';
+
+
+  useEffect(() => {
+    setIsTab(tab)
+  }, [tab]);
 
   const renderContent = () => {
     switch (isTab) {
-      case 'personal_information':
+      case 'information':
         return <PersonalInformation />;
-      case 'privacy_policy':
+      case 'privacy':
         return <PrivacyPolicy />;
-      case 'terms_conditions':
+      case 'terms':
         return <TermsAndConditions />;
-      case 'admin_list':
+      case 'admin':
         return <AdminList />;
       default:
         return <PersonalInformation />;
@@ -62,17 +72,19 @@ export default function Profile() {
       />
       <ul className="flex flex-wrap space-x-5">
         {[
-          { label: 'Personal Information', value: 'personal_information' },
-          { label: 'Privacy Policy', value: 'privacy_policy' },
-          { label: 'Terms & Conditions', value: 'terms_conditions' },
-          { label: 'Admin List', value: 'admin_list' },
+          { label: 'Personal Information', value: 'information' },
+          { label: 'Privacy Policy', value: 'privacy' },
+          { label: 'Terms & Conditions', value: 'terms' },
+          { label: 'Admin List', value: 'admin' },
         ].map((item) => (
           <li
             key={item.label}
-            className={`font-medium cursor-pointer border-b-3 border-b-transparent ${
-              isTab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
-            }`}
-            onClick={() => setIsTab(item.value)}
+            className={`font-medium cursor-pointer border-b-3 border-b-transparent ${isTab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
+              }`}
+            onClick={() => {
+              setIsTab(item?.value)
+              router.push(`?tab=${item?.value}`);
+            }}
           >
             {item.label}
           </li>
@@ -82,6 +94,16 @@ export default function Profile() {
     </div>
   );
 }
+
+
+export default function Profile() {
+  return (
+    <Suspense>
+      <ProfileChild />
+    </Suspense>
+  )
+}
+
 
 // =======================PersonalInformation==================
 const intAva = {
@@ -294,9 +316,13 @@ const TermsAndConditions = () => {
 
 // ===============Admin List============
 const AdminList = () => {
-  const { data: admin, isLoading } = useGetAdminQuery({});
+  const [page, setIsPage] = useState(1)
+  const { data: admin, isLoading } = useGetAdminQuery({
+    page: page
+  });
   const [adminStore, { isLoading: storeLoading }] = useAdminStoreMutation();
   const [isStore, setIsStore] = useState(false);
+
   const from = useForm({
     resolver: zodResolver(adminSchema),
     defaultValues: {
@@ -366,6 +392,7 @@ const AdminList = () => {
             )}
           </tbody>
         </table>
+        <Pagination onClick={(v: any) => setIsPage(v)} {...admin?.meta}></Pagination>
       </div>
       {/* ============ Add New Admin modal ============ */}
       <Modal2 open={isStore} setIsOpen={setIsStore}>

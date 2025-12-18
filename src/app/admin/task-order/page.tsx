@@ -7,7 +7,7 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FavIcon from '@/icon/favIcon';
 import RadioToggle from '@/components/reuseable/radio-toggle';
 import { helpers } from '@/lib';
@@ -15,28 +15,39 @@ import Link from 'next/link';
 import { useGlobalState } from '@/hooks';
 import { useDebounce } from 'use-debounce';
 import { useGetTaskQuery } from '@/redux/api/admin/taskApi';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 const intState = {
   page: 1,
   search: '',
-  status: "ongoing",
-  tab: 'task_management'
 }
 
 export default function TaskOrder() {
+  const router = useRouter()
   const [global, setGlobal] = useGlobalState(intState)
+  const params = useSearchParams();
+  const [status, setIsStatus] = useState("ongoing")
+  const [tab, setTab] = useState("task_management")
+  const status_v = params.get('status') || 'ongoing';
+  const tab_v = params.get('tab') || 'task_management';
   const [value] = useDebounce(global.search, 1000);
   const { data: task, isLoading } = useGetTaskQuery({
     page: global.page,
-    tags: global.tab,
-    status: global.status,
+    tags: tab,
+    status: status,
     ...(value && { search: value }),
   })
 
+  //  tab  not reamove 
+  useEffect(() => {
+    setIsStatus(status_v)
+    setTab(tab_v)
+  }, [status_v, tab_v]);
+
 
   const getHeaders = () => {
-    switch (global?.tab) {
+    switch (tab) {
       case 'task_management':
         return ['Creator', 'Task Type', 'Quantity', 'Action'];
       case 'order_management':
@@ -67,11 +78,12 @@ export default function TaskOrder() {
             ].map((item) => (
               <li
                 key={item.label}
-                className={`font-medium cursor-pointer border-b-3 border-b-transparent ${global.tab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
+                className={`font-medium cursor-pointer border-b-3 border-b-transparent ${tab === item.value ? 'text-figma-primary !border-b-figma-primary' : ''
                   }`}
                 onClick={() => {
-                  setGlobal("tab", item.value)
-                  setGlobal("status", item.status)
+                  setTab(item.value)
+                  setIsStatus(item.status)
+                  router.push(`?tab=${item.value}&status=${item.status}`);
                 }}
               >
                 {item.label}
@@ -80,10 +92,13 @@ export default function TaskOrder() {
           </ul>
           <div>
             <RadioToggle
-              value={global.status}
-              onValueChange={(value) => setGlobal("status", value)}
+              value={status}
+              onValueChange={(value) => {
+                setIsStatus(value)
+                router.push(`?tab=${tab}&status=${value}`);
+              }}
               options={
-                global.tab === 'task_management'
+                tab === 'task_management'
                   ? [
                     { label: 'Active Task', value: 'ongoing' },
                     { label: 'Completed Task', value: 'completed' },
@@ -105,12 +120,12 @@ export default function TaskOrder() {
               task?.data?.map((item: any, index: any) => (
                 <TableRow key={index}>
                   {/*  ================ task_management ================ */}
-                  {global?.tab == "task_management" && (
+                  {tab == "task_management" && (
                     <>
                       <TableCell className="relative">
                         <div className="flex items-center gap-3">
                           <Avatars
-                            src={helpers.imgSource(item?.creator.avater) || '/avater.png'}
+                            src={helpers.imgSource(item?.creator?.avater) || '/avater.png'}
                             fallback={item?.creator?.name}
                             alt={item?.creator?.name}
                             fallbackStyle="avatar"
@@ -131,7 +146,7 @@ export default function TaskOrder() {
                     </>
                   )}
                   {/*  =========== order_management ========== */}
-                  {global?.tab == "order_management" && (
+                  {tab == "order_management" && (
                     <>
                       <TableCell className="relative">
                         <div className="flex items-center gap-3">
