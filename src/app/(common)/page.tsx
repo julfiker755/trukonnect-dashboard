@@ -92,7 +92,7 @@ export default function HomePage() {
           </div>
 
           <div>
-            {isError && <h1 className="text-red-500 mb-2 flex justify-center">{isError}</h1>}
+            {isError && <h1 className="text-red-500 mb-3 flex justify-center">{isError}</h1>}
             <Button disabled={isLoading} variant="primary" className="w-full">
               {' '}
               Sign in

@@ -105,7 +105,7 @@ export function ImageGallery({
     if (!autoPlay) return;
     const interval = setInterval(goToNext, autoPlayInterval);
     return () => clearInterval(interval);
-  }, [autoPlay, autoPlayInterval]);
+  }, [autoPlay, autoPlayInterval, goToNext]);
 
   return (
     <div>

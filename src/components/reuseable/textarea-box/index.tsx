@@ -6,7 +6,7 @@ export default function TextareaBox({ hanldeClick, className, placeholder }: any
 
   React.useEffect(() => {
     hanldeClick(isValue);
-  }, [isValue]);
+  }, [isValue, hanldeClick]);
 
   return (
     <Textarea

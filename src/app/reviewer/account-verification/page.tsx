@@ -62,6 +62,9 @@ export default function AccountVarificaton() {
     if (res?.data?.status) {
       reset()
       updateState("isReject", false)
+      updateState('isPreview', false);
+      setGlobal("withdrawal", false)
+
     }
   }
 

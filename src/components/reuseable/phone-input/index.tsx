@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import {
   Controller,
@@ -45,7 +45,7 @@ export function PhoneInput({
   });
 
   const [selectedCountry, setSelectedCountry] = useState<any | null>(null);
-  const countries = (countryResponse?.data as any[]) || [];
+  const countries = useMemo(() => (countryResponse?.data as any[]) || [], [countryResponse]);
 
   // ✅ Set default country on load
   useEffect(() => {

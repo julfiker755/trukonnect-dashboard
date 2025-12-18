@@ -68,6 +68,7 @@ export default function TaskReview() {
       const res = await taskReport({ id, data }).unwrap();
       if (res.status) {
         updateState('isReport', false);
+        updateState("isPreview", false)
         reportForm.reset();
       }
     } catch (err: any) {
@@ -86,11 +87,12 @@ export default function TaskReview() {
     });
     if (!ok) return;
     try {
-      const value = { rejection_reason: rejectForm.formData.rejection, _method: 'PUT' }
+      const value = { rejection_reason: rejectForm.formData.rejection }
       const data = helpers.fromData(value);
       const res = await taskReject({ id, data }).unwrap();
       if (res.status) {
         updateState('isReject', false);
+        updateState("isPreview", false)
         rejectForm.reset();
       }
     } catch (err: any) {
@@ -220,6 +222,7 @@ export default function TaskReview() {
               disabled={appLoading}
               onClick={async () => {
                 const res = await taskApproved(global?.details?.id).unwrap();
+                updateState("isPreview", false)
                 if (res.status) {
                   const { close } = await openSucc({
                     title: 'Successfully',

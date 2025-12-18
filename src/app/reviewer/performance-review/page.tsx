@@ -70,6 +70,7 @@ export default function PerformanceReview() {
       const res = await performReport({ id, data }).unwrap();
       if (res.status) {
         updateState('isReport', false);
+        updateState("isPreview", false)
         reportForm.reset();
       }
     } catch (err: any) {
@@ -93,6 +94,7 @@ export default function PerformanceReview() {
       const res = await performReject({ id, data }).unwrap();
       if (res.status) {
         updateState('isReject', false);
+        updateState("isPreview", false)
         rejectForm.reset();
       }
     } catch (err: any) {
@@ -262,7 +264,7 @@ export default function PerformanceReview() {
             <Button
               onClick={async () => {
                 const res = await perfromApp(id).unwrap();
-                console.log(res)
+                updateState("isPreview", false)
                 if (res?.status) {
                   const { close } = await openSucc({
                     title: 'Successfully',

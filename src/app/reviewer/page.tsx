@@ -16,7 +16,7 @@ export default function ReviewerHome() {
     {
       icon: <FavIcon className="size-12" name="review_acounts" />,
       title: 'Pending Accounts',
-      count: data?.totalPendingAccounts || 0,
+      count: data?.totalPendingAccounts,
       btn_name: 'Review accounts',
       href: '/reviewer/account-verification',
       bg: 'rgba(130, 255, 167, 0.10)',

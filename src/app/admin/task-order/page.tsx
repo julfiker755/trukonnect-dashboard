@@ -7,23 +7,22 @@ import { TableSkeleton } from '@/components/reuseable/table-skeleton';
 import { TableCell, TableRow } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import SearchBox from '@/components/view/common/search-box';
-import React, { useEffect, useState } from 'react';
-import FavIcon from '@/icon/favIcon';
+import React, { Suspense, useEffect, useState } from 'react';
 import RadioToggle from '@/components/reuseable/radio-toggle';
-import { helpers } from '@/lib';
-import Link from 'next/link';
-import { useGlobalState } from '@/hooks';
-import { useDebounce } from 'use-debounce';
 import { useGetTaskQuery } from '@/redux/api/admin/taskApi';
 import { useRouter, useSearchParams } from 'next/navigation';
-
+import { useDebounce } from 'use-debounce';
+import { useGlobalState } from '@/hooks';
+import FavIcon from '@/icon/favIcon';
+import { helpers } from '@/lib';
+import Link from 'next/link';
 
 const intState = {
   page: 1,
   search: '',
 }
 
-export default function TaskOrder() {
+function TaskOrderChild() {
   const router = useRouter()
   const [global, setGlobal] = useGlobalState(intState)
   const params = useSearchParams();
@@ -189,3 +188,11 @@ export default function TaskOrder() {
 
 
 
+
+export default function TaskOrder() {
+  return (
+    <Suspense>
+      <TaskOrderChild />
+    </Suspense>
+  )
+}

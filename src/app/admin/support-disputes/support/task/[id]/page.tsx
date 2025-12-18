@@ -41,7 +41,7 @@ export default function TaskDetails() {
     created_at,
     social,
     reviewer,
-    rejection_reason,
+    note,
   } = data || {};
 
   //   == SubmitReject ==
@@ -145,7 +145,7 @@ export default function TaskDetails() {
         <div className="bg-figma-chart p-6 h-fit rounded-xl">
           <div>
             <h1 className="text-xl">Issue</h1>
-            <p className="text-figma-gray">{rejection_reason || 'N/A'}</p>
+            <p className="text-figma-gray">{note || 'N/A'}</p>
           </div>
           <h1 className="text-xl my-4">Reviewed By</h1>
           <div className="space-y-3">
