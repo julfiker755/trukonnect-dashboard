@@ -25,27 +25,26 @@ const initState = {
   isReject: false,
   isSocial: false,
 }
-export default function TaskDetails() {
+export default function OrderDetails() {
   const { openSucc } = useSuccessModal();
   const { id } = useParams();
-  const { data } = useGetSuppDtsQuery({ id });
+  const { data } = useGetSuppDtsQuery({ id, arg: { type: 'user' } });
   const [state, updateState] = useModalState(initState);
   const router = useRouter()
 
+  console.log(data)
+
   const {
     engagement,
-    quantity,
     country,
-    total_token,
-    link,
-    social,
-    created_at,
+    social_task,
     creator,
     task_files,
     reviewer,
     rejection_reason,
     description,
-    social_account
+    task_performer_social_ac,
+    task
   } = data || {};
 
   const [supportReject, { isLoading: rejectLoading }] = useSupportRejectMutation()
@@ -102,7 +101,7 @@ export default function TaskDetails() {
             </div>
             <h1 className="text-lg font-medium mb-2">{engagement?.engagement_name}</h1>
             <p className="text-figma-gray">
-              {description}
+              {task?.description}
             </p>
             <Button
               onClick={() => updateState('isSocial', true)}
@@ -114,7 +113,7 @@ export default function TaskDetails() {
             <ul className="space-y-2 [&>li]:flex [&>li]:items-center [&>li]:justify-between">
               <li>
                 <span>Quantity</span>
-                <span>{quantity || 0}</span>
+                <span>{task?.quantity || 0}</span>
               </li>
               <li>
                 <span>Selected Audience</span>
@@ -124,20 +123,20 @@ export default function TaskDetails() {
                 <span>Per user earned Tokens</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
-                  {total_token || 0}
+                  {task?.total_token || 0}
                 </span>
               </li>
               <li>
                 <span>Platform</span>
-                <SocialBox href={social?.icon_url} name={social?.name} />
+                <SocialBox href={social_task?.icon_url} name={social_task?.name} />
               </li>
               <li>
                 <span>Creation Date</span>
-                <DateBox date={created_at} />
+                <DateBox date={task?.created_at} />
               </li>
               <li>
                 <span>Link</span>
-                <CopyBox value={link} />
+                <CopyBox value={task?.link} />
               </li>
               {task_files?.length > 0 && (
                 <li className='mt-4'>
@@ -256,14 +255,14 @@ export default function TaskDetails() {
         className="sm:max-w-sm"
       >
         <div>
-          <ImgBox src={helpers.imgSource(reviewer?.profile_image) || '/avater.png'} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
+          <ImgBox src={helpers.imgSource(task_performer_social_ac?.profile_image) || '/avater.png'} className="w-full h-[250px]" alt="imgbox1"></ImgBox>
           <ul className="*:text-lg my-3">
             <li>
-              <span className="text-figma-gray">Username: </span>{social_account?.profile_name}
+              <span className="text-figma-gray">Username: </span>{task_performer_social_ac?.profile_name}
             </li>
             <li>
               {' '}
-              <span className="text-figma-gray">Notes: </span>{social?.note}
+              <span className="text-figma-gray">Notes: </span>{task_performer_social_ac?.note}
             </li>
           </ul>
           {/* performer takle checkbox show hobe */}

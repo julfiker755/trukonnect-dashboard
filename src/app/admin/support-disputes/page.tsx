@@ -82,10 +82,11 @@ function SupportChild() {
           ) : item?.data?.length > 0 ? (
             item?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
+                {/*  ===============  task ================ */}
                 {helpers.lowerCase(item?.status) === 'task' ? (
                   <>
                     <TableCell>
-                      <Avater2 href={item?.reviewer?.avatar} name={item?.reviewer?.name} />
+                      <Avater2 href={item?.creator?.avatar} name={item?.creator?.name} />
                     </TableCell>
                     <TableCell>{item?.engagement?.engagement_name}</TableCell>
                     <TableCell>
@@ -101,6 +102,7 @@ function SupportChild() {
                     </TableCell>
                   </>
                 ) : (
+                  //  ============== order ============
                   helpers.lowerCase(item?.status) === 'order' && (
                     <>
                       <TableCell className="lg:max-w-[100px]">
@@ -118,7 +120,7 @@ function SupportChild() {
                     </>
                   )
                 )}
-
+                {/*  ============= user ======== */}
                 {helpers.lowerCase(item?.status) === 'user' && (
                   <>
                     <TableCell>
