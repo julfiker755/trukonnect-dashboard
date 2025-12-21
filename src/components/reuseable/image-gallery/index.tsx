@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -44,25 +44,28 @@ export function ImageGallery({
 
   const currentImage = images[currentIndex];
 
+  const resetZoom = useCallback(() => {
+    setZoomLevel(1);
+    setOrigin('center center');
+  }, []);
+
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     resetZoom();
   };
 
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) =>
+      prev === images.length - 1 ? 0 : prev + 1
+    );
     resetZoom();
-  };
+  }, [images.length, resetZoom]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
     resetZoom();
   };
 
-  const resetZoom = () => {
-    setZoomLevel(1);
-    setOrigin('center center');
-  };
 
   const downloadImage = async (imageUrl: string, fileName = 'image.jpg') => {
     try {
@@ -141,10 +144,10 @@ export function ImageGallery({
                 onClick={() => setZoomLevel((z) => Math.max(z - 0.5, 1))}
                 className="text-gray-400 size-6 cursor-pointer"
               />
-              <Download
+              {/* <Download
                 onClick={() => downloadImage(helpers.imgSource(currentImage), `image-${currentIndex + 1}.jpg`)}
                 className="text-gray-400 size-5 cursor-pointer"
-              />
+              /> */}
               <X onClick={() => setIsGalleryOpen(false)} className="text-gray-400 cursor-pointer" />
             </div>
           </div>

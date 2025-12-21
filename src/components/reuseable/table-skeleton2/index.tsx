@@ -1,7 +1,8 @@
 import { Skeleton } from '@/components/ui';
 import FavIcon from '@/icon/favIcon';
 import { cn } from '@/lib';
-import { itemProps } from '../table-no-item';
+import { tableItemProps } from '../table-no-item';
+
 
 interface TableSkeletonRowsProps {
   colSpan: number;
@@ -30,7 +31,7 @@ export function TableSkeleton2({ len = 10, className, tdStyle, colSpan }: TableS
 }
 
 // TableNoItem2
-export function TableNoItem2({ title = 'No Data Found', colSpan, className, tdStyle }: itemProps) {
+export function TableNoItem2({ title = 'No Data Found', colSpan, className, tdStyle }: tableItemProps) {
   return (
     <tr>
       <td colSpan={colSpan} className={cn('text-center', tdStyle)}>
