@@ -21,33 +21,15 @@ const PlayerBox = ({ className, link }: any) => (
       className
     )}
   >
-    <VideoPlayerContent
-      // crossOrigin="anonymous"
-      preload="metadata"
-      autoPlay={true}
+    <ReactPlayer
       slot="media"
-      // controls={false}
-      // poster={thumbnail}
-      src={`${process.env.NEXT_PUBLIC_VIDEO_URL}/${link}`}
+      src={link}
+      controls={true}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
     />
-    {/* <ReactPlayer
-      slot="media"
-      src={link}
-      controls={true}
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-    /> */}
-    {/* <ReactPlayer
-      slot="media"
-      src={link}
-      controls={true}
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-    /> */}
     <VideoPlayerControlBar>
       <VideoPlayerPlayButton />
       <VideoPlayerSeekBackwardButton />
