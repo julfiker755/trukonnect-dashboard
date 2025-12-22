@@ -26,10 +26,11 @@ export default function VerifyOtp() {
 
   const handleSubmit = async (values: FieldValues) => {
     try {
-      const value = helpers.fromData(values);
+      const login = { login: values.email }
+      const value = helpers.fromData(login);
       const res = await forgotPassword(value).unwrap();
       if (res.status) {
-        router.push(`/verify-otp/?email=${res.email}`);
+        router.push(`/verify-otp/?email=${res?.data?.user}`)
         from.reset();
         toast.success('OTP sent Successfully', {
           description: 'Please check your email',

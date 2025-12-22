@@ -22,6 +22,7 @@ function NewPasswordChild() {
     defaultValues: {
       new_password: '',
       c_password: '',
+
     },
   });
 
@@ -36,8 +37,7 @@ function NewPasswordChild() {
       _method: 'PUT',
       password: values.new_password,
       password_confirmation: values.c_password,
-      user_id: id,
-      user_email: email,
+      user_id: id
     };
     const data = helpers.fromData(value);
     const res = await changePassword(data).unwrap();
