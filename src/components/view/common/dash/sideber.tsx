@@ -11,6 +11,8 @@ import { useGetProfileQuery, useSignOutMutation } from '@/redux/api/authApi';
 import { authKey, helpers } from '@/lib';
 import { Role } from '@/types';
 import { useRole } from '@/components/context/auth';
+import { useAppDispatch } from '@/redux/hooks';
+import { baseApi } from '@/redux/api/baseApi';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -32,6 +34,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { refetchOnFocus: true, skip: !token })
   const role = profile?.data?.role || roleText;
   const links = userPaths[role as Role];
+  const dispatch = useAppDispatch();
 
 
   // hanldeSignOut
@@ -39,6 +42,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     await signOut({}).unwrap();
     helpers.removeAuthCookie(authKey);
     router.push('/');
+    dispatch(dispatch(baseApi.util.resetApiState()))
   }
 
   return (

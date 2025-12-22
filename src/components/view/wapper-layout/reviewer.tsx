@@ -18,10 +18,12 @@ export function ReviewerWrapper({ children }: childrenProps) {
 
   // cleanup: always remove body overflow on unmount
   useEffect(() => {
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, []);
+    if (!sidebarOpen) {
+      return () => {
+        document.body.classList.remove('overflow-hidden');
+      };
+    }
+  }, [sidebarOpen]);
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>

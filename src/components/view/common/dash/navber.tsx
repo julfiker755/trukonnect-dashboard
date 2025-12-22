@@ -36,12 +36,12 @@ export default function Navber({ props, isShow = true, title, backbtn, className
   const { data: profile } = useGetProfileQuery({},
     { refetchOnFocus: true, skip: !token })
 
-  const role = profile?.data?.role || 'reviewer';
-  const paths = userPaths[role as Role];
+  const role = profile?.data?.role;
+  const paths = role && userPaths[role as Role];
 
   const handleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
-    document.body.classList.add('overflow-hidden');
+    document.body.classList.add("overflow-hidden")
   };
 
   useEffect(() => {
@@ -68,17 +68,19 @@ export default function Navber({ props, isShow = true, title, backbtn, className
           <div className="flex space-x-2 lg:space-x-0">
             <div className="block lg:hidden">{props && props}</div>
             <div className="bg-figma-blacks py-1 px-2 rounded-full flex items-center space-x-5">
-              <Link href={paths.notification}>
-                <FavIcon name="bell" />
-              </Link>
-              <Link href={paths.profile}>
-                <Avatars
-                  src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
-                  fallback={profile?.data?.name}
-                  className="2xl:size-10   cursor-pointer"
-                  alt={profile?.data?.avatar}
-                />
-              </Link>
+              {paths && <>
+                <Link href={paths.notification}>
+                  <FavIcon name="bell" />
+                </Link>
+                <Link href={paths.profile}>
+                  <Avatars
+                    src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
+                    fallback={profile?.data?.name}
+                    className="2xl:size-10   cursor-pointer"
+                    alt={profile?.data?.avatar}
+                  />
+                </Link>
+              </>}
             </div>
           </div>
         )}

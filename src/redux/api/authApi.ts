@@ -50,13 +50,6 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.profile],
     }),
-    // resetPassword: build.mutation({
-    //   query: (data) => ({
-    //     url: "/auth/reset-password",
-    //     method: "POST",
-    //     data,
-    //   }),
-    // }),
     getProfile: build.query({
       query: () => ({
         url: '/my/profile',
