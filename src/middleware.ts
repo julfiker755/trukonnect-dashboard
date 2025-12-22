@@ -8,7 +8,7 @@ const authRoutes = ['/forgot-password', '/new-password', '/verify-otp'];
 const roleConfig = {
   admin: {
     basePath: '/admin',
-    allowedPaths: /^\/dashboard\/*/,
+    allowedPaths: /^\/admin\/*/,
   },
   reviewer: {
     basePath: '/reviewer',
@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/dashboard/:path*',
+    '/admin/:path*',
     '/reviewer/:path*',
     '/forgot-password',
     '/new-password',
