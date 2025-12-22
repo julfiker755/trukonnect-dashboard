@@ -7,20 +7,34 @@ import NavItem from './navitem';
 import Avatars from '@/components/reuseable/avater';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useSignOutMutation } from '@/redux/api/authApi';
+import { useGetProfileQuery, useSignOutMutation } from '@/redux/api/authApi';
 import { authKey, helpers } from '@/lib';
+import { Role } from '@/types';
+import { useRole } from '@/components/context/auth';
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
 }
 
+const userPaths: Record<Role, any> = {
+  admin: adminLinks,
+  reviewer: reviewerlinks,
+};
+
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const links = pathname.includes('/admin') ? adminLinks : reviewerlinks;
+  const token = helpers.getAuthCookie(authKey)
+  const { role: roleText } = useRole();
   const [signOut] = useSignOutMutation();
+  const { data: profile } = useGetProfileQuery({},
+    { refetchOnFocus: true, skip: !token })
+  const role = profile?.data?.role || roleText;
+  const links = userPaths[role as Role];
 
+
+  // hanldeSignOut
   async function hanldeSignOut() {
     await signOut({}).unwrap();
     helpers.removeAuthCookie(authKey);
@@ -44,11 +58,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         className={`absolute left-0  top-0 z-20 shadow 
           h-screen lg:h-fit bg-[#424242]/20  lg:!rounded-md p-4  backdrop-blur-[70px]
            flex  transition-transform transform duration-300 ease-linear flex-col  
-           text-white ${
-             pathname.includes('admin') ? 'w-fit' : 'w-[250px]'
-           } lg:sticky lg:top-[20px] lg:pb-2 lg:ml-(--sideber-margin)  lg:translate-x-0 ${
-             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-           }`}
+           text-white ${pathname.includes('admin') ? 'w-fit' : 'w-[250px]'
+          } lg:sticky lg:top-[20px] lg:pb-2 lg:ml-(--sideber-margin)  lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div>
           <div className="flex justify-center h-[60px]">

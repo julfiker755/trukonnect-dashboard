@@ -16,3 +16,5 @@ export interface Args {
 }
 
 export type Arr<T> = T[];
+
+export type Role = 'admin' | 'reviewer';

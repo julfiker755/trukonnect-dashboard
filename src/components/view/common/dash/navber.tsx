@@ -7,6 +7,7 @@ import { useSidebarReviewer } from '../../wapper-layout/reviewer';
 import FavIcon from '@/icon/favIcon';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
+import { Role } from '@/types';
 
 
 interface navberProps {
@@ -17,7 +18,6 @@ interface navberProps {
   backbtn?: React.ReactNode;
 }
 
-type Role = 'admin' | 'reviewer';
 
 interface RolePaths {
   profile: string;

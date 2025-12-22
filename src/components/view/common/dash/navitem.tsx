@@ -55,7 +55,7 @@ export default function NavItem({ item }: NavItemProps) {
 
   return (
     <ul className="space-y-2">
-      {item.map(({ to, label, icon, active_i, color, bg, submenu }, parentIndex) => (
+      {item?.length > 0 && item?.map(({ to, label, icon, active_i, color, bg, submenu }, parentIndex) => (
         <li key={parentIndex} className="group">
           {to ? (
             <Link
@@ -71,12 +71,12 @@ export default function NavItem({ item }: NavItemProps) {
                 {isActive(to) ? (
                   <FavIcon
                     name={active_i as any}
-                    // className="size-5"
+                  // className="size-5"
                   />
                 ) : (
                   <FavIcon
                     name={icon}
-                    //  className="size-5"
+                  //  className="size-5"
                   />
                 )}
               </span>
@@ -111,9 +111,8 @@ export default function NavItem({ item }: NavItemProps) {
                   key={subIndex}
                   onMouseEnter={() => setsubHoverIdx(subIndex)}
                   onMouseLeave={() => setsubHoverIdx(null)}
-                  className={`${
-                    isActive(to as string) && '!border-l-5 !border-[#073CE9] !bg-white !text-reds'
-                  } rounded-r-md pl-6 hover:bg-white font-medium border-l-5 border-transparent  py-2 hover:!text-reds`}
+                  className={`${isActive(to as string) && '!border-l-5 !border-[#073CE9] !bg-white !text-reds'
+                    } rounded-r-md pl-6 hover:bg-white font-medium border-l-5 border-transparent  py-2 hover:!text-reds`}
                 >
                   {to && (
                     <Link className="flex items-center gap-x-2" href={to}>

@@ -12,10 +12,12 @@ import { authKey, helpers, role } from '@/lib';
 import { ResponseApiErrors } from '@/lib/api-response';
 import FavIcon from '@/icon/favIcon';
 import Link from 'next/link';
+import { useRole } from '@/components/context/auth';
 
 export default function HomePage() {
   const [signIn, { isLoading }] = useSignInMutation();
   const [isError, setIsError] = useState('');
+  const { setRole } = useRole();
   const router = useRouter();
   const from = useForm({
     resolver: zodResolver(authSchema),
@@ -37,6 +39,7 @@ export default function HomePage() {
 
       if (res.status) {
         const userRole = res?.data?.user?.role;
+        setRole(userRole)
         helpers.setAuthCookie(authKey, res?.data?.token);
         if (userRole === role.reviewer) {
           router.push('/reviewer');
