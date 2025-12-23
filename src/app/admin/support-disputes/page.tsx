@@ -111,7 +111,7 @@ function SupportChild() {
                       <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
                       <TableCell>
                         <Link
-                          href={`/admin/support-disputes/support/orders/${item?.task?.id}`}
+                          href={`/admin/support-disputes/support/orders/${item.id}`}
                           className="flex justify-center cursor-pointer"
                         >
                           <FavIcon name="eye" />
