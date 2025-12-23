@@ -132,8 +132,7 @@ function FinancialChild() {
           ) : (
             <TableNoItem
               colSpan={headers?.length}
-              title="No users are available at the moment"
-              tdStyle="!bg-background"
+              title="No Financial Controls are available at the moment"
             />
           )}
         </CustomTable>
