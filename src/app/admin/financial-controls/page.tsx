@@ -95,22 +95,22 @@ function FinancialChild() {
           {isLoading ? (
             <TableSkeleton colSpan={headers?.length} tdStyle="!pl-0" />
           ) : data && data?.data?.length > 0 ? (
-            data.data.map((item: any, index: any) => (
+            data?.data?.map((item: any, index: any) => (
               <TableRow key={index}>
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={helpers.imgSource(item.performer?.avatar || '/blur.png')}
-                      fallback={item.performer.name}
-                      alt={item.performer.name}
+                      src={helpers.imgSource(item?.creator?.avatar || '/blur.png')}
+                      fallback={item?.creator?.name}
+                      alt={item?.creator?.name}
                       fallbackStyle="avatar"
                     />
-                    <span>{item.performer.name}</span>
+                    <span>{item?.creator?.name}</span>
                   </div>
                 </TableCell>
 
-                <TableCell>{item.performer.email}</TableCell>
-                <TableCell>{item?.task?.engagement?.engagement_name}</TableCell>
+                <TableCell>{item?.creator?.email}</TableCell>
+                <TableCell>{item?.engagement?.engagement_name}</TableCell>
                 <TableCell>
                   <Badge variant={helpers.lowerCase(item.status) as any}>
                     {helpers.capitalize(item.status)}
@@ -150,7 +150,7 @@ function FinancialChild() {
             <div className="mb-10">
               <ImgBox
                 className="size-30 rounded-xl mx-auto"
-                src={helpers.imgSource(global?.item?.performer?.avatar || '/blur.png')}
+                src={helpers.imgSource(global?.item?.creator?.avatar || '/blur.png')}
                 alt="img"
               ></ImgBox>
             </div>
@@ -161,23 +161,23 @@ function FinancialChild() {
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <FavIcon name="user" className="mr-2" />
-                      <span className="text-figma-gray">{global?.item?.performer?.name}</span>
+                      <span className="text-figma-gray">{global?.item?.creator?.name}</span>
                     </div>
                     <div className="flex items-center">
                       <FavIcon name="email" className="mr-2" />
-                      <span className="text-figma-gray">{global?.item?.performer?.email}</span>
+                      <span className="text-figma-gray">{global?.item?.creator?.email}</span>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center">
-                      <FlagBox href={global?.item?.task?.country?.flag} />
+                      <FlagBox href={global?.item?.country?.flag} />
                       <span className="text-figma-gray ml-2">
-                        {global?.item?.task?.country?.name}
+                        {global?.item?.country?.name}
                       </span>
                     </div>
                     <div className="flex items-center">
                       <FavIcon name="phone" className="mr-2" />
-                      <span className="text-figma-gray">{global?.item?.performer?.phone}</span>
+                      <span className="text-figma-gray">{global?.item?.creator?.phone}</span>
                     </div>
                   </div>
                 </div>
@@ -188,12 +188,12 @@ function FinancialChild() {
                   <div className="flex items-center">
                     <FavIcon name="likeCount" className="mr-2" />
                     <span className="text-figma-gray">
-                      {global?.item?.task?.engagement?.engagement_name}
+                      {global?.item?.engagement?.engagement_name}
                     </span>
                   </div>
                   <div className="flex items-center">
                     <FavIcon name="tag" className="mr-2" />
-                    <span className="text-figma-gray">${global?.item?.task?.total_price}</span>
+                    <span className="text-figma-gray">${global?.item?.total_price}</span>
                   </div>
                 </div>
               </div>
