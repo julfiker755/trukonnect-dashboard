@@ -44,7 +44,7 @@ export default function TaskDetails({ params }: IdParams) {
         }
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="bg-figma-chart p-6 rounded-xl">
+        <div className="bg-figma-chart p-6 rounded-xl h-fit">
           <h1 className="text-lg mb-4">Task Details</h1>
           <div className="space-y-4">
             {/* ======== [completed]-Total Performers=========== */}
