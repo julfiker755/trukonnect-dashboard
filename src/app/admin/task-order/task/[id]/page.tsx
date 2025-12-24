@@ -16,7 +16,7 @@ import { helpers } from '@/lib';
 export default function TaskDetails({ params }: IdParams) {
   const { id } = use(params);
   const { data: task } = useSlgTaskQuery(id)
-  const { token_distributed, per_perform, performed, engagement, description, quantity, created_at, rejection_reason, country, link, social, progress, reviewer, status, total_price } = task?.data || {}
+  const { token_distributed, per_perform, performed, engagement, description, quantity, created_at, rejection_reason, country, link, social, progress, reviewer, status, unite_price } = task?.data || {}
 
   const overviewItem = [
     {
@@ -103,7 +103,7 @@ export default function TaskDetails({ params }: IdParams) {
                 <span>Total Cost</span>
                 <span className="flex items-center">
                   <span className='text-figma-primary'>{icons[country?.currency_code]?.symbol}</span>
-                  <span className="ml-1 text-figma-primary">{total_price}</span>
+                  <span className="ml-1 text-figma-primary">{unite_price}</span>
                 </span>
               </li>
               <li>
