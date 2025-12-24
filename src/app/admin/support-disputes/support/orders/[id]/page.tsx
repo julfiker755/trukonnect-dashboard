@@ -39,7 +39,7 @@ export default function OrderDetails() {
     country,
     social_task,
     creator,
-    task_files,
+    task_attached,
     reviewer,
     rejection_reason,
     description,
@@ -138,11 +138,12 @@ export default function OrderDetails() {
                 <span>Link</span>
                 <CopyBox value={task?.link} />
               </li>
-              {task_files?.length > 0 && (
+
+              {task_attached?.length > 0 && (
                 <li className='mt-4'>
-                  <ImageGallery images={task_files?.map((img: any) => img?.file_url)}>
+                  <ImageGallery images={task_attached?.map((img: any) => img?.file_url)}>
                     <div className="grid grid-cols-4 gap-10">
-                      {task_files?.slice(0, 4)?.map((item: any, index: any) => (
+                      {task_attached?.slice(0, 4)?.map((item: any, index: any) => (
                         <ImgBox key={index} src={helpers.imgSource(item?.file_url) || "/blur.png"} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
                       ))}
                     </div>

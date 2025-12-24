@@ -37,6 +37,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const dispatch = useAppDispatch();
 
 
+
   // hanldeSignOut
   async function hanldeSignOut() {
     await signOut({}).unwrap();
@@ -93,8 +94,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   <span className="flex items-center gap-x-1">
                     <Avatars
                       className="bg-white text-black rounded-md 2xl:size-10"
-                      src=""
-                      fallback="N"
+                      src={helpers.imgSource(profile?.data?.avatar) || '/avater.png'}
+                      fallback={profile?.data?.name || "Profile"}
                       alt="@shadcn"
                     />
                     <span className="font-medium text-base ml-1">Log Out</span>

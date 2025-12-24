@@ -215,7 +215,7 @@ export default function PerformanceReview() {
               <span>Per user earned Tokens</span>
               <span className="flex items-center">
                 <FavIcon name="coin" className="mr-1 size-5" />
-                {global?.details?.task?.total_token || 0}
+                {global?.details?.task?.per_perform || 0}
               </span>
             </li>
             <li>

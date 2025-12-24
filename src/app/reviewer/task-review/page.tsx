@@ -178,7 +178,7 @@ export default function TaskReview() {
                 <FlagBox href={helpers.imgSource(global?.details?.country?.flag) || '/blur.png'} name={global?.details?.country?.name} />
               </li>
               <li>
-                <span>Per user earned Tokens</span>
+                <span>Total Token</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
                   {global?.details?.total_token || 0}

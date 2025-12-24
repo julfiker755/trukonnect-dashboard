@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
       headers.set('Authorization', `Bearer ${token}`);
       headers.set('accept', 'application/json');
     }
-     // ✅ ngrok browser block fix
+    // ✅ ngrok browser block fix
     headers.set('ngrok-skip-browser-warning', 'true');
     return headers;
   },
