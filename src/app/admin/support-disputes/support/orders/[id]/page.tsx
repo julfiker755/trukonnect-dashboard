@@ -123,7 +123,7 @@ export default function OrderDetails() {
                 <span>Per user earned Tokens</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
-                  {task?.total_token || 0}
+                  {task?.per_perform || 0}
                 </span>
               </li>
               <li>

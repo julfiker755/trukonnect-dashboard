@@ -59,7 +59,7 @@ export default function TaskDetails({ params }: IdParams) {
                 <FlagBox href={helpers.imgSource(country?.flag) || '/blur.png'} name={country?.name} />
               </li>
               <li>
-                <span>Per user earned Tokens</span>
+                <span>Total tokens</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
                   {task?.total_token || 0}

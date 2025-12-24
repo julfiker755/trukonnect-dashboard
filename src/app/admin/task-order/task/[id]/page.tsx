@@ -16,12 +16,12 @@ import { helpers } from '@/lib';
 export default function TaskDetails({ params }: IdParams) {
   const { id } = use(params);
   const { data: task } = useSlgTaskQuery(id)
-  const { token_distributed, per_perform, engagement, description, quantity, total_token, created_at, rejection_reason, country, link, social, progress, reviewer, status, total_price } = task?.data || {}
+  const { token_distributed, per_perform, performed, engagement, description, quantity, created_at, rejection_reason, country, link, social, progress, reviewer, status, total_price } = task?.data || {}
 
   const overviewItem = [
     {
       title: 'Total Performers',
-      count: per_perform,
+      count: performed,
       bg: 'rgba(194, 255, 212, 0.10)',
       icon: <FavIcon className="size-14" name="totalperfomer" />,
     },
@@ -88,7 +88,7 @@ export default function TaskDetails({ params }: IdParams) {
                 <span>Per user earned Tokens</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
-                  {total_token || 0}
+                  {per_perform || 0}
                 </span>
               </li>
               <li>

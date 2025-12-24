@@ -97,7 +97,7 @@ export default function TaskDetails() {
                 <FlagBox href={country?.flag} name={country?.name} />
               </li>
               <li>
-                <span>Per user earned Tokens</span>
+                <span>Total tokens</span>
                 <span className="flex items-center">
                   <FavIcon name="coin" className="mr-1 size-5" />
                   {total_token || 0}
