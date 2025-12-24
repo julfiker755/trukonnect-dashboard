@@ -6,18 +6,20 @@ import { helpers } from '@/lib';
 import { ImgBox } from '@/components/reuseable/Img-box';
 import { useParams, useRouter } from 'next/navigation';
 import { Button, Textarea } from '@/components/ui';
-import { useGetSuppDtsQuery, useReplayStoreMutation } from '@/redux/api/admin/supportApi';
+import { useGetSuppUserQuery, useReplayStoreMutation } from '@/redux/api/admin/supportApi';
 import { CircleAlert } from 'lucide-react';
 import { useFormFields } from '@/hooks';
 import sonner from '@/components/reuseable/sonner';
+import { ImageGallery } from '@/components/reuseable/image-gallery';
 
 export default function UsersDetails() {
   const { id } = useParams();
   const router = useRouter()
-  const { data } = useGetSuppDtsQuery({ id, arg: { type: 'user' } });
+  const { data } = useGetSuppUserQuery({ id: id })
   const {
     issue,
-    reviewer
+    reviewer,
+    attachments
   } = data || {};
   const [replayStore, { isLoading }] = useReplayStoreMutation()
 
@@ -44,8 +46,6 @@ export default function UsersDetails() {
     }
   };
 
-  console.log(data)
-
   return (
     <div className="mb-10">
       <Navber
@@ -64,6 +64,18 @@ export default function UsersDetails() {
             <p className="text-figma-gray">
               {issue}
             </p>
+
+            {attachments?.length > 0 ? (
+              <div>
+                <ImageGallery images={attachments}>
+                  <div className="grid grid-cols-4 gap-10">
+                    {attachments?.slice(0, 4)?.map((item: any, index: any) => (
+                      <ImgBox key={index} src={helpers.imgSource(item) || "/blur.png"} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                    ))}
+                  </div>
+                </ImageGallery>
+              </div>
+            ) : (<h1 className='text-sm text-figma-gray'>No attachments Picture</h1>)}
 
           </div>
           <form onSubmit={handleSubmitReplay} className="mt-10">

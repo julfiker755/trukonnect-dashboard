@@ -28,6 +28,17 @@ export const supportApi = baseApi.injectEndpoints({
         return response.data;
       },
     }),
+    getSuppUser: build.query({
+      query: ({ id, arg }: Args) => ({
+        url: `/admin/support/allusersupport/${id}`,
+        method: 'GET',
+        params: arg,
+      }),
+      providesTags: [tagTypes.a_support_user],
+      transformResponse: (response: any) => {
+        return response.data;
+      },
+    }),
     rejectStore: build.mutation({
       query: ({ id, data }) => {
         return {
@@ -88,4 +99,5 @@ export const {
   useSupportAppMutation,
   useSupportRejectMutation,
   useReplayStoreMutation,
+  useGetSuppUserQuery,
 } = supportApi;
