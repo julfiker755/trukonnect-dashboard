@@ -44,6 +44,8 @@ export default function UsersDetails() {
     }
   };
 
+  console.log(data)
+
   return (
     <div className="mb-10">
       <Navber

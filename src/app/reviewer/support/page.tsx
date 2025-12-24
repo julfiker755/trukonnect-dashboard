@@ -18,6 +18,8 @@ import FavIcon from '@/icon/favIcon';
 import { helpers } from '@/lib';
 import { CircleAlert } from 'lucide-react';
 import sonner from '@/components/reuseable/sonner';
+import { ImageGallery } from '@/components/reuseable/image-gallery';
+import { ImgBox } from '@/components/reuseable/Img-box';
 
 
 const initGlobal: any = {
@@ -63,6 +65,8 @@ export default function Support() {
       sonner.success("Reply Successful", "Your reply has been successfully.", "bottom-right");;
     }
   };
+
+
 
   return (
     <div>
@@ -137,6 +141,18 @@ export default function Support() {
           <p className="text-figma-gray">
             {global?.details?.issue}
           </p>
+          {global?.details?.attachments?.length > 0 ? (
+            <div>
+              <ImageGallery images={global?.details?.attachments}>
+                <div className="grid grid-cols-4 gap-10">
+                  {global?.details?.attachments?.slice(0, 4)?.map((item: any, index: any) => (
+                    <ImgBox key={index} src={helpers.imgSource(item) || "/blur.png"} alt="photo2" className="w-[70px] h-[100px] mx-auto" />
+                  ))}
+                </div>
+              </ImageGallery>
+            </div>
+          ) : (<h1 className='text-sm text-figma-gray'>No attachments Picture</h1>)}
+
 
           <div>
             <h1 className="font-medium text-lg mb-1">Your reply*</h1>
