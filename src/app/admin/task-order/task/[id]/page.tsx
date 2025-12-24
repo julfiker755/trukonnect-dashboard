@@ -121,8 +121,8 @@ export default function TaskDetails({ params }: IdParams) {
                   <div className="text-xs font-semibold flex mb-2 justify-end">
                     <span className="text-figma-primary mr-1"> {progress}</span> / 100
                   </div>
-                  <div className="bg-[#575757]/20  h-2 mb-2.5 rounded-md w-full">
-                    <div className="bg-figma-primary  h-2 rounded-full" style={{ width: progress }}></div>
+                  <div className="bg-[#575757]/20  h-2 mb-2.5 rounded-md! w-full">
+                    <div className="bg-figma-primary  h-2 !rounded-md" style={{ width: `${progress}%` }}></div>
                   </div>
                 </div>
               </div>
