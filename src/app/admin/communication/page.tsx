@@ -11,13 +11,13 @@ import sonner from '@/components/reuseable/sonner';
 import { useFormFields } from '@/hooks';
 import { bulkSchema } from '@/schema';
 import { CircleAlert } from 'lucide-react';
-import { helpers } from '@/lib';
+import { delay, helpers } from '@/lib';
 import React from 'react';
 
 export default function Communication() {
   const [bulkEmailStore, { isLoading: isEmailLoading }] = useBulkEmailStoreMutation();
   const [bulkNotiStore, { isLoading: isNotiLoading }] = useBulkNotiStoreMutation();
-  const { formData, change, errors, validate } = useFormFields({
+  const { formData, change, errors, validate, reset } = useFormFields({
     message: '',
   });
 
@@ -31,10 +31,10 @@ export default function Communication() {
       message: formData.message,
     };
     const data = helpers.fromData(item);
-    const res = await bulkNotiStore(data).unwrap();
-    if (res.status) {
-      sonner.success('Notification Sent', 'Notification sent successfully', 'bottom-right');
-    }
+    await bulkNotiStore(data).unwrap();
+    await delay(2000)
+    sonner.success('Notification Sent', 'Notification sent successfully', 'bottom-right');
+    reset()
   };
 
   // == from ==
@@ -53,13 +53,16 @@ export default function Communication() {
     };
     const data = helpers.fromData(item);
     await bulkEmailStore(data).unwrap();
+    await delay(2000)
+    sonner.success('Email Sent', 'Email sent successfully', 'bottom-right');
+    from.reset()
   };
 
   return (
     <div>
       <Navber title="Communication" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="bg-figma-card p-4 rounded-lg pb-6">
+        <div className="bg-figma-card p-4 rounded-lg pb-6 relative">
           <h1 className="text-xl font-medium mb-4">Send Bulk Email</h1>
           <Form className="space-y-8" from={from} onSubmit={handleSubmit}>
             <FromInput
@@ -76,8 +79,7 @@ export default function Communication() {
             />
 
             <Button disabled={isEmailLoading} variant="primary" className="w-full">
-              {' '}
-              Send
+              {isEmailLoading ? "Sending..." : "Send"}
             </Button>
           </Form>
         </div>
@@ -100,7 +102,7 @@ export default function Communication() {
               )}
             </div>
             <Button disabled={isNotiLoading} variant="primary" className="w-full">
-              Send
+              {isNotiLoading ? "Sending.." : " Send"}
             </Button>
           </form>
         </div>
