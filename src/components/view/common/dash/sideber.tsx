@@ -43,7 +43,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     await signOut({}).unwrap();
     helpers.removeAuthCookie(authKey);
     router.push('/');
-    dispatch(dispatch(baseApi.util.resetApiState()))
+    dispatch(baseApi.util.resetApiState())
   }
 
   return (
