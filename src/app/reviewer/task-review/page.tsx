@@ -13,7 +13,7 @@ import SearchBox from '@/components/view/common/search-box';
 import { useModalState } from '@/hooks/useModalState';
 import FavIcon from '@/icon/favIcon';
 import CopyBox from '@/components/reuseable/copy-box';
-import { useGetTaskQuery, useTaskApprovedMutation, useTaskRejectMutation, useTaskReportMutation } from '@/redux/api/reviewer/taskApi';
+import { useGetReTaskQuery, useTaskApprovedMutation, useTaskRejectMutation, useTaskReportMutation } from '@/redux/api/reviewer/taskApi';
 import { useDebounce } from 'use-debounce';
 import { useFormFields, useGlobalState } from '@/hooks';
 import { helpers } from '@/lib';
@@ -40,7 +40,7 @@ export default function TaskReview() {
   const { openSucc } = useSuccessModal();
   const headers = ['Creator', 'Task Type', 'Quantity', 'Action'];
   const [value] = useDebounce(global.search, 1000);
-  const { data: task, isLoading } = useGetTaskQuery({
+  const { data: task, isLoading } = useGetReTaskQuery({
     page: global.page,
     ...(value && { search: value }),
   })

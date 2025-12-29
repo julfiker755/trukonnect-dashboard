@@ -4,7 +4,7 @@ import { buildResponse } from '@/lib/api-response';
 
 export const taskApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getTask: build.query({
+    getReTask: build.query({
       query: (arg?: Record<string, any>) => ({
         url: `/reviewer/task/all`,
         method: 'GET',
@@ -42,7 +42,7 @@ export const taskApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetTaskQuery,
+  useGetReTaskQuery,
   useTaskApprovedMutation,
   useTaskRejectMutation,
   useTaskReportMutation,

@@ -11,9 +11,9 @@ const baseQuery = fetchBaseQuery({
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
       headers.set('accept', 'application/json');
-    }
-    // ✅ ngrok browser block fix
-    headers.set('ngrok-skip-browser-warning', 'true');
+    }else {
+    headers.delete('Authorization')
+  }
     return headers;
   },
 });
@@ -63,7 +63,8 @@ export const baseApi = createApi({
 // === Token Refresh Function ===
 async function refreshAuthToken() {
   const token = helpers.getAuthCookie(authKey);
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`, {
+  if(token){
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -71,16 +72,7 @@ async function refreshAuthToken() {
     },
   });
   const data = await res.json();
-  return data?.token;
+  return data?.token
+  }
 }
 
-// import { axiosBase } from '@/lib';
-// import { tagTypesList } from '@/redux/tag-types';
-// import { createApi } from '@reduxjs/toolkit/query/react';
-
-// export const baseApi = createApi({
-//   reducerPath: 'api',
-//   baseQuery: axiosBase({ baseUrl: process.env.NEXT_PUBLIC_API_URL as string }),
-//   endpoints: () => ({}),
-//   tagTypes: tagTypesList,
-// });

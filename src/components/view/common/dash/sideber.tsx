@@ -29,21 +29,25 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const router = useRouter();
   const token = helpers.getAuthCookie(authKey)
   const { role: roleText } = useRole();
-  const [signOut] = useSignOutMutation();
   const { data: profile } = useGetProfileQuery({},
     { refetchOnFocus: true, skip: !token })
   const role = profile?.data?.role || roleText;
   const links = userPaths[role as Role];
   const dispatch = useAppDispatch();
+  const [signOut] = useSignOutMutation()
 
 
 
   // hanldeSignOut
-  async function hanldeSignOut() {
-    await signOut({}).unwrap();
-    helpers.removeAuthCookie(authKey);
-    router.push('/');
-    dispatch(baseApi.util.resetApiState())
+  async function hanldeSignOut(e: any) {
+    e.stopPropagation();
+    try {
+      await signOut({}).unwrap();
+      helpers.removeAuthCookie(authKey);
+      router.push("/")
+    } finally {
+      dispatch(baseApi.util.resetApiState())
+    }
   }
 
   return (
@@ -88,7 +92,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 className="bg-figma-primary px-2 text-white w-full h-12 rounded-sm"
               >
                 <div
-                  onClick={() => hanldeSignOut()}
+                  onClick={(e: any) => hanldeSignOut(e)}
                   className="flex w-full items-center justify-between"
                 >
                   <span className="flex items-center gap-x-1">

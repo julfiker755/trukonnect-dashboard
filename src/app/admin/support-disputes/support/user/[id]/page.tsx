@@ -27,6 +27,8 @@ export default function UsersDetails() {
     reply: '',
   });
 
+  console.log(data)
+
   const handleSubmitReplay = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = replayForm.validate({

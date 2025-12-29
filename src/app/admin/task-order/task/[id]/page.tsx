@@ -18,6 +18,9 @@ export default function TaskDetails({ params }: IdParams) {
   const { data: task } = useSlgTaskQuery(id)
   const { token_distributed, per_perform, performed, engagement, description, quantity, created_at, rejection_reason, country, link, social, progress, reviewer, status, unite_price } = task?.data || {}
 
+
+  console.log(task)
+
   const overviewItem = [
     {
       title: 'Total Performers',

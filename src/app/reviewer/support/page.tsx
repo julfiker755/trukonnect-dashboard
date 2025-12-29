@@ -122,7 +122,6 @@ export default function Support() {
             <TableNoItem
               colSpan={headers?.length}
               title="No support  are available at the moment"
-              tdStyle="!bg-background"
             />
           )}
         </CustomTable>
