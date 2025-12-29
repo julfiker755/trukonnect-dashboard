@@ -23,7 +23,14 @@ export async function middleware(request: NextRequest) {
   const decoded: any = token && jwtDecode(token as string);
   const roleKey = decoded?.role as string;
 
-  if (!token) return NextResponse.next();
+  if (!token) {
+    if (pathname.startsWith('/admin') || pathname.startsWith('/reviewer')) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    return NextResponse.next();
+  }
+
   if (!roleKey) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
