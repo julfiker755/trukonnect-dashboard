@@ -2,7 +2,7 @@
 import Form from '@/components/reuseable/from';
 import { FromInput } from '@/components/reuseable/from-input';
 import ImgUpload from '@/components/reuseable/img-uplod';
-import { Button, Table } from '@/components/ui';
+import { Alert, AlertDescription, AlertTitle, Button, Table } from '@/components/ui';
 import Navber from '@/components/view/common/dash/navber';
 import {
   useDeleteCountryMutation,
@@ -11,7 +11,7 @@ import {
   useUpdateCountryMutation,
 } from '@/redux/api/admin/countryApi';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircleAlert, Upload } from 'lucide-react';
+import { AlertCircle, AlertCircleIcon, CircleAlert, Upload } from 'lucide-react';
 import { FieldValues, useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import { countryEdit, countrystore } from '@/schema';
@@ -111,89 +111,102 @@ export default function SystemSettings() {
       <Navber title="System Settings" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="bg-figma-card p-4 rounded-lg pb-6">
-          <h1 className="text-2xl font-semibold mb-4">
-            {selectedCountry ? 'Edit Country' : 'Add New Country'}
-          </h1>
-          <Form from={from} onSubmit={handleSubmit}>
-            <div className="space-y-6">
-              <div>
-                <h1 className="mb-2">Upload Flag (JPG/SVG)*</h1>
-                <ImgUpload
-                  onFileSelect={(file: File) => {
-                    setIsFlag({ ...flag, preview: URL.createObjectURL(file) });
-                    from.setValue('flag', file as any);
-                  }}
-                >
-                  <div className="h-22 bg-figma-chart rounded-md flex flex-col justify-center items-center">
-                    {flag.preview ? (
-                      <div className="w-[60px] relative h-full my-3">
-                        <Image src={flag.preview || '/blur.png'} alt={'alt'} fill loading="lazy" />
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="flex justify-center mb-1">
-                          <Upload className="text-figma-primary" />
-                        </div>
-                        <h1 className="text-center text-figma-gray">Upload</h1>
-                      </div>
-                    )}
-                  </div>
-                </ImgUpload>
-                {from?.formState?.errors?.flag && (
-                  <p className="text-[#f73f4e] flex justify-end items-center gap-1 text-sm">
-                    {from?.formState?.errors?.flag?.message as string}
-                    <CircleAlert size={14} />
-                  </p>
-                )}
-              </div>
-              <FromInput
-                label="Country Name"
-                name="name"
-                placeholder="Write the country name"
-                className="h-10"
-              />
-              <DialInput
-                label="Dialing Code"
-                name="dial_code"
-                placeholder="Write the dialing code"
-                className="h-10"
-                type="number"
-              />
-              <FromInput
-                label="Token Rate"
-                name="rate"
-                placeholder="Enter rate per token"
-                className="h-10"
-                type="number"
-              />
-              <FromInput
-                label="Currency Code"
-                name="currency"
-                placeholder="Write the currency"
-                className="h-10"
-              />
-              <div className={`grid grid-cols-1 ${selectedCountry && 'lg:grid-cols-2'} gap-5`}>
-                {selectedCountry && (
-                  <Button
-                    type="button"
-                    onClick={handleCancel}
-                    className="w-full ml-2"
-                    variant="secondary"
+        <div className='space-y-8'>
+          <div className="bg-figma-card p-4 rounded-lg pb-6">
+            <h1 className="text-2xl font-semibold mb-4">
+              {selectedCountry ? 'Edit Country' : 'Add New Country'}
+            </h1>
+            <Form from={from} onSubmit={handleSubmit}>
+              <div className="space-y-6">
+                <div>
+                  <h1 className="mb-2">Upload Flag (JPG/SVG)*</h1>
+                  <ImgUpload
+                    onFileSelect={(file: File) => {
+                      setIsFlag({ ...flag, preview: URL.createObjectURL(file) });
+                      from.setValue('flag', file as any);
+                    }}
                   >
-                    Cancel
+                    <div className="h-22 bg-figma-chart rounded-md flex flex-col justify-center items-center">
+                      {flag.preview ? (
+                        <div className="w-[60px] relative h-full my-3">
+                          <Image src={flag.preview || '/blur.png'} alt={'alt'} fill loading="lazy" />
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="flex justify-center mb-1">
+                            <Upload className="text-figma-primary" />
+                          </div>
+                          <h1 className="text-center text-figma-gray">Upload</h1>
+                        </div>
+                      )}
+                    </div>
+                  </ImgUpload>
+                  {from?.formState?.errors?.flag && (
+                    <p className="text-[#f73f4e] flex justify-end items-center gap-1 text-sm">
+                      {from?.formState?.errors?.flag?.message as string}
+                      <CircleAlert size={14} />
+                    </p>
+                  )}
+                </div>
+                <FromInput
+                  label="Country Name"
+                  name="name"
+                  placeholder="Write the country name"
+                  className="h-10"
+                />
+                <DialInput
+                  label="Dialing Code"
+                  name="dial_code"
+                  placeholder="Write the dialing code"
+                  className="h-10"
+                  type="number"
+                />
+                <FromInput
+                  label="Token Rate"
+                  name="rate"
+                  placeholder="Enter rate per token"
+                  className="h-10"
+                  type="number"
+                />
+                <FromInput
+                  label="Currency Code"
+                  name="currency"
+                  placeholder="Write the currency"
+                  className="h-10"
+                />
+                <div className={`grid grid-cols-1 ${selectedCountry && 'lg:grid-cols-2'} gap-5`}>
+                  {selectedCountry && (
+                    <Button
+                      type="button"
+                      onClick={handleCancel}
+                      className="w-full ml-2"
+                      variant="secondary"
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                  <Button
+                    disabled={storeLoading || updateLoading}
+                    className="w-full"
+                    variant="primary"
+                  >
+                    {selectedCountry ? 'Update' : 'Add'}
                   </Button>
-                )}
-                <Button
-                  disabled={storeLoading || updateLoading}
-                  className="w-full"
-                  variant="primary"
-                >
-                  {selectedCountry ? 'Update' : 'Add'}
-                </Button>
+                </div>
               </div>
+            </Form>
+          </div>
+          <Alert className="bg-figma-card border-none text-white items-start">
+            <AlertCircle className="h-5 w-5 mt-1 text-primary" />
+            <div>
+              <AlertTitle className="text-base font-medium">
+                Token Conversion Rate
+              </AlertTitle>
+              <AlertDescription className="text-base text-white/80 mt-1">
+                1000 tokens are equal to GH₵1.00 or ₦100.00, which means each token is worth GH₵0.001 or ₦0.10
+              </AlertDescription>
             </div>
-          </Form>
+          </Alert>
         </div>
         <div className="bg-figma-card p-4 rounded-lg h-fit">
           <h1 className="text-2xl font-semibold mb-4">Current Supported Countries</h1>

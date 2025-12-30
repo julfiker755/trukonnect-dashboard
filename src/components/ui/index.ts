@@ -14,3 +14,4 @@ export * from './dialog';
 export * from './textarea';
 export * from './calendar';
 export * from './command';
+export * from './alert';
