@@ -60,7 +60,7 @@ export default function UserManagement() {
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={item?.avatar}
+                      src={helpers.imgSource(item?.avatar) || '/blur.png'}
                       fallback={item.name}
                       alt={item.name}
                       fallbackStyle="avatar"

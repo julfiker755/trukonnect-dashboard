@@ -140,7 +140,7 @@ function TaskOrderChild() {
                       <TableCell className="relative">
                         <div className="flex items-center gap-3">
                           <Avatars
-                            src={helpers.imgSource(item?.creator?.avater) || '/avater.png'}
+                            src={helpers.imgSource(item?.creator?.avater) || ''}
                             fallback={item?.creator?.name}
                             alt={item?.creator?.name}
                             fallbackStyle="avatar"
