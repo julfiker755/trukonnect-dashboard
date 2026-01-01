@@ -46,7 +46,7 @@ export default function UserManagement() {
           onValueChange={(value) => setIsStatus(value as any)}
           options={[
             { label: 'Not Banned', value: 'active' },
-            { label: 'Banned Reviewer', value: 'banned' },
+            { label: 'Banned User', value: 'banned' },
           ]}
         />
       </div>
