@@ -23,18 +23,18 @@ export default function ReviewerHome() {
     },
     {
       icon: <FavIcon className="size-12" name="review_task" />,
-      title: 'Pending Orders',
+      title: 'Pending Performance',
       count: data?.totalPendingOrders,
-      btn_name: 'Review task',
-      href: '/reviewer/task-review',
+      btn_name: 'Review Performance',
+      href: '/reviewer/performance-review',
       bg: 'rgba(245, 131, 255, 0.10)',
     },
     {
       icon: <FavIcon className="size-12" name="review_performance" />,
       title: 'Pending Task',
       count: data?.totalPendingTask,
-      btn_name: 'Review performance',
-      href: '/reviewer/performance-review',
+      btn_name: 'Review task',
+      href: '/reviewer/task-review',
       bg: 'rgba(145, 137, 255, 0.10)',
     },
   ];
@@ -76,7 +76,7 @@ export default function ReviewerHome() {
             show={false}
             className="bg-transparent p-0"
             item={[
-              { name: 'Orders Review', value: data?.total_verified_order || 0, color: '#FD4584' },
+              { name: 'Performance Review', value: data?.total_verified_order || 0, color: '#FD4584' },
               { name: 'Task Review', value: data?.total_verified_task || 0, color: '#00EFD1' },
               {
                 name: 'Account Review',

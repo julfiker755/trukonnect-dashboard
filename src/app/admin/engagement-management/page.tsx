@@ -40,6 +40,14 @@ export default function Engagement() {
     },
   });
 
+
+  // hanlde reset
+  const handleReset = () => {
+    from.reset();
+    setPlatform(intAva);
+    updateState('isStore', false);
+  };
+
   // handleSubmit
   const handleSubmit = async (values: FieldValues) => {
     try {
@@ -59,12 +67,6 @@ export default function Engagement() {
     }
   };
 
-  // hanlde reset
-  const handleReset = () => {
-    from.reset();
-    setPlatform(intAva);
-    updateState('isStore', false);
-  };
 
   return (
     <div className="mb-10">
