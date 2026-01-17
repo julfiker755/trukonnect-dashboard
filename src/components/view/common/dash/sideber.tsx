@@ -42,7 +42,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   async function hanldeSignOut(e: any) {
     e.stopPropagation();
     try {
-      await signOut({}).unwrap();
       helpers.removeAuthCookie(authKey);
       router.push("/")
     } finally {
