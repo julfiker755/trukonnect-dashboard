@@ -68,7 +68,7 @@ export default function AccountVarificaton() {
     }
   }
 
-
+  console.log(helpers.imgSource(global?.details?.profile_image))
 
 
   return (
@@ -91,7 +91,7 @@ export default function AccountVarificaton() {
                 <TableCell className="relative">
                   <div className="flex items-center gap-3">
                     <Avatars
-                      src={item?.user?.avatar}
+                      src={helpers.imgSource(item?.user?.avatar || "/avater.png")}
                       fallback={item.user?.name}
                       alt={item?.user?.name}
                       fallbackStyle="avatar"
